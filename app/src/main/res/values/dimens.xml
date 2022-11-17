@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">20sp</dimen>
+    <dimen name="chercherWidth">240sp</dimen>
+    <dimen name="traduireWidth">120sp</dimen>
+
+
+</resources>
