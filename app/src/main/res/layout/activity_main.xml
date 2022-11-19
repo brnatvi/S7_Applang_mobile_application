@@ -70,6 +70,7 @@
 
 
         <Button
+            android:id="@+id/btraduire"
             android:layout_width="@dimen/traduireWidth"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
