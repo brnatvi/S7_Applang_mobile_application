@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Language::class, Word::class, Dictionary::class], version = 1)
+@Database(entities = [Language::class, Word::class, Dictionary::class], version = 2)
 abstract class LangDB: RoomDatabase() {
     abstract fun langDAO():LangDAO
     companion object{
@@ -17,7 +17,7 @@ abstract class LangDB: RoomDatabase() {
                 return instance!!
 
             val db =
-                Room.databaseBuilder(context.applicationContext, LangDB::class.java, "countries")
+                Room.databaseBuilder(context.applicationContext, LangDB::class.java, "langBD")
                     .fallbackToDestructiveMigration() /* bd will be destroy if version is update */
                     .build()
             instance = db

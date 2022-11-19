@@ -13,8 +13,7 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val model by lazy {ViewModelProvider(this)[MainViewModel::class.java]}
-    private var needModelInit = true
+    private val model by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +22,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //binding.btraduire.setOnClickListener {saveWordInDB()}
+        binding.btraduire.setOnClickListener {saveWordInDB()}
     }
 
     fun saveWordInDB(){
         var w: Word = Word(binding.motET.text.toString(), "fr", "en", "...");
         Log.d("DB","add word $w")
+        //TODO fix java.lang.RuntimeException: Cannot create an instance of class fr.uparis.applang.MainViewModel
         //model.insertWord(w)
-        Log.d("DB","add word $w in DB")
+        //Log.d("DB","add word $w in DB")
+        binding.motET.text.clear()
     }
 
     fun traduire(view: View){
