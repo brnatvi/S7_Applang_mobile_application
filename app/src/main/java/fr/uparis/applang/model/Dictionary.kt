@@ -1,4 +1,4 @@
-package fr.uparis.applang
+package fr.uparis.applang.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

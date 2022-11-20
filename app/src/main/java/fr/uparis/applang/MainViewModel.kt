@@ -2,6 +2,8 @@ package fr.uparis.applang
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import fr.uparis.applang.model.LanguageApplication
+import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
 class MainViewModel(application: Application): AndroidViewModel(application) {

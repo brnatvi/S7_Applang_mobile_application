@@ -23,7 +23,7 @@
 
 
         <EditText
-            android:id="@+id/mot_ET"
+            android:id="@+id/motET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -37,7 +37,7 @@
 
 
         <Spinner
-            android:id="@+id/lang_src"
+            android:id="@+id/lang_srcSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
@@ -48,7 +48,7 @@
             android:hint="@string/langSrc" />
 
         <Spinner
-            android:id="@+id/lang_dest"
+            android:id="@+id/lang_destSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
@@ -59,7 +59,7 @@
             android:hint="@string/langDest" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+            android:id="@+id/languagesRW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/main_layout"
@@ -70,7 +70,7 @@
 
 
         <Button
-            android:id="@+id/btraduire"
+            android:id="@+id/traduireBT"
             android:layout_width="@dimen/traduireWidth"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -79,6 +79,7 @@
             android:text="@string/traduire" />
 
         <Button
+            android:id="@+id/rechercheBT"
             android:layout_width="@dimen/chercherWidth"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

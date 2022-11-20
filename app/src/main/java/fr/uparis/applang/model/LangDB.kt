@@ -1,4 +1,4 @@
-package fr.uparis.applang
+package fr.uparis.applang.model
 
 import android.content.Context
 import androidx.room.Database
@@ -7,12 +7,12 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Language::class, Word::class, Dictionary::class], version = 2)
 abstract class LangDB: RoomDatabase() {
-    abstract fun langDAO():LangDAO
+    abstract fun langDAO(): LangDAO
     companion object{
         @Volatile
-        private var instance:LangDB?=null
+        private var instance: LangDB?=null
 
-        fun getDatabase(context: Context):LangDB{
+        fun getDatabase(context: Context): LangDB {
             if (instance != null)
                 return instance!!
 
