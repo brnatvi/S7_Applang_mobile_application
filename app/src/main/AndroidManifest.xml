@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppLang"
         tools:targetApi="31">
+
         <activity
             android:name="fr.uparis.applang.MainActivity"
             android:exported="true">
@@ -28,6 +29,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name="fr.uparis.applang.AjoutDictActivity"
+            android:exported="true"/>
+
     </application>
+
 
 </manifest>

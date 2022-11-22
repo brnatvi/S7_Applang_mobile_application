@@ -1,24 +1,24 @@
 <resources>
     <string name="app_name">AppLang</string>
 
+    <!-- Menu  -->
+    <string name="home">Traduire</string>
+    <string name="add">Ajouter dictionnaire</string>
+    <string name="exo">Exercices</string>
+    <string name="settings">Settings</string>
+
+    <!-- MainActivity  -->
     <string name="mot">Saisir le mot à traduire</string>
     <string name="traduire">Traduire</string>
     <string name="chercher">Chercher sur Google</string>
     <string name="souvenir">S’en souvenir</string>
 
-    <string name="exercices">Exercices</string>
-    <string name="properties">Properties</string>
-
-
     <string name="langSrc">Traduire de</string>
     <string name="langDest">à </string>
-    <string-array name="langSrcHint">
-        <item>Traduire de</item>
-    </string-array>
 
-    <string-array name="langDestHint">
-        <item>à</item>
-    </string-array>
-
-
+    <!-- AjoutDictActivity  -->
+    <string name="nomDict">Veuillez saisir le nom de dictionnatre</string>
+    <string name="lienDict">et le lien de dictionnatre</string>
+    <string name="ajouter">Ajouter</string>
+  
 </resources>
