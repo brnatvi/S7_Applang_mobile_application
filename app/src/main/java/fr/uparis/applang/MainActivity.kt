@@ -2,22 +2,23 @@ package fr.uparis.applang
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.applang.R
 import com.example.applang.databinding.ActivityMainBinding
-import fr.uparis.applang.model.LanguageApplication
+import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-//    private val model by lazy { ViewModelProvider(this,MainViewModelFactory(LanguageApplication())).get(MainViewModel::class.java) }
-    private val model by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
 
@@ -27,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        updateList()
+        //TODO insert only if needed
+        insertAllLanguages()
+        updateLanguagesList()
     }
 
     // =================== Menu ==================================================
@@ -70,25 +73,59 @@ class MainActivity : AppCompatActivity() {
     fun chercher(view: View){
         val mot = binding.motET.text.toString()
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + mot))
-        startActivity(browserIntent);
+        startActivity(browserIntent)
     }
 
-    fun saveWordInDB(){
-        var w: Word = Word(binding.motET.text.toString(), "fr", "en", "...");
+    // ================================= DataBase's functions =============================================
+    private fun saveWordInDB(){
+        var w: Word = Word(binding.motET.text.toString().lowercase(), "fr", "en", "...")
         Log.d("DB","add word $w")
         model.insertWord(w)
         binding.motET.text.clear()
 
-        //TODO use somewhere usefull
-        updateList()
+        //TODO use somewhere useful (currently used for print only)
+        updateWordsList()
     }
 
-    fun updateList(){
+    private fun updateWordsList(){
         model.loadAllWord()
         model.words.removeObservers(this)
         model.words.observe(this){
             Log.d("DB","list: $it")
+//          TODO Also update a graphic list if needed
         }
+    }
+    private fun updateLanguagesList(){
+        model.loadAllLanguage()
+        model.languages.removeObservers(this)
+        model.languages.observe(this){
+            Log.d("DB","list language: $it")
+            var list = mutableListOf<String>()
+            for (lang in it){
+                list.add(lang.fullName)
+            }
+            val arrayAdapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, list
+            )
+            binding.langDestSP.adapter = arrayAdapter
+            val arrayAdapter2 = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, list
+            )
+            binding.langSrcSP.adapter = arrayAdapter2
+        }
+
+    }
+
+    private fun insertAllLanguages(){
+        val languageListContent: String = getString(R.string.languageList)
+        var languageList: MutableList<Language> = mutableListOf()
+        for (line: String in languageListContent.split("\n")){
+            var t = line.split(",")
+            languageList.add(Language(t[0], t[1]))
+        }
+        model.insertLanguages(*languageList.toTypedArray())
     }
 
 }

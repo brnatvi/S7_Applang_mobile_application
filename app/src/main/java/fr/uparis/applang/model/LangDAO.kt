@@ -10,6 +10,8 @@ import androidx.room.Query
 interface LangDAO {
     @Insert(entity = Language::class, onConflict = OnConflictStrategy.IGNORE)
     fun insertLanguage(language: Language):Long
+    @Insert(entity = Language::class, onConflict = OnConflictStrategy.IGNORE)
+    fun insertLanguages(vararg language: Language):List<Long>
     @Insert(entity = Word::class, onConflict = OnConflictStrategy.IGNORE)
     fun insertWord(word: Word):Long
     @Insert(entity = Dictionary::class, onConflict = OnConflictStrategy.IGNORE)
@@ -17,4 +19,6 @@ interface LangDAO {
 
     @Query("SELECT * FROM word")
     fun loadAllWord(): LiveData<List<Word>>
+    @Query("SELECT * FROM language")
+    fun loadAllLanguage(): LiveData<List<Language>>
 }
