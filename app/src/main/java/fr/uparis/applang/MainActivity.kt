@@ -11,10 +11,12 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.example.applang.R
 import com.example.applang.databinding.ActivityMainBinding
+import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+//    private val model by lazy { ViewModelProvider(this,MainViewModelFactory(LanguageApplication())).get(MainViewModel::class.java) }
     private val model by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
@@ -24,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        updateList()
     }
 
     // =================== Menu ==================================================
@@ -72,10 +76,19 @@ class MainActivity : AppCompatActivity() {
     fun saveWordInDB(){
         var w: Word = Word(binding.motET.text.toString(), "fr", "en", "...");
         Log.d("DB","add word $w")
-        //TODO fix java.lang.RuntimeException: Cannot create an instance of class fr.uparis.applang.MainViewModel
-        //model.insertWord(w)
-        //Log.d("DB","add word $w in DB")
+        model.insertWord(w)
         binding.motET.text.clear()
+
+        //TODO use somewhere usefull
+        updateList()
+    }
+
+    fun updateList(){
+        model.loadAllWord()
+        model.words.removeObservers(this)
+        model.words.observe(this){
+            Log.d("DB","list: $it")
+        }
     }
 
 }
