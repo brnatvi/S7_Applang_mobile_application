@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.PrimaryKey
 import com.example.applang.R
 import com.example.applang.databinding.ActivityMainBinding
 import fr.uparis.applang.model.Language
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
     private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
+    private var dictURL = ""
+    private var langSRC = ""
+    private var langDST = ""
+    private var mot = ""
+    private var tradURL = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +34,49 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    handleSendText(intent) // Handle text being sent
+                }
+            }
+            else -> {
+                // Handle other intents, such as being started from the home screen
+            }
+        }
+
         //TODO insert only if needed
         insertAllLanguages()
         updateLanguagesList()
     }
+
+    // "text/plain" prishlet ssilku  https://dictionnaire.reverso.net/fransais-russe/maison
+    private fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+
+            dictURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
+
+            tradURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
+
+            Log.d("tradURL ===", tradURL)
+
+            val matchResult = Regex("(\\w+)\\-(\\w+)").find(it)!!.groupValues.drop(1)
+            langSRC = matchResult!!.get(0)
+            Log.d("langSRC ===", langSRC)
+
+            langDST = matchResult!!.get(1)
+            Log.d("langDST ===", langDST)
+
+            mot = Regex("\\w+\$").find(it)!!.groupValues.get(0)
+            Log.d("mot ===", mot)
+
+            // add new word to BD
+            val w = Word(mot, langSRC.substring(0.. 1), langDST.substring(0..1), tradURL)
+            model.insertWord(w)
+        }
+    }
+
 
     // =================== Menu ==================================================
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -43,7 +88,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.goMainActivity -> {
-
                 return true
             }
             R.id.addDict -> {
@@ -52,11 +96,9 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.exercices -> {
-
                 return true
             }
             R.id.settings -> {
-
                 return true
             }
             else -> {
