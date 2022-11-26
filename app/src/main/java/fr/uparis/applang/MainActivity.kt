@@ -13,8 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.room.PrimaryKey
 import fr.uparis.applang.R
 import fr.uparis.applang.databinding.ActivityMainBinding
+import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
+import java.text.Normalizer
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,8 +49,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         //TODO insert only if needed
-        insertAllLanguages()
+        var firstStart = true
+        if(firstStart){
+            insertAllLanguages()
+            model.insertDictionary(Dictionary("WordRefrence", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
+            model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
+            model.insertDictionary(Dictionary("Google trad", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
+        }
+
         updateLanguagesList()
+        updateDictionaryList()
     }
 
     // "text/plain" prishlet ssilku  https://dictionnaire.reverso.net/fransais-russe/maison
@@ -124,7 +134,17 @@ class MainActivity : AppCompatActivity() {
 
     // ================================= DataBase's functions =============================================
     private fun saveWordInDB(){
-        var w: Word = Word(binding.motET.text.toString().lowercase(), (binding.langSrcSP.selectedItem as Language).id, (binding.langDestSP.selectedItem as Language).id, "...")
+        val wordText = binding.motET.text.toString().lowercase()
+        val dict = binding.dictSP.selectedItem as Dictionary
+        val langFrom = (binding.langSrcSP.selectedItem as Language)
+        val langTo = (binding.langDestSP.selectedItem as Language)
+        val url = dict.url + dict.requestComposition
+            .replace("\$langFromLong", langFrom.fullName.unaccent(), true)
+            .replace("\$langToLong", langTo.fullName.unaccent(), true)
+            .replace("\$langFrom", langFrom.id, true)
+            .replace("\$langTo", langTo.id, true)
+            .replace("\$word", wordText, true)
+        val w: Word = Word(wordText, langFrom.id, langTo.id, url)
         Log.d("DB","add word $w")
         model.insertWord(w)
         binding.motET.text.clear()
@@ -146,22 +166,30 @@ class MainActivity : AppCompatActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
-            var list = mutableListOf<Language>()
-            for (lang in it){
-                list.add(lang)
-            }
             val arrayAdapter = ArrayAdapter(
                 this,
-                android.R.layout.simple_spinner_item, list
+                android.R.layout.simple_spinner_item, it
             )
             binding.langDestSP.adapter = arrayAdapter
             val arrayAdapter2 = ArrayAdapter(
                 this,
-                android.R.layout.simple_spinner_item, list
+                android.R.layout.simple_spinner_item, it
             )
             binding.langSrcSP.adapter = arrayAdapter2
         }
+    }
 
+    private fun updateDictionaryList(){
+        model.loadAllDictionary()
+        model.dictionaries.removeObservers(this)
+        model.dictionaries.observe(this){
+            Log.d("DB","list dictionaries: $it")
+            val arrayAdapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, it
+            )
+            binding.dictSP.adapter = arrayAdapter
+        }
     }
 
     private fun insertAllLanguages(){
@@ -172,6 +200,14 @@ class MainActivity : AppCompatActivity() {
             languageList.add(Language(t[0], t[1]))
         }
         model.insertLanguages(*languageList.toTypedArray())
+    }
+
+    //tools
+    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+
+    fun CharSequence.unaccent(): String {
+        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
+        return REGEX_UNACCENT.replace(temp, "")
     }
 
 }

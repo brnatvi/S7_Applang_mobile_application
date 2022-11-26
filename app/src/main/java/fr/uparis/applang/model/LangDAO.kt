@@ -21,4 +21,6 @@ interface LangDAO {
     fun loadAllWord(): LiveData<List<Word>>
     @Query("SELECT * FROM language")
     fun loadAllLanguage(): LiveData<List<Language>>
+    @Query("SELECT * FROM dictionary")
+    fun loadAllDictionary(): LiveData<List<Dictionary>>
 }

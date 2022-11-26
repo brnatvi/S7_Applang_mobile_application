@@ -15,6 +15,7 @@
 
     <string name="langSrc">Traduire de</string>
     <string name="langDest">à </string>
+    <string name="dictSP">sur </string>
 
     <!-- AjoutDictActivity  -->
     <string name="nomDict">Veuillez saisir le nom de dictionnatre</string>

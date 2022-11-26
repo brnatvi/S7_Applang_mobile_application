@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
@@ -16,6 +17,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     var words: LiveData<List<Word>> = dao.loadAllWord()
     var languages: LiveData<List<Language>> = dao.loadAllLanguage()
+    var dictionaries: LiveData<List<Dictionary>> = dao.loadAllDictionary()
 
     fun insertWord(word: Word){
         if(word==null || word.equals("")){
@@ -30,6 +32,19 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
         }
     }
+    fun insertDictionary(dict: Dictionary){
+        if(dict==null){
+            return
+        }
+        thread {
+            val returnCode = dao.insertDictionary(dict)
+            if(returnCode<0){
+                Log.e("DB", "Fail to insert dict $returnCode")
+            }else{
+                Log.i("DB", "Insert dict n°$returnCode")
+            }
+        }
+    }
 
     fun loadAllWord(){
         thread {
@@ -40,6 +55,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun loadAllLanguage(){
         thread {
             languages = dao.loadAllLanguage()
+        }
+    }
+
+    fun loadAllDictionary(){
+        thread {
+            dictionaries = dao.loadAllDictionary()
         }
     }
 

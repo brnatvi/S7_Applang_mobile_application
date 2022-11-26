@@ -76,6 +76,26 @@
             android:textSize="@dimen/textSize"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="@dimen/textSize"
+            android:text="@string/dictSP"/>
+
+        <Spinner
+            android:id="@+id/dictSP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="@dimen/textSize"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/languagesRW"
             android:layout_width="match_parent"
