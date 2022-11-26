@@ -139,8 +139,8 @@ class MainActivity : AppCompatActivity() {
         val langFrom = (binding.langSrcSP.selectedItem as Language)
         val langTo = (binding.langDestSP.selectedItem as Language)
         val url = dict.url + dict.requestComposition
-            .replace("\$langFromLong", langFrom.fullName.unaccent(), true)
-            .replace("\$langToLong", langTo.fullName.unaccent(), true)
+            .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
+            .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
             .replace("\$langFrom", langFrom.id, true)
             .replace("\$langTo", langTo.id, true)
             .replace("\$word", wordText, true)
