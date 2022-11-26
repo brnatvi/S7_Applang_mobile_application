@@ -18,6 +18,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     var languages: LiveData<List<Language>> = dao.loadAllLanguage()
 
     fun insertWord(word: Word){
+        if(word==null || word.equals("")){
+            return
+        }
         thread {
             val returnCode = dao.insertWord(word)
             if(returnCode<0){
@@ -45,7 +48,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             val returnCodes = dao.insertLanguages(*list)
             for (returnCode in returnCodes){
                 if(returnCode<0){
-                    Log.e("DB", "Fail to insert language $returnCode")
+                    //Log.e("DB", "Fail to insert language $returnCode")
                 }else{
                     Log.i("DB", "Insert language n°$returnCode")
                 }

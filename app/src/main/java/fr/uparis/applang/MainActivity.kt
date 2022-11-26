@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     // "text/plain" prishlet ssilku  https://dictionnaire.reverso.net/fransais-russe/maison
     private fun handleSendText(intent: Intent) {
+        Log.d("DB", "in handleSendText()")
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
 
             dictURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
@@ -74,6 +75,9 @@ class MainActivity : AppCompatActivity() {
             // add new word to BD
             val w = Word(mot, langSRC.substring(0.. 1), langDST.substring(0..1), tradURL)
             model.insertWord(w)
+
+            //TODO use somewhere useful (currently used for print only)
+            updateWordsList()
         }
     }
 
@@ -120,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     // ================================= DataBase's functions =============================================
     private fun saveWordInDB(){
-        var w: Word = Word(binding.motET.text.toString().lowercase(), "fr", "en", "...")
+        var w: Word = Word(binding.motET.text.toString().lowercase(), (binding.langSrcSP.selectedItem as Language).id, (binding.langDestSP.selectedItem as Language).id, "...")
         Log.d("DB","add word $w")
         model.insertWord(w)
         binding.motET.text.clear()
@@ -142,9 +146,9 @@ class MainActivity : AppCompatActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
-            var list = mutableListOf<String>()
+            var list = mutableListOf<Language>()
             for (lang in it){
-                list.add(lang.fullName)
+                list.add(lang)
             }
             val arrayAdapter = ArrayAdapter(
                 this,
