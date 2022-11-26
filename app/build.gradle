@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.applang'
+    namespace 'fr.uparis.applang'
     compileSdk 33
 
     buildFeatures {
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.applang"
+        applicationId "fr.uparis.applang"
         minSdk 21
         targetSdk 33
         versionCode 1

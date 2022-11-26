@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.PrimaryKey
-import com.example.applang.R
-import com.example.applang.databinding.ActivityMainBinding
+import fr.uparis.applang.R
+import fr.uparis.applang.databinding.ActivityMainBinding
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
 

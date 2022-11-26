@@ -3,8 +3,8 @@ package fr.uparis.applang
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.applang.R
-import com.example.applang.databinding.ActivityMainBinding
+import fr.uparis.applang.R
+import fr.uparis.applang.databinding.ActivityMainBinding
 
 class AjoutDictActivity  : AppCompatActivity() {
     private lateinit var bindingDict: ActivityMainBinding
