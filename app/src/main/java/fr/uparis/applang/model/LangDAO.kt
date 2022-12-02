@@ -1,10 +1,7 @@
 package fr.uparis.applang.model
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface LangDAO {
@@ -23,4 +20,10 @@ interface LangDAO {
     fun loadAllLanguage(): LiveData<List<Language>>
     @Query("SELECT * FROM dictionary")
     fun loadAllDictionary(): LiveData<List<Dictionary>>
+
+    @Query("DELETE FROM dictionary")
+    fun deleteAllDist()
+
+    @Query("DELETE FROM language")
+    fun deleteAllLang()
 }

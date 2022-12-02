@@ -58,9 +58,21 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun deleteAllLanguage(){
+        thread {
+            dao.deleteAllLang()
+        }
+    }
+
     fun loadAllDictionary(){
         thread {
             dictionaries = dao.loadAllDictionary()
+        }
+    }
+
+    fun deleteAllDictionary(){
+        thread {
+            dao.deleteAllDist()
         }
     }
 

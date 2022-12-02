@@ -22,15 +22,15 @@
     <string name="lienDict">et le lien de dictionnatre</string>
     <string name="ajouter">Ajouter</string>
 
-    <string name="languageList">"""eo,Esperanto
-fr,Français
+    <string name="languageList">"""fr,Français
 en,English
+eo,Esperanto
 af,Afrikaans
 am,አማርኛ
 ar,العربية
 az,Azərbaycan dili
-be,Беларуская
-bg,български език
+be,Беларуская мова
+bg,Български език
 bn,বাংলা
 bs,Bosanski jezik
 ca,Català
@@ -55,7 +55,7 @@ he,עברית
 hi,हिन्दी ; हिंदी
 hr,Hrvatski
 ht,Kreyòl ayisyen
-hu,magyar
+hu,Magyar
 hy,Հայերեն
 id,Bahasa Indonesia
 ig,Igbo
@@ -68,7 +68,7 @@ km,ភាសាខ្មែរ
 kn,ಕನ್ನಡ
 ko,한국어 (韓國語) ; 조선말 (朝鮮語)
 ku,Kurdî ; كوردی
-ky,кыргыз тили
+ky,Кыргыз тили
 la,Latine ; lingua latina
 lb,Lëtzebuergesch
 lo,ພາສາລາວ
@@ -76,7 +76,7 @@ lt,Lietuvių kalba
 lv,Latviešu valoda
 mg,Fiteny malagasy
 mi,Te reo Māori
-mk,македонски јазик
+mk,Македонски јазик
 ml,മലയാളം
 mn,Монгол
 mr,मराठी
@@ -96,38 +96,38 @@ pl,Polski
 ps,پښتو
 pt,Português
 ro,Română
-ru,русский язык
+ru,Русский язык
 rw,Kinyarwanda
 sd,सिन्धी ; سنڌي، سندھی
 si,සිංහල
 sk,Slovenčina
 sl,Slovenščina
 sm,Gagana fa'a Samoa
-sn,chiShona
+sn,ChiShona
 so,Soomaaliga ; af Soomaali
 sq,Shqip
-sr,српски језик
-st,seSotho
+sr,Српски језик
+st,SeSotho
 su,Basa Sunda
 sv,Svenska
 sw,Kiswahili
 ta,தமிழ்
 te,తెలుగు
-tg,тоҷикӣ ; toğikī ; تاجیکی
+tg,Тоҷикӣ ; toğikī ; تاجیکی
 th,ไทย
 tk,Türkmen ; Түркмен
 tl,Tagalog
 tr,Türkçe
-tt,татарча ; tatarça ; تاتارچا
+tt,Татарча ; tatarça ; تاتارچا
 ug,Uyƣurqə ; ئۇيغۇرچ
-uk,українська мова
+uk,Українська мова
 ur,اردو
 uz,O'zbek ; Ўзбек ; أۇزبېك
 vi,Tiếng Việt
-xh,isiXhosa
+xh,IsiXhosa
 yi,ייִדיש
 yo,Yorùbá
 zh,"中文, 汉语, 漢語"
-zu,isiZulu"""
+zu,IsiZulu"""
 </string>
 </resources>

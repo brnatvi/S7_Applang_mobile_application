@@ -1,8 +1,11 @@
 package fr.uparis.applang
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -10,8 +13,6 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.PrimaryKey
-import fr.uparis.applang.R
 import fr.uparis.applang.databinding.ActivityMainBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
@@ -24,23 +25,30 @@ class MainActivity : AppCompatActivity() {
     private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
-    private var dictURL = ""
+    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+
+    private var wholeURL = ""
     private var langSRC = ""
     private var langDST = ""
-    private var mot = ""
-    private var tradURL = ""
+    private var word = ""
+    private var dictURL = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // create binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        // handling the received data from the "share" process
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
-                    handleSendText(intent) // Handle text being sent
+                  //  word = savedInstanceState?.getString("word")!!
+                  //  langSRC = savedInstanceState?.getString("langSRC")!!
+                  //  langDST = savedInstanceState?.getString("langDST")!!
+                   handleSendText(intent) // Handle text being sent
                 }
             }
             else -> {
@@ -51,40 +59,52 @@ class MainActivity : AppCompatActivity() {
         //TODO insert only if needed
         var firstStart = true
         if(firstStart){
+           // model.deleteAllLanguage()
             insertAllLanguages()
-            model.insertDictionary(Dictionary("WordRefrence", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
+           // model.deleteAllDictionary()
+            model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
             model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
-            model.insertDictionary(Dictionary("Google trad", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
+            model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
         }
+        // https://www.wordreference.com/fren/maison
+        // https://www.larousse.fr/dictionnaires/francais-anglais/maison
+        // https://translate.google.fr/?sl=fr&tl=en&text=maison%0A&op=translate
+        // https://dictionnaire.reverso.net/fransais-russe/maison
 
         updateLanguagesList()
         updateDictionaryList()
     }
 
-    // "text/plain" prishlet ssilku  https://dictionnaire.reverso.net/fransais-russe/maison
+    // ================================== Save activity state ==========================================
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("word onSaveInstance ===", word)
+        outState.putString("word", word)
+        outState.putString("langSRC", langSRC)
+        outState.putString("langDST", langDST)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        word = savedInstanceState.getString("word")!!
+        Log.d("word onRestore ===", word)
+        langSRC = savedInstanceState.getString("langSRC")!!
+        langDST = savedInstanceState.getString("langDST")!!
+    }
+
+    // =================================== Share processing ======================================================
+
+    // handling the received data from the "share" process
     private fun handleSendText(intent: Intent) {
-        Log.d("DB", "in handleSendText()")
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
 
-            dictURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
+           // val dict = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
 
-            tradURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
+            wholeURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
+            Log.d("wholeURL ===", wholeURL)
 
-            Log.d("tradURL ===", tradURL)
-
-            val matchResult = Regex("(\\w+)\\-(\\w+)").find(it)!!.groupValues.drop(1)
-            langSRC = matchResult!!.get(0)
-            Log.d("langSRC ===", langSRC)
-
-            langDST = matchResult!!.get(1)
-            Log.d("langDST ===", langDST)
-
-            mot = Regex("\\w+\$").find(it)!!.groupValues.get(0)
-            Log.d("mot ===", mot)
-
-            // add new word to BD
-            val w = Word(mot, langSRC.substring(0.. 1), langDST.substring(0..1), tradURL)
-            model.insertWord(w)
+            word = intent?.extras?.getString("word") ?: ""
+            Log.d("word after share ===", word)
 
             //TODO use somewhere useful (currently used for print only)
             updateWordsList()
@@ -122,22 +142,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ================================= Buttons' functions =============================================
+
+    // transmit the word to some online dictionary
     fun traduire(view: View){
         saveWordInDB()
-    }
+}
 
+    // transmit the word to Google search motor
     fun chercher(view: View){
-        val mot = binding.motET.text.toString()
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + mot))
+        val phrase = binding.motET.text.toString().lowercase()
+        word = binding.motET.text.toString().lowercase().substringBefore(' ')
+
+        Log.d("word init ===", word)
+        Log.d("phrase init ===", phrase)
+        langSRC = binding.langSrcSP.selectedItem.toString()
+
+        Log.d("langSRC init ===", langSRC)
+        langDST = binding.langDestSP.selectedItem.toString()
+        Log.d("langDST init ===", langDST)
+
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
         startActivity(browserIntent)
     }
 
     // ================================= DataBase's functions =============================================
+
+    private fun composeURL (): String {
+        val wordText = binding.motET.text.toString().lowercase()
+        val dict = binding.dictSP.selectedItem as Dictionary
+        val langFrom = (binding.langSrcSP.selectedItem as Language)
+        val langTo = (binding.langDestSP.selectedItem as Language)
+
+        // compose URL
+        val url = dict.url + dict.requestComposition
+            .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
+            .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
+            .replace("\$langFrom", langFrom.id, true)
+            .replace("\$langTo", langTo.id, true)
+            .replace("\$word", wordText, true)
+
+        return url
+    }
     private fun saveWordInDB(){
         val wordText = binding.motET.text.toString().lowercase()
         val dict = binding.dictSP.selectedItem as Dictionary
         val langFrom = (binding.langSrcSP.selectedItem as Language)
         val langTo = (binding.langDestSP.selectedItem as Language)
+
+        // compose URL
         val url = dict.url + dict.requestComposition
             .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
             .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
@@ -202,9 +254,8 @@ class MainActivity : AppCompatActivity() {
         model.insertLanguages(*languageList.toTypedArray())
     }
 
-    //tools
-    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
+    // ====================== Auxiliary functions ======================================================
     fun CharSequence.unaccent(): String {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
