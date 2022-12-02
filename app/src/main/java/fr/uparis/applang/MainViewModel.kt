@@ -18,6 +18,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     var words: LiveData<List<Word>> = dao.loadAllWord()
     var languages: LiveData<List<Language>> = dao.loadAllLanguage()
     var dictionaries: LiveData<List<Dictionary>> = dao.loadAllDictionary()
+    var currentTranslationUrl: String = ""
 
     fun insertWord(word: Word){
         if(word==null || word.equals("")){
