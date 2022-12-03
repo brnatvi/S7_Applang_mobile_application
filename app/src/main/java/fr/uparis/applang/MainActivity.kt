@@ -29,6 +29,8 @@ class MainActivity : OptionsMenuActivity() {
     private var word = ""
     private var dictURL = ""
 
+    //private var dictList = mutableListOf<Dictionary>();
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -104,10 +106,21 @@ class MainActivity : OptionsMenuActivity() {
             word = intent?.extras?.getString("word") ?: ""
             Log.d("word after share ===", word)
 
+            //tryToGuessLanguagesFromURL will be call later
             addCurrentURLAsDictionary(it)
 
             //TODO use somewhere useful (currently used for print only)
             updateWordsList()
+        }
+    }
+    private fun tryToGuessLanguagesFromURL(wholeURL: String, dictList: List<Dictionary>){
+        Log.d("GuessFromURL", "try to guess for $wholeURL in $dictList")
+        for (dict in dictList){
+            if(wholeURL.startsWith(dict.url)){
+                Log.d("GuessFromURL", "found matching dictionary: $dict for $wholeURL")
+                var rc = dict.requestComposition
+//                "\$langFrom\$langTo/\$word"
+            }
         }
     }
 
@@ -208,8 +221,10 @@ class MainActivity : OptionsMenuActivity() {
         model.dictionaries.observe(this){
             var list = mutableListOf<Dictionary>()
             if(model.currentTranslationUrl.isNotEmpty()){
+                tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
                 list.add(Dictionary("Lien depuis le partage", model.currentTranslationUrl, ""))
             }
+            //dictList = list
             list.addAll(it)
             Log.d("DB","list dictionaries: $list")
             val arrayAdapter = ArrayAdapter(
