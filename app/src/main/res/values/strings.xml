@@ -3,9 +3,9 @@
 
     <!-- Menu  -->
     <string name="home">Traduire</string>
-    <string name="add">Ajouter dictionnaire</string>
+    <string name="dict">Dictionaries</string>
     <string name="exo">Exercices</string>
-    <string name="settings">Settings</string>
+    <string name="info">"Info"</string>
 
     <!-- MainActivity  -->
     <string name="mot">Saisir le mot à traduire</string>
@@ -18,10 +18,13 @@
     <string name="dictSP">sur </string>
 
     <!-- AjoutDictActivity  -->
-    <string name="nomDict">Veuillez saisir le nom de dictionnatre</string>
-    <string name="lienDict">et le lien de dictionnatre</string>
+    <string name="nomDict">Veuillez saisir le nom de dictionnaire</string>
+    <string name="trouver">Trouver le lien</string>
+    <string name="lienDict">lien de dictionnatre</string>
     <string name="ajouter">Ajouter</string>
+    <string name="enlever">Enlever</string>
 
+    <!-- List of languages  -->
     <string name="languageList">"""fr,Français
 en,English
 eo,Esperanto

@@ -1,16 +1,15 @@
 package fr.uparis.applang
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.Toolbar
+//import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.databinding.ActivityMainBinding
@@ -20,9 +19,11 @@ import fr.uparis.applang.model.Word
 import java.text.Normalizer
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : OptionsMenuActivity() {
     private lateinit var binding: ActivityMainBinding
     private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
+
+    private lateinit var menu: Toolbar
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         // create binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // menu toolbar
+        menu =  findViewById(R.id.acc_toolbar)
+        setSupportActionBar(menu)
+        menu.setTitle(R.string.app_name)
 
         // handling the received data from the "share" process
         when {
@@ -113,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // =================== Menu ==================================================
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+  /*  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
@@ -140,7 +146,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+*/
     // ================================= Buttons' functions =============================================
 
     // transmit the word to some online dictionary
