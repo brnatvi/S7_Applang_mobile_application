@@ -10,7 +10,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="fr.uparis.applang.AjoutDictActivity"
+    tools:context="fr.uparis.applang.DictActivity"
     android:orientation="vertical">
     <include
         layout="@layout/menu_layout"/>
@@ -27,9 +27,6 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
 
         <EditText
             android:id="@+id/nomDictET"

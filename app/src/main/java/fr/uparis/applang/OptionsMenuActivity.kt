@@ -26,7 +26,7 @@ open class OptionsMenuActivity : AppCompatActivity() {
             }
             R.id.goDictActivity -> {
                 Log.d("From menu == ", "go DictActivity")
-                val  intentDict = Intent(this, AjoutDictActivity::class.java)
+                val  intentDict = Intent(this, DictActivity::class.java)
                 startActivity(intentDict)
                 return true
             }

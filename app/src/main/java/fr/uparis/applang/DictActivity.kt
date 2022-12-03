@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import fr.uparis.applang.databinding.ActivityDictBinding
 
 
-class AjoutDictActivity  : OptionsMenuActivity() {
+class DictActivity  : OptionsMenuActivity() {
     private lateinit var bindingDict: ActivityDictBinding
     private lateinit var menu: Toolbar
 
