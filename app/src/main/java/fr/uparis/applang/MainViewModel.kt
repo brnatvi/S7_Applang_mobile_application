@@ -21,9 +21,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     var currentTranslationUrl: String = ""
 
     fun insertWord(word: Word){
-        if(word==null || word.equals("")){
+        if(word.text.isEmpty()){
             return
         }
+        currentTranslationUrl = "" // url have been use for save this word & we don't need anymore.
         thread {
             val returnCode = dao.insertWord(word)
             if(returnCode<0){

@@ -202,6 +202,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("DB","add word $w")
         model.insertWord(w)
         binding.motET.text.clear()
+        updateDictionaryList()
 
         //TODO use somewhere useful (currently used for print only)
         updateWordsList()
