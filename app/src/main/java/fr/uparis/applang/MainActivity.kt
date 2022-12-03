@@ -1,17 +1,12 @@
 package fr.uparis.applang
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.databinding.ActivityMainBinding
 import fr.uparis.applang.model.Dictionary
@@ -20,8 +15,9 @@ import fr.uparis.applang.model.Word
 import java.text.Normalizer
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : OptionsMenuActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
@@ -41,13 +37,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // menu toolbar
+        menu =  findViewById(R.id.acc_toolbar)
+        setSupportActionBar(menu)
+        menu.setTitle(R.string.app_name)
+
         // handling the received data from the "share" process
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
-                  //  word = savedInstanceState?.getString("word")!!
-                  //  langSRC = savedInstanceState?.getString("langSRC")!!
-                  //  langDST = savedInstanceState?.getString("langDST")!!
                    handleSendText(intent) // Handle text being sent
                 }
             }
@@ -110,36 +108,6 @@ class MainActivity : AppCompatActivity() {
 
             //TODO use somewhere useful (currently used for print only)
             updateWordsList()
-        }
-    }
-
-
-    // =================== Menu ==================================================
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.goMainActivity -> {
-                return true
-            }
-            R.id.addDict -> {
-                val  intentDict = Intent(this, AjoutDictActivity::class.java)
-                startActivity(intentDict)
-                return true
-            }
-            R.id.exercices -> {
-                return true
-            }
-            R.id.settings -> {
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
         }
     }
 
