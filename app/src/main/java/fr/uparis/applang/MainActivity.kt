@@ -112,6 +112,8 @@ class MainActivity : OptionsMenuActivity() {
             word = intent?.extras?.getString("word") ?: ""
             Log.d("word after share ===", word)
 
+            addCurrentURLAsDictionary(it)
+
             //TODO use somewhere useful (currently used for print only)
             updateWordsList()
         }
@@ -241,13 +243,22 @@ class MainActivity : OptionsMenuActivity() {
         model.loadAllDictionary()
         model.dictionaries.removeObservers(this)
         model.dictionaries.observe(this){
-            Log.d("DB","list dictionaries: $it")
+            var list = mutableListOf<Dictionary>()
+            if(model.currentTranslationUrl.isNotEmpty()){
+                list.add(Dictionary("Lien depuis le partage", model.currentTranslationUrl, ""))
+            }
+            list.addAll(it)
+            Log.d("DB","list dictionaries: $list")
             val arrayAdapter = ArrayAdapter(
                 this,
-                android.R.layout.simple_spinner_item, it
+                android.R.layout.simple_spinner_item, list
             )
             binding.dictSP.adapter = arrayAdapter
         }
+    }
+
+    private fun addCurrentURLAsDictionary(url: String){
+        model.currentTranslationUrl=url;
     }
 
     private fun insertAllLanguages(){
