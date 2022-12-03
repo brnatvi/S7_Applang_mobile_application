@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Language::class, Word::class, Dictionary::class], version = 3)
+@Database(entities = [Language::class, Word::class, Dictionary::class], version = 4)
 abstract class LangDB: RoomDatabase() {
     abstract fun langDAO(): LangDAO
     companion object{
