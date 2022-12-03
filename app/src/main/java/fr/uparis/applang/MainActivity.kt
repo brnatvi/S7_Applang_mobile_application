@@ -30,6 +30,7 @@ class MainActivity : OptionsMenuActivity() {
     private var dictURL = ""
 
     //private var dictList = mutableListOf<Dictionary>();
+    private var listLanguage: List<Language> = mutableListOf<Language>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,8 +119,50 @@ class MainActivity : OptionsMenuActivity() {
         for (dict in dictList){
             if(wholeURL.startsWith(dict.url)){
                 Log.d("GuessFromURL", "found matching dictionary: $dict for $wholeURL")
-                var rc = dict.requestComposition
-//                "\$langFrom\$langTo/\$word"
+                var rc: String = dict.requestComposition.lowercase()
+                var endURL = wholeURL.replace(dict.url, "").lowercase()
+                var langFrom = ""
+                var langTo = ""
+                var word = ""
+                while (rc.isNotEmpty() && endURL.isNotEmpty()){
+                    if(rc.startsWith("\$langfrom")){
+                        langFrom = endURL.substring(0, 2)
+                        rc = rc.substring(9)
+                        endURL = endURL.substring(2)
+                    }else if(rc.startsWith("\$langto")) {
+                        langTo = endURL.substring(0, 2)
+                        rc = rc.substring(7)
+                        endURL = endURL.substring(2)
+                    }else if(rc.startsWith("\$word")){
+                        word = endURL.replace("/", "")
+                        break
+                    }else if(rc[0]==endURL[0]){
+                        rc = rc.substring(1)
+                        endURL = endURL.substring(1)
+                    }else{
+                        Log.e("GuessFromURL", "Unable to match url composition for $rc & $endURL")
+                        break
+                    }
+                }
+                Log.d("GuessFromURL","Guess : langFrom=$langFrom, langTo=$langTo, word=$word")
+                binding.motET.setText(word)
+                var indexFrom: Int = 0
+                var indexTo: Int = 0
+                var k = 0
+//                TODO don't work all time because listLanguage may be empty
+                for (lang in listLanguage){
+                    if(lang.id == langFrom){
+                        indexFrom = k
+                    }
+                    if(lang.id == langTo){
+                        indexTo = k
+                    }
+                    k++;
+                }
+                binding.langSrcSP.setSelection(indexFrom)
+                binding.langDestSP.setSelection(indexTo)
+//                "\$langFrom\$langTo/\$word" : "enfr/hello"
+//                "?sl=\$langFrom&tl=\$langTo&text=\$word"
             }
         }
     }
@@ -202,6 +245,7 @@ class MainActivity : OptionsMenuActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
+            listLanguage = it
             val arrayAdapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_spinner_item, it
