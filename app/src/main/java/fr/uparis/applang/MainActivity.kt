@@ -3,6 +3,9 @@ package fr.uparis.applang
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.text.SpannableString
+import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -119,7 +122,7 @@ class MainActivity : OptionsMenuActivity() {
             if(wholeURL.startsWith(dict.url)){
                 Log.d("GuessFromURL", "found matching dictionary: $dict for $wholeURL")
                 var rc: String = dict.requestComposition.lowercase()
-                var endURL = wholeURL.replace(dict.url, "").lowercase()
+                var endURL = wholeURL.replace(dict.url, "")//.lowercase()
                 model.currentLangFrom = ""
                 model.currentLangTo = ""
                 var word = ""
@@ -205,7 +208,7 @@ class MainActivity : OptionsMenuActivity() {
             .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
             .replace("\$langFrom", langFrom.id, true)
             .replace("\$langTo", langTo.id, true)
-            .replace("\$word", wordText, true)
+            .replace("\$word", wordText.replace(" ", "%20"), true)
         val w: Word = Word(wordText, langFrom.id, langTo.id, url)
         Log.d("DB","add word $w")
         model.insertWord(w)
