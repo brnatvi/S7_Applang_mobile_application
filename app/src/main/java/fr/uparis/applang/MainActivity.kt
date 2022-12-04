@@ -30,7 +30,6 @@ class MainActivity : OptionsMenuActivity() {
     private var dictURL = ""
 
     //private var dictList = mutableListOf<Dictionary>();
-    private var listLanguage: List<Language> = mutableListOf<Language>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,16 +120,16 @@ class MainActivity : OptionsMenuActivity() {
                 Log.d("GuessFromURL", "found matching dictionary: $dict for $wholeURL")
                 var rc: String = dict.requestComposition.lowercase()
                 var endURL = wholeURL.replace(dict.url, "").lowercase()
-                var langFrom = ""
-                var langTo = ""
+                model.currentLangFrom = ""
+                model.currentLangTo = ""
                 var word = ""
                 while (rc.isNotEmpty() && endURL.isNotEmpty()){
                     if(rc.startsWith("\$langfrom")){
-                        langFrom = endURL.substring(0, 2)
+                        model.currentLangFrom = endURL.substring(0, 2)
                         rc = rc.substring(9)
                         endURL = endURL.substring(2)
                     }else if(rc.startsWith("\$langto")) {
-                        langTo = endURL.substring(0, 2)
+                        model.currentLangTo = endURL.substring(0, 2)
                         rc = rc.substring(7)
                         endURL = endURL.substring(2)
                     }else if(rc.startsWith("\$word")){
@@ -144,23 +143,8 @@ class MainActivity : OptionsMenuActivity() {
                         break
                     }
                 }
-                Log.d("GuessFromURL","Guess : langFrom=$langFrom, langTo=$langTo, word=$word")
+                Log.d("GuessFromURL","Guess : langFrom=${model.currentLangFrom}, langTo=${model.currentLangTo}, word=$word")
                 binding.motET.setText(word)
-                var indexFrom: Int = 0
-                var indexTo: Int = 0
-                var k = 0
-//                TODO don't work all time because listLanguage may be empty
-                for (lang in listLanguage){
-                    if(lang.id == langFrom){
-                        indexFrom = k
-                    }
-                    if(lang.id == langTo){
-                        indexTo = k
-                    }
-                    k++;
-                }
-                binding.langSrcSP.setSelection(indexFrom)
-                binding.langDestSP.setSelection(indexTo)
 //                "\$langFrom\$langTo/\$word" : "enfr/hello"
 //                "?sl=\$langFrom&tl=\$langTo&text=\$word"
             }
@@ -245,7 +229,6 @@ class MainActivity : OptionsMenuActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
-            listLanguage = it
             val arrayAdapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_spinner_item, it
@@ -256,6 +239,22 @@ class MainActivity : OptionsMenuActivity() {
                 android.R.layout.simple_spinner_item, it
             )
             binding.langSrcSP.adapter = arrayAdapter2
+            if(model.currentTranslationUrl.isNotEmpty()){
+                var indexFrom: Int = 0
+                var indexTo: Int = 0
+                var k = 0
+                for (lang in it){
+                    if(lang.id == model.currentLangFrom){
+                        indexFrom = k
+                    }
+                    if(lang.id == model.currentLangTo){
+                        indexTo = k
+                    }
+                    k++;
+                }
+                binding.langSrcSP.setSelection(indexFrom)
+                binding.langDestSP.setSelection(indexTo)
+            }
         }
     }
 
