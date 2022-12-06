@@ -1,11 +1,10 @@
 package fr.uparis.applang
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.text.Html
-import android.text.SpannableString
-import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -22,6 +21,9 @@ class MainActivity : OptionsMenuActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
+    private lateinit var sharedPref : SharedPreferences
+    private lateinit var sharedPrefEditor: SharedPreferences.Editor
+
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
@@ -36,7 +38,6 @@ class MainActivity : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         // create binding
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,11 +48,18 @@ class MainActivity : OptionsMenuActivity() {
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
+        // shared preferencies
+        sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+        sharedPrefEditor = sharedPref.edit()
+        loadPreferencies()
+
+
         // handling the received data from the "share" process
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
-                   handleSendText(intent) // Handle text being sent
+                    savePreferencies()
+                    handleSendText(intent) // Handle text being sent
                 }
             }
             else -> {
@@ -78,21 +86,24 @@ class MainActivity : OptionsMenuActivity() {
         updateDictionaryList()
     }
 
-    // ================================== Save activity state ==========================================
-    override fun onSaveInstanceState(outState: Bundle) {
-        Log.d("word onSaveInstance ===", word)
-        outState.putString("word", word)
-        outState.putString("langSRC", langSRC)
-        outState.putString("langDST", langDST)
-        super.onSaveInstanceState(outState)
+    // ================================== Save / load activity state ==========================================
+
+    override fun onDestroy() {
+        savePreferencies()
+        super.onDestroy()
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        word = savedInstanceState.getString("word")!!
-        Log.d("word onRestore ===", word)
-        langSRC = savedInstanceState.getString("langSRC")!!
-        langDST = savedInstanceState.getString("langDST")!!
+    private fun savePreferencies() {
+        sharedPrefEditor.putString("word", word)
+        sharedPrefEditor.putString("langSRC", langSRC)
+        sharedPrefEditor.putString("langDST", langDST)
+        sharedPrefEditor.commit()
+    }
+
+    private fun loadPreferencies() {
+        word = sharedPref.getString("word", "")!!
+        langSRC = sharedPref.getString("langSRC", "")!!
+        langDST = sharedPref.getString("langDST", "")!!
     }
 
     // =================================== Share processing ======================================================
@@ -100,13 +111,12 @@ class MainActivity : OptionsMenuActivity() {
     // handling the received data from the "share" process
     private fun handleSendText(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-
            // val dict = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
 
             wholeURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
             Log.d("wholeURL ===", wholeURL)
 
-            word = intent?.extras?.getString("word") ?: ""
+            loadPreferencies()
             Log.d("word after share ===", word)
 
             //tryToGuessLanguagesFromURL will be call later
@@ -180,22 +190,6 @@ class MainActivity : OptionsMenuActivity() {
 
     // ================================= DataBase's functions =============================================
 
-    private fun composeURL (): String {
-        val wordText = binding.motET.text.toString().lowercase()
-        val dict = binding.dictSP.selectedItem as Dictionary
-        val langFrom = (binding.langSrcSP.selectedItem as Language)
-        val langTo = (binding.langDestSP.selectedItem as Language)
-
-        // compose URL
-        val url = dict.url + dict.requestComposition
-            .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
-            .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
-            .replace("\$langFrom", langFrom.id, true)
-            .replace("\$langTo", langTo.id, true)
-            .replace("\$word", wordText, true)
-
-        return url
-    }
     private fun saveWordInDB(){
         val wordText = binding.motET.text.toString().lowercase()
         val dict = binding.dictSP.selectedItem as Dictionary
