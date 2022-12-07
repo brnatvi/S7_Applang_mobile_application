@@ -5,24 +5,24 @@
     <item
         android:id="@+id/goMainActivity"
         android:title="@string/home"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_home_foreground"/>
+        app:showAsAction="always"
+        android:icon="@drawable/ic_translate_foreground"/>
 
     <item
         android:id="@+id/goDictActivity"
         android:title="@string/dict"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_dict_foreground"/>
+        app:showAsAction="always"
+        android:icon="@drawable/ic_dictionary_foreground"/>
 
     <item
         android:id="@+id/goExersActivity"
         android:title="@string/exo"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@drawable/ic_exercices_foreground"/>
 
     <item
         android:id="@+id/goSettingsActivity"
         android:title="@string/info"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings_foreground"/>
+        app:showAsAction="always"
+        android:icon="@drawable/ic_info_foreground"/>
 </menu>
