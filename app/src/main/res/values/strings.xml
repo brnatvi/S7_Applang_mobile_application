@@ -17,12 +17,12 @@
     <string name="langDest">à </string>
     <string name="dictSP">sur </string>
 
-    <!-- AjoutDictActivity  -->
-    <string name="nomDict">Veuillez saisir le nom de dictionnaire</string>
+    <!-- DictActivity  -->
+    <string name="nomDict">nom de dictionnaire</string>
+    <string name="lienDict">lien de dictionnaire</string>
     <string name="trouver">Trouver le lien</string>
-    <string name="lienDict">lien de dictionnatre</string>
     <string name="ajouter">Ajouter</string>
-    <string name="enlever">Enlever</string>
+    <string name="enlever">Enlever dictionnaire</string>
 
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français

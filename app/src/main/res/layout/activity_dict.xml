@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,15 +16,46 @@
         layout="@layout/menu_layout"/>
 
     <LinearLayout
+        android:id="@+id/delete_dict_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@color/lil"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="7dp" />
+
+        <Button
+            android:id="@+id/deleteET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="2dp"
+            android:onClick="enleverDict"
+            android:text="@string/enlever" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/dict_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,13 +64,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="70dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="70dp"
             android:layout_marginRight="5dp"
-            android:hint="@string/nomDict"
-            android:textSize="@dimen/textSize"
             android:background="@color/white"
-            />
+            android:hint="@string/nomDict"
+            android:textSize="@dimen/textSize" />
 
 
         <EditText
@@ -47,23 +77,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="5dp"
-            android:hint="@string/lienDict"
-            android:textSize="@dimen/textSize"
             android:background="@color/white"
-            />
+            android:hint="@string/lienDict"
+            android:textSize="@dimen/textSize" />
 
-        <Button
-            android:id="@+id/ajout_dictBT"
-            android:layout_width="@dimen/chercherWidth"
+        <LinearLayout
+            android:id="@+id/add_dict_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="70dp"
-            android:onClick="ajouterDict"
-            android:text="@string/ajouter" />
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/ajout_dictBT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="2dp"
+                android:onClick="ajouterDict"
+                android:text="@string/ajouter" />
+
+            <Button
+                android:id="@+id/chercher_dictBT"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:onClick="chercherDict"
+                android:text="@string/trouver" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

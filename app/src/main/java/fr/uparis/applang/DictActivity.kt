@@ -26,4 +26,14 @@ class DictActivity  : OptionsMenuActivity() {
 
 
     }
+
+    fun chercherDict(view: View) {
+
+
+    }
+
+    fun enleverDict(view: View) {
+
+
+    }
 }
