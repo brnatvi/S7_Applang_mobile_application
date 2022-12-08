@@ -22,8 +22,9 @@ interface LangDAO {
     fun loadAllDictionary(): LiveData<List<Dictionary>>
 
     @Query("DELETE FROM dictionary")
-    fun deleteAllDist()
-
+    fun deleteAllDict()
+    @Query("DELETE FROM dictionary WHERE name=:dict")
+    fun deleteOneDict(dict: String)
     @Query("DELETE FROM language")
     fun deleteAllLang()
 }

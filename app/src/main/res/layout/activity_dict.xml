@@ -10,7 +10,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="fr.uparis.applang.DictActivity"
+    tools:context="DictActivity"
     android:orientation="vertical">
     <include
         layout="@layout/menu_layout"/>

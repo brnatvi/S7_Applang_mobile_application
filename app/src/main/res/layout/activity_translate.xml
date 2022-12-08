@@ -10,7 +10,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="MainActivity"
+    tools:context="TranslateActivity"
     android:orientation="vertical">
 
     <include

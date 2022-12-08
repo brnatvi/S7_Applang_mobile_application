@@ -1,6 +1,5 @@
 package fr.uparis.applang
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -10,20 +9,21 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import fr.uparis.applang.databinding.ActivityMainBinding
+import fr.uparis.applang.databinding.ActivityTranslateBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
 import java.text.Normalizer
 
 
-class MainActivity : OptionsMenuActivity() {
-    private lateinit var binding: ActivityMainBinding
+class TranslateActivity : OptionsMenuActivity() {
+    private lateinit var binding: ActivityTranslateBinding
     private lateinit var menu: Toolbar
-    private val model by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
+    private val model by lazy { ViewModelProvider(this)[TranslateViewModel::class.java] }
     private lateinit var sharedPref : SharedPreferences
     private lateinit var sharedPrefEditor: SharedPreferences.Editor
-
+    private val key: String = "activity"
+    private val optionTransl: String = "translActivity"
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
@@ -40,7 +40,7 @@ class MainActivity : OptionsMenuActivity() {
         super.onCreate(savedInstanceState)
 
         // create binding
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityTranslateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // menu toolbar
@@ -48,18 +48,21 @@ class MainActivity : OptionsMenuActivity() {
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
-        // shared preferencies
-        sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+        // shared preferences
+        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
         sharedPrefEditor = sharedPref.edit()
-        loadPreferencies()
+        val jj = sharedPref.getString(key, "")
+        Log.d("TRANSL: activity1 === ", jj!!)
 
+        // TODO Problem: it works not only when share, but on first launch too (word = last session word, langs = last session langs)
+        loadPreferencies()
 
         // handling the received data from the "share" process
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
                     savePreferencies()
-                    handleSendText(intent) // Handle text being sent
+                    handleReceivedText(intent)
                 }
             }
             else -> {
@@ -77,21 +80,19 @@ class MainActivity : OptionsMenuActivity() {
             model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
             model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
         }
-        // https://www.wordreference.com/fren/maison
-        // https://www.larousse.fr/dictionnaires/francais-anglais/maison
-        // https://translate.google.fr/?sl=fr&tl=en&text=maison%0A&op=translate
-        // https://dictionnaire.reverso.net/fransais-russe/maison
-
         updateLanguagesList()
         updateDictionaryList()
     }
 
-    // ================================== Save / load activity state ==========================================
 
-    override fun onDestroy() {
-        savePreferencies()
-        super.onDestroy()
+    override fun onPause() {
+        sharedPrefEditor.putString(key, optionTransl).commit()
+        val jj = sharedPref.getString(key, "")
+        Log.d("TRANSL: activ === ", jj!!)
+        super.onPause()
     }
+
+    // ================================== Save / load activity state ==========================================
 
     private fun savePreferencies() {
         sharedPrefEditor.putString("word", word)
@@ -109,10 +110,9 @@ class MainActivity : OptionsMenuActivity() {
     // =================================== Share processing ======================================================
 
     // handling the received data from the "share" process
-    private fun handleSendText(intent: Intent) {
+    private fun handleReceivedText(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
            // val dict = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
-
             wholeURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
             Log.d("wholeURL ===", wholeURL)
 
@@ -184,8 +184,12 @@ class MainActivity : OptionsMenuActivity() {
         langDST = binding.langDestSP.selectedItem.toString()
         Log.d("langDST init ===", langDST)
 
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
-        startActivity(browserIntent)
+        sharedPrefEditor.putString(key, optionTransl).commit()
+        val jj = sharedPref.getString(key, "")
+        Log.d("TRANSL2: activity === ", jj!!)
+
+        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
+        startActivity(browserInt)
     }
 
     // ================================= DataBase's functions =============================================

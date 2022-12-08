@@ -1,7 +1,6 @@
 package fr.uparis.applang
 
 import android.content.Intent
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +15,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.goMainActivity -> {
-                val  intentMain = Intent(this, MainActivity::class.java)
+            R.id.goTranslateActivity -> {
+                val  intentMain = Intent(this, TranslateActivity::class.java)
                 startActivity(intentMain)
                 return true
             }

@@ -4,15 +4,13 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
-class MainViewModel(application: Application): AndroidViewModel(application) {
+class TranslateViewModel(application: Application): AndroidViewModel(application) {
     val dao = (application as LanguageApplication).database.langDAO()
 
     var words: LiveData<List<Word>> = dao.loadAllWord()
@@ -22,6 +20,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     var currentLangFrom: String = ""
     var currentLangTo: String = ""
 
+    // ================================= Word's functions ==========================================
     fun insertWord(word: Word){
         if(word.text.isEmpty()){
             return
@@ -36,6 +35,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
         }
     }
+
+    fun loadAllWord(){
+        thread {
+            words = dao.loadAllWord()
+        }
+    }
+
+    // ================================= Dictionary's functions ====================================
     fun insertDictionary(dict: Dictionary){
         if(dict==null){
             return
@@ -50,11 +57,25 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun loadAllWord(){
+    fun loadAllDictionary(){
         thread {
-            words = dao.loadAllWord()
+            dictionaries = dao.loadAllDictionary()
         }
     }
+
+    fun deleteAllDictionary(){
+        thread {
+            dao.deleteAllDict()
+        }
+    }
+
+    fun deleteOneDictionary(dict: String){
+        thread {
+            dao.deleteOneDict(dict)
+        }
+    }
+
+    // ================================= Language's functions ======================================
 
     fun loadAllLanguage(){
         thread {
@@ -65,18 +86,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun deleteAllLanguage(){
         thread {
             dao.deleteAllLang()
-        }
-    }
-
-    fun loadAllDictionary(){
-        thread {
-            dictionaries = dao.loadAllDictionary()
-        }
-    }
-
-    fun deleteAllDictionary(){
-        thread {
-            dao.deleteAllDist()
         }
     }
 
