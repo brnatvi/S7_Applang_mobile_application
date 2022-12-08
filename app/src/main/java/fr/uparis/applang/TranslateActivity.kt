@@ -50,6 +50,10 @@ class TranslateActivity : OptionsMenuActivity() {
 
         // shared preferences
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
+
+        Log.d("TRANSL: ShPr === ", sharedPref.toString())
+
+
         sharedPrefEditor = sharedPref.edit()
         val jj = sharedPref.getString(key, "")
         Log.d("TRANSL: activity1 === ", jj!!)

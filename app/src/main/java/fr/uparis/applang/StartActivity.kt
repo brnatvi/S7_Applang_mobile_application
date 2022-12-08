@@ -29,6 +29,8 @@ class StartActivity : OptionsMenuActivity(){
 
         // shared preferences
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
+        Log.d("START: ShPr === ", sharedPref.toString())
+
         sharedPrefEditor = sharedPref.edit()
 
         if (sharedPref.getString(key, "") == "")
@@ -47,11 +49,8 @@ class StartActivity : OptionsMenuActivity(){
         } else {
             Log.d("START ==", "launch TranslateActivity" )
             Intent(this, TranslateActivity::class.java)
-
         }
-
         startActivity(intent)
-        finish()
     }
 
 

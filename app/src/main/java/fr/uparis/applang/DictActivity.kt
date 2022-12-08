@@ -45,6 +45,7 @@ class DictActivity  : OptionsMenuActivity() {
 
         // shared preferences
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
+        Log.d("DICT: ShPr === ", sharedPref.toString())
         sharedPrefEditor = sharedPref.edit()
         val jj = sharedPref.getString(key, "")
         Log.d("DICT: activity1 === ", jj!!)
