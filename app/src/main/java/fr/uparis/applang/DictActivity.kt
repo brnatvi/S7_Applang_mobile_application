@@ -150,7 +150,7 @@ class DictActivity  : OptionsMenuActivity() {
         if ( (name == "") || (url == "") )
         {
             AlertDialog.Builder(this)
-                .setMessage("Les champs de texte ne doivent pas être vides")
+                .setMessage("Merci d'insérer le nom du dictionnaire ET son lien internet")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
                         dialog, id -> finish()
                 }).setCancelable(false)
@@ -183,6 +183,17 @@ class DictActivity  : OptionsMenuActivity() {
         Log.d("DICT: activity2 === ", jj!!)
 
         val namedict = bindingDict.nomDictET.text.toString().lowercase()
+        if (namedict == "")
+        {
+            AlertDialog.Builder(this)
+                .setMessage("Merci d'insérer le nom du dictionnaire")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> finish()
+                }).setCancelable(false)
+                .show()
+            return
+        }
+
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + namedict))
         startActivity(browserIntent)
     }
