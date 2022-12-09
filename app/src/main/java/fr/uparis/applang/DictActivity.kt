@@ -6,11 +6,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.databinding.ActivityDictBinding
+import fr.uparis.applang.model.Dictionary
 
 
 class DictActivity  : OptionsMenuActivity() {
@@ -38,6 +42,35 @@ class DictActivity  : OptionsMenuActivity() {
         bindingDict = ActivityDictBinding.inflate(layoutInflater)
         setContentView(bindingDict.root)
 
+        bindingDict.recyclerView.adapter = adapter
+        bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        model.allDictionnaries.observe(this){
+            adapter.listDictionaries = it
+            adapter.notifyDataSetChanged()
+        }
+/*
+        model.dictionaries.observe(this){
+            adapter.dictionaries = it
+            adapter.notifyDataSetChanged()
+        }
+
+        bindingDict.pays.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+            {            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+            {            }
+
+            override fun afterTextChanged(s: Editable?) {
+                model.loadPartialName(s.toString())
+            }
+        })
+*/
+
+
+
+
         // menu toolbar
         menu =  findViewById(R.id.acc_toolbar)
         setSupportActionBar(menu)
@@ -63,6 +96,7 @@ class DictActivity  : OptionsMenuActivity() {
                 // Handle other intents, such as being started from the home screen
             }
         }
+
     }
 /*
     override fun onPause() {
@@ -71,7 +105,38 @@ class DictActivity  : OptionsMenuActivity() {
         Log.d("DICT: activ === ", jj!!)
         super.onPause()
     }
-*/
+    */
+    val TAG: String = "TEST DICT ======"
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop")
+        }
+
+    override fun onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart")
+        }
+
+    override fun onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause")
+        }
+
+    override fun onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onRestart(){
+        super.onRestart();
+        Log.d(TAG, "onRestart")
+    }
 
     // ================================= Buttons' functions =============================================
     fun enleverDict(view: View) {

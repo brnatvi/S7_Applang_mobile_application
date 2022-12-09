@@ -38,6 +38,7 @@ class TranslateActivity : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onStart")
 
         // create binding
         binding = ActivityTranslateBinding.inflate(layoutInflater)
@@ -87,13 +88,45 @@ class TranslateActivity : OptionsMenuActivity() {
         updateLanguagesList()
         updateDictionaryList()
     }
-
+/*
 
     override fun onPause() {
         sharedPrefEditor.putString(key, optionTransl).commit()
         val jj = sharedPref.getString(key, "")
         Log.d("TRANSL: activ === ", jj!!)
         super.onPause()
+    }*/
+
+    val TAG: String = "TEST TRANS ======"
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onRestart(){
+        super.onRestart();
+        Log.d(TAG, "onRestart")
     }
 
     // ================================== Save / load activity state ==========================================
