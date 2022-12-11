@@ -42,6 +42,12 @@ class TranslateViewModel(application: Application): AndroidViewModel(application
         }
     }
 
+    fun deleteOneWord(url: String){
+        thread {
+            dao.deleteOneWord(url)
+        }
+    }
+
     // ================================= Dictionary's functions ====================================
     fun insertDictionary(dict: Dictionary){
         if(dict==null){

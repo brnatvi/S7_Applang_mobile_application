@@ -27,4 +27,6 @@ interface LangDAO {
     fun deleteOneDict(dict: String)
     @Query("DELETE FROM language")
     fun deleteAllLang()
+    @Query("DELETE FROM word WHERE tradURL=:url")
+    fun deleteOneWord(url: String)
 }
