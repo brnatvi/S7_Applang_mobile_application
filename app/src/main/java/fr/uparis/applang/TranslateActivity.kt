@@ -1,5 +1,7 @@
 package fr.uparis.applang
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -22,7 +24,9 @@ class TranslateActivity : OptionsMenuActivity() {
     private val model by lazy { ViewModelProvider(this)[TranslateViewModel::class.java] }
     private lateinit var sharedPref : SharedPreferences
     private lateinit var sharedPrefEditor: SharedPreferences.Editor
-    private val key: String = "activity"
+    private val keyActivity: String = "activity"
+    private val keyShare: String = "linkShare"
+    private val keyWord: String = "word"
     private val optionTransl: String = "translActivity"
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
@@ -34,11 +38,13 @@ class TranslateActivity : OptionsMenuActivity() {
     private var word = ""
     private var dictURL = ""
 
+    val TAG: String = "TRANS ======"
+
     //private var dictList = mutableListOf<Dictionary>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onStart")
+        Log.d(TAG, "onCreate")                                                                 // DEBUG
 
         // create binding
         binding = ActivityTranslateBinding.inflate(layoutInflater)
@@ -50,30 +56,21 @@ class TranslateActivity : OptionsMenuActivity() {
         menu.setTitle(R.string.app_name)
 
         // shared preferences
-        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
-
-        Log.d("TRANSL: ShPr === ", sharedPref.toString())
-
-
+        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("TRANSL: activity1 === ", jj!!)
+        Log.d(TAG + "SharedPref ", sharedPref.toString())                                       // DEBUG test if they are really commons
 
-        // TODO Problem: it works not only when share, but on first launch too (word = last session word, langs = last session langs)
-        loadPreferencies()
+        // DEBUG test which activity has to be launched
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d("activity1 === ", jj!!)                                                           // DEBUG
 
-        // handling the received data from the "share" process
-        when {
-            intent?.action == Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    savePreferencies()
-                    handleReceivedText(intent)
-                }
-            }
-            else -> {
-                // Handle other intents, such as being started from the home screen
-            }
+        // SCENARIO: activity loaded after share -> handle url of translation arrived
+        if (sharedPref.getString(keyShare, "").toString() != "") {
+            val shareLink = sharedPref.getString(keyShare, "").toString()
+            Log.d(TAG + "shlink ==", shareLink)                                            // DEBUG
+            handleReceivedLink(shareLink)
         }
+
 
         //TODO insert only if needed
         var firstStart = true
@@ -88,81 +85,67 @@ class TranslateActivity : OptionsMenuActivity() {
         updateLanguagesList()
         updateDictionaryList()
     }
-/*
 
-    override fun onPause() {
-        sharedPrefEditor.putString(key, optionTransl).commit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("TRANSL: activ === ", jj!!)
-        super.onPause()
-    }*/
+    // ================================= Buttons' functions =============================================
 
-    val TAG: String = "TEST TRANS ======"
+    // transmit the word to some online dictionary
+    fun traduire(view: View){
+        saveWordInDB()
+}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy")
-    }
+    // transmit the word to Google search motor
+    fun chercher(view: View){
+        val phrase = binding.motET.text.toString().lowercase()
+        if (phrase == "")
+        {
+            AlertDialog.Builder(this)
+                .setMessage("Merci d'insérer la phase pour recherche.\n Par exemple 'maison en englais' ")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> finish()
+                }).setCancelable(false)
+                .show()
+            return
+        }
+        word = phrase.substringBefore(' ')
+        langSRC = binding.langSrcSP.selectedItem.toString()
+        langDST = binding.langDestSP.selectedItem.toString()
 
-    override fun onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop")
-    }
+        // DEBUG
+        Log.d("word init ===", word)
+        Log.d("phrase init ===", phrase)
+        Log.d("langSRC init ===", langSRC)
+        Log.d("langDST init ===", langDST)
 
-    override fun onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart")
-    }
-
-    override fun onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause")
-    }
-
-    override fun onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume")
-    }
-
-    override fun onRestart(){
-        super.onRestart();
-        Log.d(TAG, "onRestart")
-    }
-
-    // ================================== Save / load activity state ==========================================
-
-    private fun savePreferencies() {
-        sharedPrefEditor.putString("word", word)
-        sharedPrefEditor.putString("langSRC", langSRC)
-        sharedPrefEditor.putString("langDST", langDST)
+        // save preferences
+        sharedPrefEditor.putString(keyActivity, optionTransl)
+        sharedPrefEditor.putString(keyWord, word)
         sharedPrefEditor.commit()
-    }
 
-    private fun loadPreferencies() {
-        word = sharedPref.getString("word", "")!!
-        langSRC = sharedPref.getString("langSRC", "")!!
-        langDST = sharedPref.getString("langDST", "")!!
+        // DEBUG
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d("TRANSL: activity2 === ", jj!!)
+
+        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
+        startActivity(browserInt)
     }
 
     // =================================== Share processing ======================================================
 
     // handling the received data from the "share" process
-    private fun handleReceivedText(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-           // val dict = Regex("^(([^:/?#]+):)?(//([^/?#]*))").find(it)!!.groupValues.get(0)
-            wholeURL = Regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?").find(it)!!.groupValues.get(0)
-            Log.d("wholeURL ===", wholeURL)
+    private fun handleReceivedLink(shareLink: String) {
+        wholeURL = shareLink
+        Log.d(TAG + "URL arr =", shareLink)
 
-            loadPreferencies()
-            Log.d("word after share ===", word)
+        word = sharedPref.getString(keyWord, "").toString()
+        binding.motET.setText(word)
 
-            //tryToGuessLanguagesFromURL will be call later
-            addCurrentURLAsDictionary(it)
+        //tryToGuessLanguagesFromURL will be call later
+        addCurrentURLAsDictionary(wholeURL)
 
-            //TODO use somewhere useful (currently used for print only)
-            updateWordsList()
-        }
+        //TODO use somewhere useful (currently used for print only)
+        updateWordsList()
     }
+
     private fun tryToGuessLanguagesFromURL(wholeURL: String, dictList: List<Dictionary>){
         Log.d("GuessFromURL", "try to guess for $wholeURL in $dictList")
         for (dict in dictList){
@@ -201,33 +184,6 @@ class TranslateActivity : OptionsMenuActivity() {
         }
     }
 
-    // ================================= Buttons' functions =============================================
-
-    // transmit the word to some online dictionary
-    fun traduire(view: View){
-        saveWordInDB()
-}
-
-    // transmit the word to Google search motor
-    fun chercher(view: View){
-        val phrase = binding.motET.text.toString().lowercase()
-        word = binding.motET.text.toString().lowercase().substringBefore(' ')
-
-        Log.d("word init ===", word)
-        Log.d("phrase init ===", phrase)
-        langSRC = binding.langSrcSP.selectedItem.toString()
-
-        Log.d("langSRC init ===", langSRC)
-        langDST = binding.langDestSP.selectedItem.toString()
-        Log.d("langDST init ===", langDST)
-
-        sharedPrefEditor.putString(key, optionTransl).commit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("TRANSL2: activity === ", jj!!)
-
-        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
-        startActivity(browserInt)
-    }
 
     // ================================= DataBase's functions =============================================
 
@@ -336,5 +292,38 @@ class TranslateActivity : OptionsMenuActivity() {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
     }
+
+
+// DEBUG
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onRestart(){
+        super.onRestart();
+        Log.d(TAG, "onRestart")
+    }
+
 
 }

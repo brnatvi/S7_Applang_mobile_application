@@ -6,15 +6,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.databinding.ActivityDictBinding
-import fr.uparis.applang.model.Dictionary
 
 
 class DictActivity  : OptionsMenuActivity() {
@@ -23,122 +20,63 @@ class DictActivity  : OptionsMenuActivity() {
 
     private lateinit var sharedPref : SharedPreferences
     private lateinit var sharedPrefEditor: SharedPreferences.Editor
-    private val key: String = "activity"
+    private val keyActivity: String = "activity"
+    private val keyShare: String = "linkShare"
+    private val keyName: String = "nameDict"
     private val optionDict: String = "dictActivity"
 
     private val model by lazy {  ViewModelProvider(this).get(DictViewModel::class.java) }
     private val adapter by lazy { DictAdapter() }
 
-    private var name = ""
-    private var url = ""
+    private var nameDict = ""
+    private var urlDict = ""
+
     private val dictSelected = null
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
+
+    val TAG: String = "DICT == "
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")                  // DEBUG
 
-        setContentView(R.layout.activity_dict)
+        // create binding
         bindingDict = ActivityDictBinding.inflate(layoutInflater)
         setContentView(bindingDict.root)
-
-        bindingDict.recyclerView.adapter = adapter
-        bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
-
-        model.allDictionnaries.observe(this){
-            adapter.listDictionaries = it
-            adapter.notifyDataSetChanged()
-        }
-/*
-        model.dictionaries.observe(this){
-            adapter.dictionaries = it
-            adapter.notifyDataSetChanged()
-        }
-
-        bindingDict.pays.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
-            {            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
-            {            }
-
-            override fun afterTextChanged(s: Editable?) {
-                model.loadPartialName(s.toString())
-            }
-        })
-*/
-
-
-
 
         // menu toolbar
         menu =  findViewById(R.id.acc_toolbar)
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
+        // RecyclerView
+        bindingDict.recyclerView.adapter = adapter
+        bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
+        model.allDictionnaries.observe(this){
+            adapter.listDictionaries = it
+            adapter.notifyDataSetChanged()
+        }
+
         // shared preferences
-        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
-        Log.d("DICT: ShPr === ", sharedPref.toString())
+        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("DICT: activity1 === ", jj!!)
+        Log.d(TAG + "SharedPref ", sharedPref.toString())                                       // DEBUG test if they are really commons
 
-        loadDictPreferencies()
+        // DEBUG test which activity has to be launched
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d(TAG + " activity1 == ", jj!!)
 
-        when {
-            intent?.action == Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    saveDictPreferencies()
-                    handleReceivedText(intent)
-                }
-            }
-            else -> {
-                // Handle other intents, such as being started from the home screen
-            }
+        // SCENARIO: activity loaded by StartActivity after share -> handle url of dictionary arrived
+        if (sharedPref.getString(keyShare, "").toString() != "") {
+            urlDict = sharedPref.getString(keyShare, "").toString()
+            Log.d(TAG + "shared link == ", urlDict)                                             // DEBUG
+            handleReceivedLink(urlDict)
         }
-
-    }
-/*
-    override fun onPause() {
-        sharedPrefEditor.putString(key, optionDict).commit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("DICT: activ === ", jj!!)
-        super.onPause()
-    }
-    */
-    val TAG: String = "TEST DICT ======"
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy")
-    }
-
-    override fun onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop")
-        }
-
-    override fun onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart")
-        }
-
-    override fun onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause")
-        }
-
-    override fun onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume")
-    }
-
-    override fun onRestart(){
-        super.onRestart();
-        Log.d(TAG, "onRestart")
     }
 
     // ================================= Buttons' functions =============================================
+
     fun enleverDict(view: View) {
 
     }
@@ -160,13 +98,13 @@ class DictActivity  : OptionsMenuActivity() {
 
         // TODO make the requestComposition
         val requestComp = ""
-            /*url
-            .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
-            .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
-            .replace("\$langFrom", langFrom.id, true)
-            .replace("\$langTo", langTo.id, true)
-            .replace("\$word", wordText.replace(" ", "%20"), true)
-            */
+        /*url
+        .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
+        .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
+        .replace("\$langFrom", langFrom.id, true)
+        .replace("\$langTo", langTo.id, true)
+        .replace("\$word", wordText.replace(" ", "%20"), true)
+        */
 
         model.insertDictionnary(name, url, requestComp)
 
@@ -176,15 +114,9 @@ class DictActivity  : OptionsMenuActivity() {
         }
     }
 
-
     fun chercherDict(view: View) {
-        sharedPrefEditor.putString(key, optionDict).commit()
-        val jj = sharedPref.getString(key, "")
-        Log.d("DICT: activity2 === ", jj!!)
-
-        val namedict = bindingDict.nomDictET.text.toString().lowercase()
-        if (namedict == "")
-        {
+        nameDict = bindingDict.nomDictET.text.toString().lowercase()
+        if (nameDict == "") {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
@@ -193,33 +125,55 @@ class DictActivity  : OptionsMenuActivity() {
                 .show()
             return
         }
-
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + namedict))
-        startActivity(browserIntent)
-    }
-
-
-    // ================================== Save / load activity state ==========================================
-
-    private fun saveDictPreferencies() {
-        sharedPrefEditor.putString("name", name)
-        sharedPrefEditor.putString("url", url)
+        sharedPrefEditor.putString(keyActivity, optionDict)
+        sharedPrefEditor.putString(keyName, nameDict)
         sharedPrefEditor.commit()
-    }
 
-    private fun loadDictPreferencies() {
-        name = sharedPref.getString("name", "")!!
-        url = sharedPref.getString("url", "")!!
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + nameDict))
+        startActivity(browserIntent)
     }
 
     // =================================== Share processing ======================================================
 
     // handling the received data from the "share" process
-    private fun handleReceivedText(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            loadDictPreferencies()
-            bindingDict.lienDictET.setText(it)
-        }
+    private fun handleReceivedLink(shareLink: String) {
+        Log.d(TAG + "shared link1 = ", shareLink)                                 // DEBUG
+        nameDict = sharedPref.getString(keyName, "").toString()
+        bindingDict.nomDictET.setText(nameDict)
+        bindingDict.lienDictET.setText(shareLink)
+
+        // add dictionary to BD
+    }
+
+// DEBUG
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
+    override fun onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onRestart(){
+        super.onRestart();
+        Log.d(TAG, "onRestart")
     }
 
 
