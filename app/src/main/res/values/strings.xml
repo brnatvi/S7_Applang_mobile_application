@@ -18,8 +18,8 @@
     <string name="dictSP">sur </string>
 
     <!-- DictActivity  -->
-    <string name="nomDict">nom de dictionnaire</string>
-    <string name="lienDict">lien de dictionnaire</string>
+    <string name="nomDict">nom du dictionnaire</string>
+    <string name="lienDict">lien du dictionnaire</string>
     <string name="requestCompDict">"fin de l'url avec des $langTo(Long), $langFrom(Long), $word"</string>
     <string name="trouver">Trouver le lien</string>
     <string name="ajouter">Ajouter</string>

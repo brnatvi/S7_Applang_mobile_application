@@ -29,6 +29,7 @@
 
         <activity
             android:name=".DictActivity"
+            android:screenOrientation="fullSensor"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -41,6 +42,7 @@
 
         <activity
             android:name=".TranslateActivity"
+            android:screenOrientation="fullSensor"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
