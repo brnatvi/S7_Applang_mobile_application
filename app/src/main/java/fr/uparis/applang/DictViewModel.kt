@@ -15,6 +15,7 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
     fun insertDictionnary(name: String, url: String, requestComposition: String) {
         Thread {
             val newD = Dictionary(name.trim(), url.trim(), requestComposition.trim())
+            Log.d("DB","try to insert "+newD)
             dao.insertDictionary(newD)
         }.start()
     }

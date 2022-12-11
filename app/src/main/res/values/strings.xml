@@ -20,6 +20,7 @@
     <!-- DictActivity  -->
     <string name="nomDict">nom de dictionnaire</string>
     <string name="lienDict">lien de dictionnaire</string>
+    <string name="requestCompDict">"fin de l'url avec des $langTo(Long), $langFrom(Long), $word"</string>
     <string name="trouver">Trouver le lien</string>
     <string name="ajouter">Ajouter</string>
     <string name="enlever">Enlever dictionnaire</string>

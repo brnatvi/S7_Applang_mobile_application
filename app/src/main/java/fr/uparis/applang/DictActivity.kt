@@ -146,9 +146,9 @@ class DictActivity  : OptionsMenuActivity() {
     fun ajouterDict(view: View) {
         val name = bindingDict.nomDictET.text.toString().trim()
         val url = bindingDict.lienDictET.text.toString().trim()
+        val requestComp = bindingDict.requestCompDictET.text.toString().trim()
 
-        if ( (name == "") || (url == "") )
-        {
+        if ( (name == "") || (url == "") ) {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire ET son lien internet")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
@@ -158,21 +158,12 @@ class DictActivity  : OptionsMenuActivity() {
             return
         }
 
-        // TODO make the requestComposition
-        val requestComp = ""
-            /*url
-            .replace("\$langFromLong", langFrom.fullName.unaccent().lowercase(), true)
-            .replace("\$langToLong", langTo.fullName.unaccent().lowercase(), true)
-            .replace("\$langFrom", langFrom.id, true)
-            .replace("\$langTo", langTo.id, true)
-            .replace("\$word", wordText.replace(" ", "%20"), true)
-            */
-
         model.insertDictionnary(name, url, requestComp)
 
         with(bindingDict) {
             nomDictET.text.clear()
             lienDictET.text.clear()
+            requestCompDictET.text.clear()
         }
     }
 
@@ -183,8 +174,7 @@ class DictActivity  : OptionsMenuActivity() {
         Log.d("DICT: activity2 === ", jj!!)
 
         val namedict = bindingDict.nomDictET.text.toString().lowercase()
-        if (namedict == "")
-        {
+        if (namedict == "") {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
