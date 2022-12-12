@@ -9,7 +9,7 @@
 
     <!-- MainActivity  -->
     <string name="mot">Saisir le mot à traduire</string>
-    <string name="traduire">Traduire</string>
+    <string name="traduire">Enregistrer la traduction</string>
     <string name="chercher">Chercher sur Google</string>
     <string name="souvenir">S’en souvenir</string>
 
