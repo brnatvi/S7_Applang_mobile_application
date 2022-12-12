@@ -73,12 +73,16 @@ class DictActivity  : OptionsMenuActivity() {
             Log.d(TAG + "shared link == ", urlDict)                                             // DEBUG
             handleReceivedLink(urlDict)
         }
+
+
     }
 
     // ================================= Buttons' functions =============================================
 
     fun enleverDict(view: View) {
-
+        for (el in adapter.checkedItems) {
+            model.deleteDictionnary(el.name)
+        }
     }
 
     fun ajouterDict(view: View) {

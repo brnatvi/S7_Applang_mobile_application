@@ -23,8 +23,8 @@ interface LangDAO {
 
     @Query("DELETE FROM dictionary")
     fun deleteAllDict()
-    @Query("DELETE FROM dictionary WHERE name=:dict")
-    fun deleteOneDict(dict: String)
+    @Query("DELETE FROM dictionary WHERE name=:name")
+    fun deleteOneDict(name: String)
     @Query("DELETE FROM language")
     fun deleteAllLang()
 }

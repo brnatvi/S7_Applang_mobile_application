@@ -18,5 +18,12 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
             dao.insertDictionary(newD)
         }.start()
     }
+
+    fun deleteDictionnary(name: String) {
+        Thread {
+            dao.deleteOneDict(name)
+        }.start()
+    }
+
 }
 

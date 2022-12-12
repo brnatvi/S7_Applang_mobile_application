@@ -2,7 +2,9 @@ package fr.uparis.applang
 
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -37,12 +39,14 @@ class DictAdapter() : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
         holder.dictionary = listDictionaries[position]
         if (position%2 == 0) {
             holder.itemView.setBackgroundColor(colorEven)
+        } else {
+            holder.itemView.setBackgroundColor(colorOdd)
         }
-        else {holder.itemView.setBackgroundColor(colorOdd)}
         holder.binding.nom.text = holder.dictionary.name
     }
 
     override fun getItemCount(): Int {
         return listDictionaries.size
     }
+
 }
