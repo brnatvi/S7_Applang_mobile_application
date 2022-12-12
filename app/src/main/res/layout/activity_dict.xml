@@ -53,6 +53,18 @@
             android:hint="@string/lienDict"
             android:textSize="@dimen/textSize" />
 
+        <EditText
+            android:id="@+id/requestCompDictET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/white"
+            android:hint="@string/requestCompDict"
+            android:textSize="@dimen/textSize" />
+
         <LinearLayout
             android:id="@+id/add_dict_layout"
             android:layout_width="match_parent"

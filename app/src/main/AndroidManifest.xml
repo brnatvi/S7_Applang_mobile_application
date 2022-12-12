@@ -30,6 +30,7 @@
 
         <activity
             android:name=".DictActivity"
+            android:screenOrientation="fullSensor"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -38,6 +39,7 @@
 
         <activity
             android:name=".TranslateActivity"
+            android:screenOrientation="fullSensor"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
