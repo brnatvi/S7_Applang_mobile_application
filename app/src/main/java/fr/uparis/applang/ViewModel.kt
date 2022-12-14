@@ -10,7 +10,7 @@ import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
-class TranslateViewModel(application: Application): AndroidViewModel(application) {
+class ViewModel(application: Application): AndroidViewModel(application) {
     val dao = (application as LanguageApplication).database.langDAO()
 
     var words: LiveData<List<Word>> = dao.loadAllWord()
@@ -61,6 +61,12 @@ class TranslateViewModel(application: Application): AndroidViewModel(application
                 Log.i("DB", "Insert dict n°$returnCode")
             }
         }
+    }
+
+    fun deleteDictionary(name: String) {
+        Thread {
+            dao.deleteOneDict(name)
+        }.start()
     }
 
     fun loadAllDictionary(){

@@ -21,7 +21,7 @@ import java.text.Normalizer
 class TranslateActivity : OptionsMenuActivity() {
     private lateinit var binding: ActivityTranslateBinding
     private lateinit var menu: Toolbar
-    private val model by lazy { ViewModelProvider(this)[TranslateViewModel::class.java] }
+    private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
     private lateinit var sharedPref : SharedPreferences
     private lateinit var sharedPrefEditor: SharedPreferences.Editor
     private val keyActivity: String = "activity"
@@ -101,7 +101,7 @@ class TranslateActivity : OptionsMenuActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer la phase pour recherche.\n Par exemple 'maison en englais' ")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> finish()
+                        dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
             return
@@ -286,44 +286,9 @@ class TranslateActivity : OptionsMenuActivity() {
         model.insertLanguages(*languageList.toTypedArray())
     }
 
-
     // ====================== Auxiliary functions ======================================================
     fun CharSequence.unaccent(): String {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
     }
-
-
-// DEBUG
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy")
-    }
-
-    override fun onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop")
-    }
-
-    override fun onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart")
-    }
-
-    override fun onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause")
-    }
-
-    override fun onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume")
-    }
-
-    override fun onRestart(){
-        super.onRestart();
-        Log.d(TAG, "onRestart")
-    }
-
-
 }

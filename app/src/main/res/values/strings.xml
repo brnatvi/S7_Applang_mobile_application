@@ -3,7 +3,7 @@
 
     <!-- Menu  -->
     <string name="home">Traduire</string>
-    <string name="dict">Dictionaries</string>
+    <string name="dict">Dictionnaires</string>
     <string name="exo">Exercices</string>
     <string name="info">"Info"</string>
 
@@ -18,12 +18,18 @@
     <string name="dictSP">sur </string>
 
     <!-- DictActivity  -->
-    <string name="nomDict">nom du dictionnaire</string>
-    <string name="lienDict">lien du dictionnaire</string>
+    <string name="nomDictTW">Entrez pour recherche :</string>
+    <string name="nomDictET">nom du dictionnaire et quelque mot à traduire</string>
+    <string name="lienDictTW">Le lien :</string>
+    <string name="lienDictET">après la recherche lien apparaîtra ici</string>
+    <string name="choiseTV">Indiquez les languages (sourse - dest)</string>
     <string name="requestCompDict">"fin de l'url avec des $langTo(Long), $langFrom(Long), $word"</string>
-    <string name="trouver">Trouver le lien</string>
-    <string name="ajouter">Ajouter</string>
-    <string name="enlever">Enlever dictionnaire</string>
+    <string name="listDictET">Dictionnaires disponibles :</string>
+    <string name="trouverBT">Trouver le lien</string>
+    <string name="ajouterBT">Ajouter</string>
+    <string name="enleverBT">Enlever</string>
+    <string name="corrigerBT">Corriger</string>
+
 
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français

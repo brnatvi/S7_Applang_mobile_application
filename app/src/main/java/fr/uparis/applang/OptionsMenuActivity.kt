@@ -51,6 +51,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun clearReferencies() {
         sharedPrefEditor.putString(keyName, "").putString(keyShare, "").putString(keyWord, "").commit()
     }

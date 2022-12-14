@@ -41,7 +41,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:hint="@string/mot"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/commentsSize"
             android:background="@color/white"
             />
         <TextView
@@ -51,6 +51,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
+            android:textColor="@color/purple_700"
             android:text="@string/langSrc"/>
 
         <Spinner
@@ -61,7 +62,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             android:textSize="@dimen/textSize"
+            android:background="@color/white"
             />
 
         <TextView
@@ -71,6 +74,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
+            android:textColor="@color/purple_700"
             android:text="@string/langDest"/>
 
         <Spinner
@@ -78,10 +82,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="@dimen/textSize"
+            android:background="@color/white"
             />
 
         <TextView
@@ -91,6 +97,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
+            android:textColor="@color/purple_700"
             android:text="@string/dictSP"/>
 
         <Spinner
@@ -99,9 +106,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="@dimen/textSize"
+            android:background="@color/white"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -117,7 +126,7 @@
 
         <Button
             android:id="@+id/traduireBT"
-            android:layout_width="@dimen/traduireWidth"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="5dp"
@@ -126,7 +135,7 @@
 
         <Button
             android:id="@+id/rechercheBT"
-            android:layout_width="@dimen/chercherWidth"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="5dp"

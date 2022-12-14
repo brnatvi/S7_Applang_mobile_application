@@ -8,10 +8,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.databinding.ActivityDictBinding
+import fr.uparis.applang.model.Dictionary
+import fr.uparis.applang.model.Language
 
 
 class DictActivity  : OptionsMenuActivity() {
@@ -25,17 +29,15 @@ class DictActivity  : OptionsMenuActivity() {
     private val keyName: String = "nameDict"
     private val optionDict: String = "dictActivity"
 
-    private val model by lazy {  ViewModelProvider(this).get(DictViewModel::class.java) }
-    private val adapter by lazy { DictAdapter() }
+    private val model by lazy {  ViewModelProvider(this).get(ViewModel::class.java) }
+    private val adapterDict by lazy { DictAdapter() }
 
     private var nameDict = ""
     private var urlDict = ""
 
-    private val dictSelected = null
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
 
     val TAG: String = "DICT == "
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +52,12 @@ class DictActivity  : OptionsMenuActivity() {
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
-        // RecyclerView
-        bindingDict.recyclerView.adapter = adapter
+        // RecyclerView for Dictionaries
+        bindingDict.recyclerView.adapter = adapterDict
         bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
-        model.allDictionnaries.observe(this){
-            adapter.listDictionaries = it
-            adapter.notifyDataSetChanged()
+        model.dictionaries.observe(this){
+            adapterDict.listDictionaries = it
+            adapterDict.notifyDataSetChanged()
         }
 
         // shared preferences
@@ -74,39 +76,84 @@ class DictActivity  : OptionsMenuActivity() {
             handleReceivedLink(urlDict)
         }
 
+        updateLanguagesList()
+    }
 
+    private fun insertAllLanguages(){
+        val languageListContent: String = R.string.languageList.toString()
+        var languageList: MutableList<Language> = mutableListOf()
+        for (line: String in languageListContent.split("\n")){
+            var t = line.split(",")
+            languageList.add(Language(t[0], t[1]))
+        }
+        model.insertLanguages(*languageList.toTypedArray())
+    }
+
+    private fun updateLanguagesList(){
+        model.loadAllLanguage()
+        model.languages.removeObservers(this)
+        model.languages.observe(this){
+            Log.d("DB","list language: $it")
+            val arrayAdapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, it
+            )
+            bindingDict.langSrcSP.adapter = arrayAdapter
+            val arrayAdapter2 = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, it
+            )
+            bindingDict.langDestSP.adapter = arrayAdapter2
+            if(model.currentTranslationUrl.isNotEmpty()){
+                var indexFrom: Int = 0
+                var indexTo: Int = 0
+                var k = 0
+                for (lang in it){
+                    if(lang.id == model.currentLangFrom){
+                        indexFrom = k
+                    }
+                    if(lang.id == model.currentLangTo){
+                        indexTo = k
+                    }
+                    k++;
+                }
+                bindingDict.langSrcSP.setSelection(indexFrom)
+                bindingDict.langDestSP.setSelection(indexTo)
+            }
+        }
     }
 
     // ================================= Buttons' functions =============================================
 
     fun enleverDict(view: View) {
-        for (el in adapter.checkedItems) {
-            model.deleteDictionnary(el.name)
+        for (el in adapterDict.checkedItems) {
+            model.deleteDictionary(el.name)
         }
     }
 
     fun ajouterDict(view: View) {
         val name = bindingDict.nomDictET.text.toString().trim()
         val url = bindingDict.lienDictET.text.toString().trim()
-        val requestComp = bindingDict.requestCompDictET.text.toString().trim()
+       // val requestComp = bindingDict.requestCompDictET.text.toString().trim()
 
         if ( (name == "") || (url == "") ) {
             AlertDialog.Builder(this)
-                .setMessage("Merci d'insérer le nom du dictionnaire ET son lien internet")
+                .setMessage("Merci d'insérer le nom du dictionnaire, ainsi que trouver sont lien internet et indiquer les languages")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> finish()
+                        dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
             return
         }
 
+        model.insertDictionary(Dictionary(name, url, ""))
 
-        model.insertDictionnary(name, url, requestComp)
+        showToast("Dictionnaire " + "$name" + " vient d'être ajouté", 1)
 
         with(bindingDict) {
             nomDictET.text.clear()
             lienDictET.text.clear()
-            requestCompDictET.text.clear()
+           // requestCompDictET.text.clear()
         }
     }
 
@@ -120,7 +167,7 @@ class DictActivity  : OptionsMenuActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> finish()
+                        dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
             return
@@ -142,39 +189,10 @@ class DictActivity  : OptionsMenuActivity() {
         bindingDict.nomDictET.setText(nameDict)
         bindingDict.lienDictET.setText(shareLink)
 
-        // add dictionary to BD
+        showToast("Veuiller composer les languages sourse et destination pour le dictionnaire " + "$nameDict", 3)
     }
 
-// DEBUG
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy")
+    private fun showToast(message: String, koeff: Int) {
+        Toast.makeText(this, message, (Toast.LENGTH_SHORT * koeff)).show()
     }
-
-    override fun onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop")
-    }
-
-    override fun onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart")
-    }
-
-    override fun onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause")
-    }
-
-    override fun onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume")
-    }
-
-    override fun onRestart(){
-        super.onRestart();
-        Log.d(TAG, "onRestart")
-    }
-
-
 }

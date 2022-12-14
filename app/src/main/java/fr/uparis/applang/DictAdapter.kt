@@ -29,8 +29,8 @@ class DictAdapter() : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictViewHolder {
-        val bind = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = DictViewHolder(bind)
+        val bindDict = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = DictViewHolder(bindDict)
         return holder
     }
 
