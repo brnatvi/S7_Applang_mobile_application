@@ -22,13 +22,6 @@ class DictActivity  : OptionsMenuActivity() {
     private lateinit var bindingDict: ActivityDictBinding
     private lateinit var menu: Toolbar
 
-    private lateinit var sharedPref : SharedPreferences
-    private lateinit var sharedPrefEditor: SharedPreferences.Editor
-    private val keyActivity: String = "activity"
-    private val keyShare: String = "linkShare"
-    private val keyName: String = "nameDict"
-    private val optionDict: String = "dictActivity"
-
     private val model by lazy {  ViewModelProvider(this).get(ViewModel::class.java) }
     private val adapterDict by lazy { DictAdapter() }
 
@@ -41,7 +34,6 @@ class DictActivity  : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate")                  // DEBUG
 
         // create binding
         bindingDict = ActivityDictBinding.inflate(layoutInflater)
@@ -79,15 +71,96 @@ class DictActivity  : OptionsMenuActivity() {
         updateLanguagesList()
     }
 
-    private fun insertAllLanguages(){
-        val languageListContent: String = R.string.languageList.toString()
-        var languageList: MutableList<Language> = mutableListOf()
-        for (line: String in languageListContent.split("\n")){
-            var t = line.split(",")
-            languageList.add(Language(t[0], t[1]))
+    // ================================= Buttons' functions =============================================
+
+    fun enleverDict(view: View) {
+        for (el in adapterDict.selectedItems) {
+            model.deleteDictionary(el.name)
         }
-        model.insertLanguages(*languageList.toTypedArray())
     }
+
+    fun ajouterDict(view: View) {
+        val name = bindingDict.nomDictET.text.toString().trim().capitalize()
+        val url = bindingDict.lienDictET.text.toString().trim()
+
+        // TODO make requestComposition
+
+        if ( (name == "") || (url == "") ) {
+            AlertDialog.Builder(this)
+                .setMessage("Merci de trouver le lien de dictionnaire, ainsi choisir les languages")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.dismiss()
+                }).setCancelable(false)
+                .show()
+            return
+        }
+
+        model.insertDictionary(Dictionary(name, url, ""))
+        Toast.makeText(this, "Dictionnaire " + "$name" + " vient d'être ajouté", Toast.LENGTH_LONG).show()
+
+        with(bindingDict) {
+            nomDictET.text.clear()
+            lienDictET.text.clear()
+           // requestCompDictET.text.clear()
+        }
+
+        // clean SharedPreferences
+        cleanPreferences()
+    }
+
+    fun chercherDict(view: View) {
+        val phrase = bindingDict.nomDictET.text.toString().lowercase()
+        if (phrase == "") {
+            AlertDialog.Builder(this)
+                .setMessage("Merci d'insérer le nom du dictionnaire et de choisir les languages de traduction")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.dismiss()
+                }).setCancelable(false)
+                .show()
+            return
+        }
+
+        nameDict = phrase.substringBefore(' ')
+        val word  = phrase.substringAfter(' ')
+        val srLangSrc = (bindingDict.langSrcSP.selectedItem as Language).fullName
+        val stLangDest = (bindingDict.langDestSP.selectedItem as Language).fullName
+        val idLangSrc = bindingDict.langSrcSP.getSelectedItemPosition()
+        val idLangDest = bindingDict.langDestSP.getSelectedItemPosition()
+
+        val request = GOOGLE_SEARCH_PATH + " " + nameDict + " translate " + word + " " + srLangSrc + " " + stLangDest
+
+        sharedPrefEditor.putString(keyActivity, optionDict)
+                        .putString(keyName, nameDict)
+                        .putInt(keySrc, idLangSrc)
+                        .putInt(keyDest, idLangDest)
+                        .commit()
+
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(request))
+        startActivity(browserIntent)
+    }
+
+    // =================================== Share processing ======================================================
+
+    // handling the received data from the "share" process
+    private fun handleReceivedLink(shareLink: String) {
+        Log.d(TAG + "shared link1 = ", shareLink)                                 // DEBUG
+
+        // restore states of fields
+        nameDict = sharedPref.getString(keyName, "").toString().capitalize()
+        bindingDict.nomDictET.setText(nameDict)
+
+        bindingDict.lienDictET.setText(shareLink)
+
+        val idLangSrc = sharedPref.getInt(keySrc, 0)
+        val idLangDest = sharedPref.getInt(keyDest, 0)
+        bindingDict.langSrcSP.post( { bindingDict.langSrcSP.setSelection(idLangSrc) })
+        bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(idLangDest) })
+
+        Toast.makeText(this, "Veuiller verifier les languages sourse et destination pour le dictionnaire " + "$nameDict", Toast.LENGTH_LONG).show()
+       }
+
+
+    // ================================= DataBase's functions =============================================
 
     private fun updateLanguagesList(){
         model.loadAllLanguage()
@@ -123,76 +196,5 @@ class DictActivity  : OptionsMenuActivity() {
         }
     }
 
-    // ================================= Buttons' functions =============================================
 
-    fun enleverDict(view: View) {
-        for (el in adapterDict.checkedItems) {
-            model.deleteDictionary(el.name)
-        }
-    }
-
-    fun ajouterDict(view: View) {
-        val name = bindingDict.nomDictET.text.toString().trim()
-        val url = bindingDict.lienDictET.text.toString().trim()
-       // val requestComp = bindingDict.requestCompDictET.text.toString().trim()
-
-        if ( (name == "") || (url == "") ) {
-            AlertDialog.Builder(this)
-                .setMessage("Merci d'insérer le nom du dictionnaire, ainsi que trouver sont lien internet et indiquer les languages")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                }).setCancelable(false)
-                .show()
-            return
-        }
-
-        model.insertDictionary(Dictionary(name, url, ""))
-
-        showToast("Dictionnaire " + "$name" + " vient d'être ajouté", 1)
-
-        with(bindingDict) {
-            nomDictET.text.clear()
-            lienDictET.text.clear()
-           // requestCompDictET.text.clear()
-        }
-    }
-
-    fun chercherDict(view: View) {
-//        sharedPrefEditor.putString(key, optionDict).commit()
-//        val jj = sharedPref.getString(key, "")
-//        Log.d("DICT: activity2 === ", jj!!)
-
-        val nameDict = bindingDict.nomDictET.text.toString().lowercase()
-        if (nameDict == "") {
-            AlertDialog.Builder(this)
-                .setMessage("Merci d'insérer le nom du dictionnaire")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                }).setCancelable(false)
-                .show()
-            return
-        }
-        sharedPrefEditor.putString(keyActivity, optionDict)
-        sharedPrefEditor.putString(keyName, nameDict)
-        sharedPrefEditor.commit()
-
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + nameDict))
-        startActivity(browserIntent)
-    }
-
-    // =================================== Share processing ======================================================
-
-    // handling the received data from the "share" process
-    private fun handleReceivedLink(shareLink: String) {
-        Log.d(TAG + "shared link1 = ", shareLink)                                 // DEBUG
-        nameDict = sharedPref.getString(keyName, "").toString()
-        bindingDict.nomDictET.setText(nameDict)
-        bindingDict.lienDictET.setText(shareLink)
-
-        showToast("Veuiller composer les languages sourse et destination pour le dictionnaire " + "$nameDict", 3)
-    }
-
-    private fun showToast(message: String, koeff: Int) {
-        Toast.makeText(this, message, (Toast.LENGTH_SHORT * koeff)).show()
-    }
 }

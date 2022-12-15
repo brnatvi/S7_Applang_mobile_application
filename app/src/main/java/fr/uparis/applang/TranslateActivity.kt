@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import fr.uparis.applang.databinding.ActivityStartBinding
 import fr.uparis.applang.databinding.ActivityTranslateBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
@@ -22,12 +24,6 @@ class TranslateActivity : OptionsMenuActivity() {
     private lateinit var binding: ActivityTranslateBinding
     private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
-    private lateinit var sharedPref : SharedPreferences
-    private lateinit var sharedPrefEditor: SharedPreferences.Editor
-    private val keyActivity: String = "activity"
-    private val keyShare: String = "linkShare"
-    private val keyWord: String = "word"
-    private val optionTransl: String = "translActivity"
 
     private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
@@ -99,7 +95,7 @@ class TranslateActivity : OptionsMenuActivity() {
         if (phrase == "")
         {
             AlertDialog.Builder(this)
-                .setMessage("Merci d'insérer la phase pour recherche.\n Par exemple 'maison en englais' ")
+                .setMessage("Merci d'insérer un mot ou une phase pour recherche.\nPar exemple 'maison en englais' ")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
                         dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
@@ -202,13 +198,19 @@ class TranslateActivity : OptionsMenuActivity() {
             .replace("\$word", wordText.replace(" ", "%20"), true)
         val w: Word = Word(wordText, langFrom.id, langTo.id, url)
         Log.d("DB","add word $w")
-        model.insertWord(w)
+        val ret = model.insertWord(w)
+        if (ret < 0) {
+            Toast.makeText(this, "Erreur d'insertion du mot '${wordText}'", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Le mot '${wordText}' vient d'être inséré", Toast.LENGTH_SHORT).show()
+        }
         binding.motET.text.clear()
         updateDictionaryList()
 
         //TODO use somewhere useful (currently used for print only)
         updateWordsList()
     }
+
 
     private fun updateWordsList(){
         model.loadAllWord()
@@ -218,21 +220,19 @@ class TranslateActivity : OptionsMenuActivity() {
 //          TODO Also update a graphic list if needed
         }
     }
+
     private fun updateLanguagesList(){
         model.loadAllLanguage()
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
-            val arrayAdapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, it
-            )
+
+            val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
             binding.langDestSP.adapter = arrayAdapter
-            val arrayAdapter2 = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, it
-            )
+
+            val arrayAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
             binding.langSrcSP.adapter = arrayAdapter2
+
             if(model.currentTranslationUrl.isNotEmpty()){
                 var indexFrom: Int = 0
                 var indexTo: Int = 0

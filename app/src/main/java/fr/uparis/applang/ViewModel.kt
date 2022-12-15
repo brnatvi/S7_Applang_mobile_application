@@ -21,19 +21,21 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     var currentLangTo: String = ""
 
     // ================================= Word's functions ==========================================
-    fun insertWord(word: Word){
+    fun insertWord(word: Word) : Long {
         if(word.text.isEmpty()){
-            return
+            return -1
         }
+        var returnCode: Long = 500
         currentTranslationUrl = "" // url have been use for save this word & we don't need anymore.
         thread {
-            val returnCode = dao.insertWord(word)
+            returnCode = dao.insertWord(word)
             if(returnCode<0){
                 Log.e("DB", "Fail to insert word $returnCode")
             }else{
                 Log.i("DB", "Insert word n°$returnCode")
             }
         }
+        return returnCode
     }
 
     fun loadAllWord(){
@@ -49,18 +51,20 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     }
 
     // ================================= Dictionary's functions ====================================
-    fun insertDictionary(dict: Dictionary){
+    fun insertDictionary(dict: Dictionary): Long{
         if(dict==null){
-            return
+            return -1
         }
+        var returnCode: Long = 500
         thread {
-            val returnCode = dao.insertDictionary(dict)
+            returnCode = dao.insertDictionary(dict)
             if(returnCode<0){
                 Log.e("DB", "Fail to insert dict $returnCode")
             }else{
                 Log.i("DB", "Insert dict n°$returnCode")
             }
         }
+        return returnCode
     }
 
     fun deleteDictionary(name: String) {

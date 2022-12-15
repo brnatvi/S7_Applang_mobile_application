@@ -26,7 +26,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
-        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,32 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="100dp"
             android:hint="@string/mot"
-            android:textSize="@dimen/commentsSize"
-            android:background="@color/white"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/purple_700"
-            android:text="@string/langSrc"/>
-
-        <Spinner
-            android:id="@+id/lang_srcSP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
             android:textSize="@dimen/textSize"
             android:background="@color/white"
             />
@@ -71,33 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
-            android:textColor="@color/purple_700"
-            android:text="@string/langDest"/>
-
-        <Spinner
-            android:id="@+id/lang_destSP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="@dimen/textSize"
-            android:background="@color/white"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/black"
             android:text="@string/dictSP"/>
 
         <Spinner
@@ -106,22 +56,49 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:textSize="@dimen/textSize"
             android:background="@color/white"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/languagesRW"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/main_layout"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/langSrc"/>
+
+        <Spinner
+            android:id="@+id/lang_srcSP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical" />
+            android:textSize="@dimen/textSize"
+            android:background="@color/white"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/langDest"/>
+
+        <Spinner
+            android:id="@+id/lang_destSP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/textSize"
+            android:background="@color/white"
+            />
+
 
 
         <Button
@@ -129,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="50dp"
             android:onClick="traduire"
             android:text="@string/traduire" />
 

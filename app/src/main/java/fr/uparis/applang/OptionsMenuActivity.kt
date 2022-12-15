@@ -2,18 +2,22 @@ package fr.uparis.applang
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 open class OptionsMenuActivity : AppCompatActivity() {
-    private lateinit var sharedPref : SharedPreferences
-    private lateinit var sharedPrefEditor: SharedPreferences.Editor
+    protected lateinit var sharedPref : SharedPreferences
+    protected lateinit var sharedPrefEditor: SharedPreferences.Editor
 
-    private val keyName: String = "nameDict"
-    private val keyWord: String = "word"
-    private val keyShare: String = "linkShare"
+    protected val keyName: String = "nameDict"
+    protected val keyWord: String = "word"
+    protected val keyShare: String = "linkShare"
+    protected val keySrc: String = "langSrc"
+    protected val keyDest: String = "langDest"
+    protected val keyActivity: String = "activity"
+    protected val optionDict: String = "dictActivity"
+    protected val optionTransl: String = "translActivity"
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -28,13 +32,13 @@ open class OptionsMenuActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.goTranslateActivity -> {
-                clearReferencies()
+                cleanPreferences()
                 val  intentTransl = Intent(this, TranslateActivity::class.java)
                 startActivity(intentTransl)
                 return true
             }
             R.id.goDictActivity -> {
-                clearReferencies()
+                cleanPreferences()
                 val  intentDict = Intent(this, DictActivity::class.java)
                 startActivity(intentDict)
                 return true
@@ -51,10 +55,13 @@ open class OptionsMenuActivity : AppCompatActivity() {
         }
     }
 
-
-
-    private fun clearReferencies() {
-        sharedPrefEditor.putString(keyName, "").putString(keyShare, "").putString(keyWord, "").commit()
+    protected fun cleanPreferences() {
+        sharedPrefEditor.putString(keyName, "")
+                        .putString(keyShare, "")
+                        .putString(keyWord, "")
+                        .putInt(keySrc, 0)
+                        .putInt(keyDest, 0)
+                        .commit()
     }
 
 }

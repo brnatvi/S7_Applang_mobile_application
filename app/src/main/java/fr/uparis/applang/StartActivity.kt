@@ -11,18 +11,7 @@ import fr.uparis.applang.databinding.ActivityStartBinding
 class StartActivity : OptionsMenuActivity(){
     private lateinit var binding: ActivityStartBinding
     private lateinit var menu: Toolbar
-    private lateinit var sharedPref : SharedPreferences
-    private lateinit var sharedPrefEditor: SharedPreferences.Editor
-
-    private val keyActivity: String = "activity"
-    private val keyShare: String = "linkShare"
-    private val keyName: String = "nameDict"
-    private val keyWord: String = "word"
-    private val optionTransl: String = "translActivity"
-    private val optionDict: String = "dictActivity"
     val TAG: String = "START == "
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,15 +73,15 @@ class StartActivity : OptionsMenuActivity(){
         intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
             Log.d("START ==", "launch DictActivity" )                                      // DEBUG
             sharedPrefEditor.putString(keyName, "")
-            sharedPrefEditor.putString(keyShare, "")
-            sharedPrefEditor.commit()
+                            .putString(keyShare, "")
+                            .commit()
             Intent(this, DictActivity::class.java)
 
         } else {
             Log.d("START ==", "launch TranslateActivity" )                                 // DEBUG
             sharedPrefEditor.putString(keyShare, "")
-            sharedPrefEditor.putString(keyWord, "")
-            sharedPrefEditor.commit()
+                            .putString(keyWord, "")
+                            .commit()
             Intent(this, TranslateActivity::class.java)
         }
         startActivity(intent)
