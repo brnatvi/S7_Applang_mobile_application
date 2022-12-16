@@ -70,14 +70,10 @@ class DictActivity  : OptionsMenuActivity() {
     }
 
     fun ajouterDict(view: View) {
-        nameDict = bindingDict.nomDictET.text.toString().trim()
-        urlDict = bindingDict.lienDictET.text.toString().trim()
+        nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
+        val url = bindingDict.lienDictET.text.toString().trim()
 
-        // TODO make requestComposition
-        val word = sharedPref.getString(keyWord, "").toString()
-
-
-        if ( (nameDict == "") || (urlDict == "") ) {
+        if ( (nameDict == "") || (url == "") ) {
             AlertDialog.Builder(this)
                 .setMessage("Merci de trouver le lien de dictionnaire, ainsi choisir les languages")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
@@ -88,6 +84,9 @@ class DictActivity  : OptionsMenuActivity() {
         }
 
         // TODO make requestComposition
+        val word = sharedPref.getString(keyWord, "").toString()
+        urlDict = url.replace(word, "\$word")
+
         val ret = model.insertDictionary(Dictionary(nameDict, urlDict, ""))
 
         if (ret < 0) makeToast(this, "Erreur d'insertion du dictionnaire '${nameDict}'")
