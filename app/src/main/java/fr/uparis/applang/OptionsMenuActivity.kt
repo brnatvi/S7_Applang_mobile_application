@@ -1,14 +1,17 @@
 package fr.uparis.applang
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 open class OptionsMenuActivity : AppCompatActivity() {
     protected lateinit var sharedPref : SharedPreferences
     protected lateinit var sharedPrefEditor: SharedPreferences.Editor
+    protected val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
 
     protected val keyName: String = "nameDict"
     protected val keyWord: String = "word"
@@ -22,10 +25,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
-
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)
         sharedPrefEditor = sharedPref.edit()
-
         return true
     }
 
@@ -55,6 +56,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
         }
     }
 
+    // ===================== Auxiliary functions for all child Activities ===============================
+
     protected fun cleanPreferences() {
         sharedPrefEditor.putString(keyName, "")
                         .putString(keyShare, "")
@@ -62,6 +65,9 @@ open class OptionsMenuActivity : AppCompatActivity() {
                         .putInt(keySrc, 0)
                         .putInt(keyDest, 0)
                         .commit()
+    }
+    protected fun makeToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
 }

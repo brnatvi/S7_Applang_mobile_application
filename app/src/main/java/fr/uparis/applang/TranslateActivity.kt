@@ -3,16 +3,13 @@ package fr.uparis.applang
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import fr.uparis.applang.databinding.ActivityStartBinding
 import fr.uparis.applang.databinding.ActivityTranslateBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
@@ -25,7 +22,6 @@ class TranslateActivity : OptionsMenuActivity() {
     private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 
-    private val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
     private var wholeURL = ""
@@ -36,11 +32,8 @@ class TranslateActivity : OptionsMenuActivity() {
 
     val TAG: String = "TRANS ======"
 
-    //private var dictList = mutableListOf<Dictionary>();
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate")                                                                 // DEBUG
 
         // create binding
         binding = ActivityTranslateBinding.inflate(layoutInflater)
@@ -54,26 +47,20 @@ class TranslateActivity : OptionsMenuActivity() {
         // shared preferences
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
-        Log.d(TAG + "SharedPref ", sharedPref.toString())                                       // DEBUG test if they are really commons
-
-        // DEBUG test which activity has to be launched
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d("activity1 === ", jj!!)                                                           // DEBUG
 
         // SCENARIO: activity loaded after share -> handle url of translation arrived
         if (sharedPref.getString(keyShare, "").toString() != "") {
-            val shareLink = sharedPref.getString(keyShare, "").toString()
-            Log.d(TAG + "shlink ==", shareLink)                                            // DEBUG
-            handleReceivedLink(shareLink)
+            wholeURL = sharedPref.getString(keyShare, "").toString()
+            handleReceivedLink(wholeURL)
         }
-
 
         //TODO insert only if needed
         var firstStart = true
         if(firstStart){
-           // model.deleteAllLanguage()
+           // model.deleteAllLanguage()                                                             // DEBUG
             insertAllLanguages()
-           // model.deleteAllDictionary()
+           // model.deleteAllDictionary()                                                           // DEBUG
+            // model.deleteAllWords()                                                               // DEBUG
             model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
             model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
             model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
@@ -84,16 +71,21 @@ class TranslateActivity : OptionsMenuActivity() {
 
     // ================================= Buttons' functions =============================================
 
-    // transmit the word to some online dictionary
+    // save Word and URL in BD
     fun traduire(view: View){
         saveWordInDB()
+
+        // TODO save dictionary made from URL in BD
+
+        cleanPreferences()
+        binding.langSrcSP.post( { binding.langSrcSP.setSelection(0) })
+        binding.langDestSP.post( { binding.langDestSP.setSelection(0) })
 }
 
     // transmit the word to Google search motor
     fun chercher(view: View){
         val phrase = binding.motET.text.toString().lowercase()
-        if (phrase == "")
-        {
+        if (phrase == "") {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer un mot ou une phase pour recherche.\nPar exemple 'maison en englais' ")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
@@ -105,22 +97,17 @@ class TranslateActivity : OptionsMenuActivity() {
         word = phrase.substringBefore(' ')
         langSRC = binding.langSrcSP.selectedItem.toString()
         langDST = binding.langDestSP.selectedItem.toString()
+        val idLangSrc = binding.langSrcSP.getSelectedItemPosition()
+        val idLangDest = binding.langDestSP.getSelectedItemPosition()
 
-        // DEBUG
-        Log.d("word init ===", word)
-        Log.d("phrase init ===", phrase)
-        Log.d("langSRC init ===", langSRC)
-        Log.d("langDST init ===", langDST)
-
-        // save preferences
+        // save SharedPreferences
         sharedPrefEditor.putString(keyActivity, optionTransl)
-        sharedPrefEditor.putString(keyWord, word)
-        sharedPrefEditor.commit()
+                        .putString(keyWord, word)
+                        .putInt(keySrc, idLangSrc)
+                        .putInt(keyDest, idLangDest)
+                        .commit()
 
-        // DEBUG
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d("TRANSL: activity2 === ", jj!!)
-
+        // launch Google search
         val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
         startActivity(browserInt)
     }
@@ -130,10 +117,14 @@ class TranslateActivity : OptionsMenuActivity() {
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
         wholeURL = shareLink
-        Log.d(TAG + "URL arr =", shareLink)
 
+        // restore states of fields
         word = sharedPref.getString(keyWord, "").toString()
         binding.motET.setText(word)
+        val idLangSrc = sharedPref.getInt(keySrc, 0)
+        val idLangDest = sharedPref.getInt(keyDest, 0)
+        binding.langSrcSP.post( { binding.langSrcSP.setSelection(idLangSrc) })
+        binding.langDestSP.post( { binding.langDestSP.setSelection(idLangDest) })
 
         //tryToGuessLanguagesFromURL will be call later
         addCurrentURLAsDictionary(wholeURL)
@@ -180,7 +171,6 @@ class TranslateActivity : OptionsMenuActivity() {
         }
     }
 
-
     // ================================= DataBase's functions =============================================
 
     private fun saveWordInDB(){
@@ -199,11 +189,10 @@ class TranslateActivity : OptionsMenuActivity() {
         val w: Word = Word(wordText, langFrom.id, langTo.id, url)
         Log.d("DB","add word $w")
         val ret = model.insertWord(w)
-        if (ret < 0) {
-            Toast.makeText(this, "Erreur d'insertion du mot '${wordText}'", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Le mot '${wordText}' vient d'être inséré", Toast.LENGTH_SHORT).show()
-        }
+
+        if (ret < 0) makeToast(this, "Erreur d'insertion du mot '${wordText}'")
+        else makeToast(this, "Le mot '${wordText}' vient d'être inséré")
+
         binding.motET.text.clear()
         updateDictionaryList()
 
@@ -264,10 +253,7 @@ class TranslateActivity : OptionsMenuActivity() {
             //dictList = list
             list.addAll(it)
             Log.d("DB","list dictionaries: $list")
-            val arrayAdapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, list
-            )
+            val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
             binding.dictSP.adapter = arrayAdapter
         }
     }
