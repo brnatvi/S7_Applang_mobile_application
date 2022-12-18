@@ -94,7 +94,7 @@ class DictActivity  : OptionsMenuActivity() {
         val ret = model.insertDictionary(Dictionary(nameDict, urlDict, ""))
 
         if (ret < 0) makeToast(this, "Erreur d'insertion du dictionnaire '${nameDict}'")
-        else makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté")
+        else makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté avec pour url '${urlDict}'")
 
         with(bindingDict) {
             nomDictET.text.clear()

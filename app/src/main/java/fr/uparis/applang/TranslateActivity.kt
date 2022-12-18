@@ -53,18 +53,6 @@ class TranslateActivity : OptionsMenuActivity() {
             wholeURL = sharedPref.getString(keyShare, "").toString()
             handleReceivedLink(wholeURL)
         }
-
-        //TODO insert only if needed
-        var firstStart = true
-        if(firstStart){
-           // model.deleteAllLanguage()                                                             // DEBUG
-            insertAllLanguages()
-           // model.deleteAllDictionary()                                                           // DEBUG
-            // model.deleteAllWords()                                                               // DEBUG
-            model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
-            model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
-            model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
-        }
         updateLanguagesList()
         updateDictionaryList()
     }
@@ -74,8 +62,6 @@ class TranslateActivity : OptionsMenuActivity() {
     // save Word and URL in BD
     fun traduire(view: View){
         saveWordInDB()
-
-        // TODO save dictionary made from URL in BD
 
         cleanPreferences()
         binding.langSrcSP.post( { binding.langSrcSP.setSelection(0) })
@@ -250,6 +236,9 @@ class TranslateActivity : OptionsMenuActivity() {
         model.loadAllDictionary()
         model.dictionaries.removeObservers(this)
         model.dictionaries.observe(this){
+            if(it.isEmpty()){
+                iniAppData();
+            }
             var list = mutableListOf<Dictionary>()
             if(model.currentTranslationUrl.isNotEmpty()){
                 tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
@@ -275,6 +264,14 @@ class TranslateActivity : OptionsMenuActivity() {
             languageList.add(Language(t[0], t[1]))
         }
         model.insertLanguages(*languageList.toTypedArray())
+    }
+
+    /** Create all languages & fiew dictionary. */
+    private fun iniAppData(){
+        insertAllLanguages()
+        model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
+        model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
+        model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
     }
 
     // ====================== Auxiliary functions ======================================================
