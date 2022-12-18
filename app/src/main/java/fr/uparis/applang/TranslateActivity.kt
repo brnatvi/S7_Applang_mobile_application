@@ -206,28 +206,32 @@ class TranslateActivity : OptionsMenuActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             Log.d("DB","list language: $it")
+            if(it.isEmpty()){ //if there is any language, we need to initialise all app data.
+                iniAppData();
+                updateLanguagesList();
+            }else {
+                val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
+                binding.langDestSP.adapter = arrayAdapter
 
-            val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
-            binding.langDestSP.adapter = arrayAdapter
+                val arrayAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
+                binding.langSrcSP.adapter = arrayAdapter2
 
-            val arrayAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
-            binding.langSrcSP.adapter = arrayAdapter2
-
-            if(model.currentTranslationUrl.isNotEmpty()){
-                var indexFrom: Int = 0
-                var indexTo: Int = 0
-                var k = 0
-                for (lang in it){
-                    if(lang.id == model.currentLangFrom){
-                        indexFrom = k
+                if (model.currentTranslationUrl.isNotEmpty()) {
+                    var indexFrom: Int = 0
+                    var indexTo: Int = 0
+                    var k = 0
+                    for (lang in it) {
+                        if (lang.id == model.currentLangFrom) {
+                            indexFrom = k
+                        }
+                        if (lang.id == model.currentLangTo) {
+                            indexTo = k
+                        }
+                        k++;
                     }
-                    if(lang.id == model.currentLangTo){
-                        indexTo = k
-                    }
-                    k++;
+                    binding.langSrcSP.setSelection(indexFrom)
+                    binding.langDestSP.setSelection(indexTo)
                 }
-                binding.langSrcSP.setSelection(indexFrom)
-                binding.langDestSP.setSelection(indexTo)
             }
         }
     }
@@ -236,9 +240,6 @@ class TranslateActivity : OptionsMenuActivity() {
         model.loadAllDictionary()
         model.dictionaries.removeObservers(this)
         model.dictionaries.observe(this){
-            if(it.isEmpty()){
-                iniAppData();
-            }
             var list = mutableListOf<Dictionary>()
             if(model.currentTranslationUrl.isNotEmpty()){
                 tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
