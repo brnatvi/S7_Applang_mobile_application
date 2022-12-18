@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.ActivityDictBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
@@ -43,6 +44,7 @@ class DictActivity  : OptionsMenuActivity() {
         // RecyclerView for Dictionaries
         bindingDict.recyclerView.adapter = adapterDict
         bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
+
         model.dictionaries.observe(this){
             adapterDict.listDictionaries = it
             adapterDict.notifyDataSetChanged()
@@ -64,8 +66,10 @@ class DictActivity  : OptionsMenuActivity() {
     // ================================= Buttons' functions =============================================
 
     fun enleverDict(view: View) {
-        for (el in adapterDict.selectedItems) {
-            model.deleteDictionary(el.name)
+        val len = adapterDict.selectedItems.size
+         for (index in 0..len-1) {
+             model.deleteDictionary(adapterDict.selectedItems[index].name)
+             adapterDict.notifyItemRemoved(index)
         }
     }
 
@@ -134,6 +138,11 @@ class DictActivity  : OptionsMenuActivity() {
         startActivity(browserIntent)
     }
 
+    override fun onDestroy() {
+        cleanPreferences()
+        super.onDestroy()
+    }
+
     // =================================== Share processing ======================================================
 
     // handling the received data from the "share" process
@@ -151,7 +160,6 @@ class DictActivity  : OptionsMenuActivity() {
 
         makeToast(this,"Veuiller verifier les languages sourse et destination pour le dictionnaire $nameDict")
        }
-
 
     // ================================= DataBase's functions =============================================
 

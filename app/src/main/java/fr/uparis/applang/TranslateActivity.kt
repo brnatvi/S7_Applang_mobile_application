@@ -112,6 +112,11 @@ class TranslateActivity : OptionsMenuActivity() {
         startActivity(browserInt)
     }
 
+    override fun onDestroy() {
+        cleanPreferences()
+        super.onDestroy()
+    }
+
     // =================================== Share processing ======================================================
 
     // handling the received data from the "share" process

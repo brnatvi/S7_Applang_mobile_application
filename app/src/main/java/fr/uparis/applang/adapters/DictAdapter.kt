@@ -1,8 +1,9 @@
-package fr.uparis.applang
+package fr.uparis.applang.adapters
 
 import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -10,22 +11,24 @@ import fr.uparis.applang.databinding.ItemLayoutBinding
 import fr.uparis.applang.model.Dictionary
 
 
-class DictAdapter() : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
+class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
 
     var listDictionaries : List<Dictionary> = listOf()
-    val selectedItems = mutableListOf<Dictionary>()
+    var selectedItems = mutableListOf<Dictionary>()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private val colorSelected = Color.argb(0.5f, 0.2f, 0.2f, 0.2f)
+    private val colorSelected = Color.argb(50, 254, 28, 85)
     @RequiresApi(Build.VERSION_CODES.O)
     private val colorOdd = Color.argb(20, 240, 248, 255)
     @RequiresApi(Build.VERSION_CODES.O)
     private val colorEven = Color.argb(20, 0, 255, 255)
 
+
     inner class DictViewHolder (val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         lateinit var dictionary: Dictionary
-    }
+}
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictViewHolder {
         val bindDict = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = DictViewHolder(bindDict)
@@ -34,17 +37,23 @@ class DictAdapter() : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DictViewHolder, position: Int) {
+        // save reference for dict in holder
         holder.dictionary = listDictionaries[position]
-        if (holder.itemView.isSelected)
-        {
-            selectedItems.add(listDictionaries[position])
-            holder.itemView.setBackgroundColor(colorSelected)
-        } else
-        {
-            if (position%2 == 0) {
-                holder.itemView.setBackgroundColor(colorEven)
-            } else {
-                holder.itemView.setBackgroundColor(colorOdd)
+
+        if (position%2 == 0) {
+            holder.itemView.setBackgroundColor(colorEven)
+        } else {
+            holder.itemView.setBackgroundColor(colorOdd)
+        }
+
+        holder.itemView.setOnClickListener {
+            if (selectedItems.contains(listDictionaries[position])){
+                selectedItems.remove(listDictionaries[position])
+                painting(it, position)
+            }
+            else {
+                holder.itemView.setBackgroundColor(colorSelected)
+                selectedItems.add(listDictionaries[position])
             }
         }
         holder.binding.nom.text = holder.dictionary.name
@@ -54,8 +63,14 @@ class DictAdapter() : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
         return listDictionaries.size
     }
 
-    fun removeSelected() {
+    // ====================== Auxiliary functions ======================================================
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun painting(it: View, position: Int) {
+        if (position%2 == 0) {
+            it.setBackgroundColor(colorEven)
+        } else {
+            it.setBackgroundColor(colorOdd)
+        }
     }
-
 }
