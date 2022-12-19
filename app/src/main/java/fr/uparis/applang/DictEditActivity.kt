@@ -52,16 +52,18 @@ class DictEditActivity : OptionsMenuActivity()  {
         val ret = model.insertDictionary(Dictionary(nameDict, urlDict, requestComposition))
         adapter.notifyDataSetChanged()
 
-        if (ret < 0) makeToast(this, "Erreur d'insertion du dictionnaire '${nameDict}'")
-        else makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté")
-
-        with(binding) {
-            nameET.text.clear()
-            linkET.text.clear()
-            requestCompositionET.text.clear()
-            langSrcSP.setSelection(0)
-            langDestSP.setSelection(0)
+        if (ret < 0) {
+            makeToast(this, "Erreur d'insertion du dictionnaire '${nameDict}'")
+        } else {
+            makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté")
+            with(binding) {
+                nameET.text.clear()
+                linkET.text.clear()
+                requestCompositionET.text.clear()
+                langSrcSP.setSelection(0)
+                langDestSP.setSelection(0)
+            }
+            finish()
         }
-        finish()
     }
 }
