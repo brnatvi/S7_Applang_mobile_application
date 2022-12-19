@@ -22,7 +22,7 @@
     <string name="nomDictET">nom du dictionnaire et quelque mot à traduire</string>
     <string name="lienDictTW">Le lien :</string>
     <string name="lienDictET">après la recherche lien apparaîtra ici</string>
-    <string name="choiseTV">Choisissez lang sourse - lang dest</string>
+    <string name="choiseTV">Choisissez lang source - lang dest</string>
     <string name="requestCompDict">"fin de l'url avec des $langTo(Long), $langFrom(Long), $word"</string>
     <string name="listDictET">Dictionnaires disponibles :</string>
     <string name="trouverBT">Trouver le lien</string>

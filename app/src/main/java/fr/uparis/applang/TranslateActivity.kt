@@ -247,7 +247,10 @@ class TranslateActivity : OptionsMenuActivity() {
             }
             //dictList = list
             list.addAll(it)
-            Log.d("DB","list dictionaries: $list")
+            Log.d("DB","list dictionaries:")
+            for(dict: Dictionary in list ){
+                Log.d("DB",dict.toStringFull())
+        }
             val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
             binding.dictSP.adapter = arrayAdapter
         }

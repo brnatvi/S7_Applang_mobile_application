@@ -11,4 +11,7 @@ data class Dictionary(@PrimaryKey val name: String, val url: String, val langSrc
 
 data class Dictionary(@PrimaryKey val name: String, val url: String, val requestComposition: String){
     override fun toString(): String = name
+    fun toStringFull(): String {
+        return "$name $url $requestComposition";
+    }
 }

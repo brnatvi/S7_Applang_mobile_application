@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.StringUtils
 import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
@@ -81,12 +82,12 @@ class DictActivity  : OptionsMenuActivity() {
 
     // create add dictionary with elements from fields and add it to database
     fun ajouterDict(view: View) {
-        nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
+        val nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
         val url = bindingDict.lienDictET.text.toString().trim()
 
         if ( (nameDict == "") || (url == "") ) {
             AlertDialog.Builder(this)
-                .setMessage("Merci de trouver le lien de dictionnaire, ainsi choisir les languages")
+                .setMessage("Merci de trouver le lien du dictionnaire et de choisir les languages")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
                         dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
@@ -94,14 +95,18 @@ class DictActivity  : OptionsMenuActivity() {
             return
         }
 
-        // TODO make requestComposition
-        val word = sharedPref.getString(keyWord, "").toString()
-        urlDict = url.replace(word, "\$word")
+        //val word = sharedPref.getString(keyWord, "").toString()
+        val word = "word"
 
-        val ret = model.insertDictionary(Dictionary(nameDict, urlDict, ""))
+        val splitLocation = ordinalIndexOf(url, "/", 3)+1
+
+        val requestComposition = url.substring(splitLocation, url.length).replace(word, "\$word")
+        val urlDict = url.substring(0, splitLocation)
+
+        val ret = model.insertDictionary(Dictionary(nameDict, urlDict, requestComposition))
 
         if (ret < 0) makeToast(this, "Erreur d'insertion du dictionnaire '${nameDict}'")
-        else makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté avec pour url '${urlDict}'")
+        else makeToast(this, "Dictionnaire '${nameDict}' vient d'être ajouté")
 
         with(bindingDict) {
             nomDictET.text.clear()
@@ -226,6 +231,15 @@ class DictActivity  : OptionsMenuActivity() {
                 bindingDict.langDestSP.setSelection(indexTo)
             }
         }
+    }
+
+    private fun ordinalIndexOf(str: String, subs: String?, n: Int): Int {
+        var n = n
+        var pos = str.indexOf(subs!!)
+        while (--n > 0 && pos != -1) {
+            pos = str.indexOf(subs, pos + 1)
+        }
+        return pos
     }
 
 }
