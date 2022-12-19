@@ -3,11 +3,11 @@ package fr.uparis.applang
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import fr.uparis.applang.databinding.ActivityStartBinding
+import fr.uparis.applang.databinding.StartLayoutBinding
 
 
 class StartActivity : OptionsMenuActivity() {
-    private lateinit var binding: ActivityStartBinding
+    private lateinit var binding: StartLayoutBinding
     private lateinit var menu: Toolbar
     val TAG: String = "START == "
 
@@ -15,7 +15,7 @@ class StartActivity : OptionsMenuActivity() {
         super.onCreate(savedInstanceState)
 
         // create binding
-        binding = ActivityStartBinding.inflate(layoutInflater)
+        binding = StartLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // menu toolbar

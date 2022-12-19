@@ -32,7 +32,6 @@ class DictEditActivity : OptionsMenuActivity()  {
 
         // restore the fields' content
         initDictName = intent.getExtras()?.getString( keyName ) ?: ""
-        Log.d(TAG, initDictName)
 
         with(binding) {
             nameET.setText(initDictName)
@@ -43,7 +42,6 @@ class DictEditActivity : OptionsMenuActivity()  {
 
     // ================================= Buttons' functions =============================================
     fun sauvegarder(view: View) {
-        Log.d(TAG, initDictName)
         model.deleteDictionary(initDictName)
         adapter.notifyDataSetChanged()
 
@@ -61,6 +59,8 @@ class DictEditActivity : OptionsMenuActivity()  {
             nameET.text.clear()
             linkET.text.clear()
             requestCompositionET.text.clear()
+            langSrcSP.setSelection(0)
+            langDestSP.setSelection(0)
         }
         finish()
     }

@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import fr.uparis.applang.databinding.ActivityTranslateBinding
+import fr.uparis.applang.databinding.TranslateLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
@@ -18,7 +18,7 @@ import java.text.Normalizer
 
 
 class TranslateActivity : OptionsMenuActivity() {
-    private lateinit var binding: ActivityTranslateBinding
+    private lateinit var binding: TranslateLayoutBinding
     private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 
@@ -36,7 +36,7 @@ class TranslateActivity : OptionsMenuActivity() {
         super.onCreate(savedInstanceState)
 
         // create binding
-        binding = ActivityTranslateBinding.inflate(layoutInflater)
+        binding = TranslateLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // menu toolbar

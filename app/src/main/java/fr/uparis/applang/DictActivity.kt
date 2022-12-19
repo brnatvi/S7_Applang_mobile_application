@@ -12,13 +12,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.adapters.DictAdapter
-import fr.uparis.applang.databinding.ActivityDictBinding
+import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 
 
 class DictActivity  : OptionsMenuActivity() {
-    private lateinit var bindingDict: ActivityDictBinding
+    private lateinit var bindingDict: DictLayoutBinding
     private lateinit var menu: Toolbar
 
     private val model by lazy {  ViewModelProvider(this).get(ViewModel::class.java) }
@@ -33,7 +33,7 @@ class DictActivity  : OptionsMenuActivity() {
         super.onCreate(savedInstanceState)
 
         // create binding
-        bindingDict = ActivityDictBinding.inflate(layoutInflater)
+        bindingDict = DictLayoutBinding.inflate(layoutInflater)
         setContentView(bindingDict.root)
 
         // menu toolbar
