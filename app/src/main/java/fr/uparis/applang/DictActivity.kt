@@ -16,6 +16,7 @@ import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
+import java.text.Normalizer
 
 
 class DictActivity  : OptionsMenuActivity() {
@@ -82,7 +83,7 @@ class DictActivity  : OptionsMenuActivity() {
 
     // create add dictionary with elements from fields and add it to database
     fun ajouterDict(view: View) {
-        val nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
+        var nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
         val url = bindingDict.lienDictET.text.toString().trim()
 
         if ( (nameDict == "") || (url == "") ) {
@@ -100,8 +101,26 @@ class DictActivity  : OptionsMenuActivity() {
 
         val splitLocation = ordinalIndexOf(url, "/", 3)+1
 
-        val requestComposition = url.substring(splitLocation, url.length).replace(word, "\$word")
+        var langFrom = (bindingDict.langSrcSP.selectedItem as Language)
+        var langDest = (bindingDict.langDestSP.selectedItem as Language)
+
+        val requestComposition = url.substring(splitLocation, url.length)
+            .replace(word, "\$word", true)
+// Next replace have issues with weard translate url as language code like 'fra' for french or even 'us' for russian.
+//            .replace(langFrom.fullName, "\$langFromLong", true)
+//            .replace(langDest.fullName, "\$langToLong", true)
+//            .replace(langFrom.fullName.unaccent(), "\$langFromLong", true)
+//            .replace(langDest.fullName.unaccent(), "\$langToLong", true)
+//            .replace(langFrom.id, "\$langFrom", false)
+//            .replace(langDest.id, "\$langTo", false)
         val urlDict = url.substring(0, splitLocation)
+
+        if("langFrom" !in requestComposition){
+            nameDict += " $langFrom";
+        }
+        if("langTo" !in requestComposition){
+            nameDict += "->$langDest";
+        }
 
         val ret = model.insertDictionary(Dictionary(nameDict, urlDict, requestComposition))
 
@@ -240,6 +259,13 @@ class DictActivity  : OptionsMenuActivity() {
             pos = str.indexOf(subs, pos + 1)
         }
         return pos
+    }
+
+    //TODO avoid duplicate if possible
+    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+    fun CharSequence.unaccent(): String {
+        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
+        return REGEX_UNACCENT.replace(temp, "")
     }
 
 }

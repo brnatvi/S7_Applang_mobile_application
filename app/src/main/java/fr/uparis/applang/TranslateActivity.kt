@@ -65,7 +65,7 @@ class TranslateActivity : OptionsMenuActivity() {
 
         cleanPreferences()
         binding.langSrcSP.post( { binding.langSrcSP.setSelection(0) })
-        binding.langDestSP.post( { binding.langDestSP.setSelection(0) })
+        binding.langDestSP.post( { binding.langDestSP.setSelection(1) })
 }
 
     // transmit the word to Google search motor
@@ -279,6 +279,7 @@ class TranslateActivity : OptionsMenuActivity() {
     }
 
     // ====================== Auxiliary functions ======================================================
+    //TODO avoid duplicate if possible
     fun CharSequence.unaccent(): String {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
