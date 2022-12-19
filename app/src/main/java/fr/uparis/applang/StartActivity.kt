@@ -24,10 +24,7 @@ class StartActivity : OptionsMenuActivity() {
         menu.setTitle(R.string.app_name)
 
         // shared preferences
-        sharedPref = getSharedPreferences(
-            "fr.uparis.applang",
-            MODE_PRIVATE
-        )        // common preferences for all activities
+        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)        // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
 
         // first launch - TranslateActivity to launch
@@ -48,12 +45,10 @@ class StartActivity : OptionsMenuActivity() {
     private fun chooseActivityShare(incomingIntent: Intent) {
         incomingIntent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
-                sharedPrefEditor.putString(keyShare, it)
-                    .commit()                                   // link to dictionary
+                sharedPrefEditor.putString(keyShare, it).commit()                                   // link to dictionary
                 Intent(this, DictActivity::class.java)
             } else {
-                sharedPrefEditor.putString(keyShare, it)
-                    .commit()                                   // link to translation of word
+                sharedPrefEditor.putString(keyShare, it).commit()                                   // link to translation of word
                 Intent(this, TranslateActivity::class.java)
             }
             startActivity(intent)
@@ -63,14 +58,10 @@ class StartActivity : OptionsMenuActivity() {
 
     private fun chooseActivity() {
         intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
-            sharedPrefEditor.putString(keyName, "")
-                .putString(keyShare, "")
-                .commit()
+            sharedPrefEditor.putString(keyName, "").putString(keyShare, "").commit()
             Intent(this, DictActivity::class.java)
         } else {
-            sharedPrefEditor.putString(keyShare, "")
-                .putString(keyWord, "")
-                .commit()
+            sharedPrefEditor.putString(keyShare, "").putString(keyWord, "").commit()
             Intent(this, TranslateActivity::class.java)
         }
         startActivity(intent)

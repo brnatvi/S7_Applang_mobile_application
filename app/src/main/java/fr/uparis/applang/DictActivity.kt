@@ -56,6 +56,9 @@ class DictActivity  : OptionsMenuActivity() {
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
 
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d(TAG + 1, jj!!)
+
         // SCENARIO: activity loaded by StartActivity after share -> handle url of dictionary arrived
         if (sharedPref.getString(keyShare, "").toString() != "") {
             urlDict = sharedPref.getString(keyShare, "").toString()
@@ -96,8 +99,8 @@ class DictActivity  : OptionsMenuActivity() {
             return
         }
 
-        //val word = sharedPref.getString(keyWord, "").toString()
-        val word = "word"
+        val word = sharedPref.getString(keyWord, "").toString()
+       // val word = "word"
 
         val splitLocation = ordinalIndexOf(url, "/", 3)+1
 
@@ -194,6 +197,10 @@ class DictActivity  : OptionsMenuActivity() {
 
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
+
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d(TAG + 2, jj!!)
+
         // restore states of fields
         nameDict = sharedPref.getString(keyName, "").toString().capitalize()
         bindingDict.nomDictET.setText(nameDict)
@@ -213,6 +220,7 @@ class DictActivity  : OptionsMenuActivity() {
             .show()
         return
 
+        cleanPreferences()
       //  makeToast(this,"Veuiller verifier les languages sourse et destination pour le dictionnaire $nameDict")
        }
 

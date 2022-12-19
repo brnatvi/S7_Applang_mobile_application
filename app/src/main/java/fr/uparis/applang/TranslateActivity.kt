@@ -53,6 +53,10 @@ class TranslateActivity : OptionsMenuActivity() {
             wholeURL = sharedPref.getString(keyShare, "").toString()
             handleReceivedLink(wholeURL)
         }
+
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d(TAG + 1, jj!!)
+
         updateLanguagesList()
         updateDictionaryList()
     }
@@ -107,6 +111,9 @@ class TranslateActivity : OptionsMenuActivity() {
 
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
+        val jj = sharedPref.getString(keyActivity, "")
+        Log.d(TAG + 2, jj!!)
+
         wholeURL = shareLink
 
         // restore states of fields
@@ -122,6 +129,7 @@ class TranslateActivity : OptionsMenuActivity() {
 
         //TODO use somewhere useful (currently used for print only)
         updateWordsList()
+        cleanPreferences()
     }
 
     private fun tryToGuessLanguagesFromURL(wholeURL: String, dictList: List<Dictionary>){
@@ -182,7 +190,7 @@ class TranslateActivity : OptionsMenuActivity() {
         val ret = model.insertWord(w)
 
         if (ret < 0) makeToast(this, "Erreur d'insertion du mot '${wordText}'")
-        else makeToast(this, "Le mot '${wordText}' vient d'être inséré")
+        else makeToast(this, "Le mot '${wordText}' vient d'être ajouté")
 
         binding.motET.text.clear()
         updateDictionaryList()
@@ -205,7 +213,6 @@ class TranslateActivity : OptionsMenuActivity() {
         model.loadAllLanguage()
         model.languages.removeObservers(this)
         model.languages.observe(this){
-            Log.d("DB","list language: $it")
             if(it.isEmpty()){ //if there is any language, we need to initialise all app data.
                 iniAppData();
                 updateLanguagesList();
