@@ -63,8 +63,14 @@ class DictActivity  : OptionsMenuActivity() {
         updateLanguagesList()
     }
 
+    override fun onDestroy() {
+        cleanPreferences()
+        super.onDestroy()
+    }
+
     // ================================= Buttons' functions =============================================
 
+    // delete selected dictionary from DataBase
     fun enleverDict(view: View) {
         val len = adapterDict.selectedItems.size
          for (index in 0..len-1) {
@@ -73,6 +79,7 @@ class DictActivity  : OptionsMenuActivity() {
         }
     }
 
+    // create add dictionary with elements from fields and add it to database
     fun ajouterDict(view: View) {
         nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
         val url = bindingDict.lienDictET.text.toString().trim()
@@ -138,9 +145,25 @@ class DictActivity  : OptionsMenuActivity() {
         startActivity(browserIntent)
     }
 
-    override fun onDestroy() {
-        cleanPreferences()
-        super.onDestroy()
+    // pass to correction of selected dictionary
+    fun corrigerDict(view: View){
+        val dictToEdit = adapterDict.getSelected()
+        if (dictToEdit == null) {
+            AlertDialog.Builder(this)
+                .setMessage("Un seul dictionnaire peut être corrigé à la fois")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.dismiss()
+                }).setCancelable(false)
+                .show()
+            return
+        }
+        val  intentEdit = Intent(this, DictEditActivity::class.java)
+        val bundleEdit = Bundle()
+        bundleEdit.putString(keyName, dictToEdit.name)
+        bundleEdit.putString("url", dictToEdit.url)
+        bundleEdit.putString("requestComposition", dictToEdit.requestComposition)
+        intentEdit.putExtras(bundleEdit)
+        startActivity(intentEdit)
     }
 
     // =================================== Share processing ======================================================

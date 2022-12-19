@@ -30,6 +30,11 @@
     <string name="enleverBT">Enlever</string>
     <string name="corrigerBT">Corriger</string>
 
+    <!-- EditDictionary  -->
+    <string name="linkET">lien du dictionnaire</string>
+    <string name="nameET">nom du dictionnaire</string>
+    <string name="requestCompositionET">request composition</string>
+    <string name="sauvegarderBT">Sauvegarder les modifications</string>
 
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français

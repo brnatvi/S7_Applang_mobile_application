@@ -46,8 +46,8 @@
                 android:value="" />
         </activity>
 
-
-
+        <activity
+            android:name=".DictEditActivity"  />
 
     </application>
 </manifest>

@@ -66,11 +66,16 @@ class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
     // ====================== Auxiliary functions ======================================================
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun painting(it: View, position: Int) {
+    private fun painting(it: View, position: Int) {
         if (position%2 == 0) {
             it.setBackgroundColor(colorEven)
         } else {
             it.setBackgroundColor(colorOdd)
         }
+    }
+
+    fun getSelected(): Dictionary? {
+        if (selectedItems.size == 1) return selectedItems.get(0)
+        return null
     }
 }
