@@ -181,7 +181,15 @@ class DictActivity  : OptionsMenuActivity() {
         bindingDict.langSrcSP.post( { bindingDict.langSrcSP.setSelection(idLangSrc) })
         bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(idLangDest) })
 
-        makeToast(this,"Veuiller verifier les languages sourse et destination pour le dictionnaire $nameDict")
+        AlertDialog.Builder(this)
+            .setMessage("Assurez-vous que le contenu du lien correspond au nom du dictionnaire, à la langue source et à la langue destination choisis")
+            .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.dismiss()
+            }).setCancelable(false)
+            .show()
+        return
+
+      //  makeToast(this,"Veuiller verifier les languages sourse et destination pour le dictionnaire $nameDict")
        }
 
     // ================================= DataBase's functions =============================================
