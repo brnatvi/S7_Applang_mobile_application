@@ -48,6 +48,10 @@
 
         <activity
             android:name=".DictEditActivity"  />
+        <activity
+            android:name=".ExercisesActivity"  />
+        <activity
+            android:name=".InfoActivity"  />
 
     </application>
 </manifest>

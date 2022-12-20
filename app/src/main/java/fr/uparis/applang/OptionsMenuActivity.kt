@@ -45,9 +45,15 @@ open class OptionsMenuActivity : AppCompatActivity() {
                 return true
             }
             R.id.goExersActivity -> {
+                cleanPreferences()
+                val  intentExers = Intent(this, ExercisesActivity::class.java)
+                startActivity(intentExers)
                 return true
             }
-            R.id.goSettingsActivity -> {
+            R.id.goInfoActivity -> {
+                cleanPreferences()
+                val  intentInfo = Intent(this, InfoActivity::class.java)
+                startActivity(intentInfo)
                 return true
             }
             else -> {

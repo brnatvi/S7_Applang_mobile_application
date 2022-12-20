@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:focusableInTouchMode="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="ExercisesActivity"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/menu_layout"/>
+
+    <LinearLayout
+        android:id="@+id/delete_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@color/lil"
+        android:paddingLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingRight="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/listMotdTW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/listMotdTW" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewWords"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="top"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/nettoyerListBN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:onClick="nettoyerListWords"
+                android:text="@string/nettoyerListBN" />
+
+            <Button
+                android:id="@+id/enleverMotBT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="2dp"
+                android:onClick="enleverMot"
+                android:text="@string/enleverMotBT" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

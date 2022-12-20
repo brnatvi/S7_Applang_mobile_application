@@ -21,7 +21,7 @@
         android:icon="@drawable/ic_exercices_foreground"/>
 
     <item
-        android:id="@+id/goSettingsActivity"
+        android:id="@+id/goInfoActivity"
         android:title="@string/info"
         app:showAsAction="always"
         android:icon="@drawable/ic_info_foreground"/>

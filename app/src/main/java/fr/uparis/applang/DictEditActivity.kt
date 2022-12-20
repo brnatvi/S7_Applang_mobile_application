@@ -60,8 +60,6 @@ class DictEditActivity : OptionsMenuActivity()  {
                 nameET.text.clear()
                 linkET.text.clear()
                 requestCompositionET.text.clear()
-                langSrcSP.setSelection(0)
-                langDestSP.setSelection(0)
             }
             finish()
         }

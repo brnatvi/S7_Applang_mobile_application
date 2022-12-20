@@ -40,7 +40,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:hint="@string/mot"
+            android:hint="@string/motET"
             android:textSize="@dimen/textSize"
             android:background="@color/white"
             />
@@ -51,7 +51,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
-            android:text="@string/langSrc"/>
+            android:text="@string/langSrcTW"/>
 
         <Spinner
             android:id="@+id/lang_srcSP"
@@ -71,7 +71,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/textSize"
-            android:text="@string/langDest"/>
+            android:text="@string/langDestTW"/>
 
         <Spinner
             android:id="@+id/lang_destSP"
@@ -91,7 +91,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:textSize="@dimen/textSize"
-            android:text="@string/dictSP"/>
+            android:text="@string/dictTW"/>
 
         <Spinner
             android:id="@+id/dictSP"
@@ -123,7 +123,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="0dp"
             android:onClick="traduire"
-            android:text="@string/traduire" />
+            android:text="@string/traduireBT" />
 
         <Button
             android:id="@+id/rechercheBT"
@@ -132,7 +132,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="0dp"
             android:onClick="chercher"
-            android:text="@string/chercher" />
+            android:text="@string/rechercheBT" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

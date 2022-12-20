@@ -8,14 +8,13 @@
     <string name="info">"Info"</string>
 
     <!-- TranslateActivity  -->
-    <string name="mot">Saisir le mot à traduire</string>
-    <string name="traduire">Enregistrer la traduction</string>
-    <string name="chercher">Chercher sur Google</string>
-    <string name="souvenir">S’en souvenir</string>
+    <string name="motET">Saisir le mot à traduire</string>
+    <string name="dictTW">Dictionnaires :</string>
+    <string name="traduireBT">Enregistrer la traduction</string>
+    <string name="rechercheBT">Chercher sur Google</string>
+    <string name="langSrcTW">Traduire de</string>
+    <string name="langDestTW">à </string>
 
-    <string name="langSrc">Traduire de</string>
-    <string name="langDest">à </string>
-    <string name="dictSP">Dictionnaires :</string>
 
     <!-- DictActivity  -->
     <string name="nomDictTW">Chercher le dictionnaire :</string>
@@ -30,11 +29,21 @@
     <string name="enleverBT">Enlever</string>
     <string name="corrigerBT">Corriger</string>
 
-    <!-- EditDictionary  -->
+    <!-- DictEditActivity  -->
     <string name="linkET">lien du dictionnaire</string>
     <string name="nameET">nom du dictionnaire</string>
     <string name="requestCompositionET">request composition</string>
     <string name="sauvegarderBT">Sauvegarder les modifications</string>
+
+    <!-- ExercisesActivity  -->
+    <string name="listMotdTW">Les mots disponibles pour exercises :</string>
+    <string name="nettoyerListBN">Nettoyer list</string>
+    <string name="enleverMotBT">Enlever mot</string>
+
+    <!-- InfoActivity  -->
+    <string name="readmeTW">Application Applang
+        TODO
+        </string>
 
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français
