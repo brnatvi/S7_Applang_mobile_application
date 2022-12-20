@@ -74,7 +74,7 @@ class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
         }
     }
 
-    fun getSelected(): Dictionary? {
+    fun getOneDictSelected(): Dictionary? {
         if (selectedItems.size == 1) return selectedItems.get(0)
         return null
     }

@@ -201,7 +201,7 @@ class TranslateActivity : OptionsMenuActivity() {
 
 
     private fun updateWordsList(){
-        model.loadAllWord()
+        model.loadAllWords()
         model.words.removeObservers(this)
         model.words.observe(this){
             Log.d("DB","list: $it")

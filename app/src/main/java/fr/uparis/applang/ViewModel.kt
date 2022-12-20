@@ -38,7 +38,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         return returnCode
     }
 
-    fun loadAllWord(){
+    fun loadAllWords(){
         thread {
             words = dao.loadAllWord()
         }
@@ -47,6 +47,12 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     fun deleteOneWord(url: String){
         thread {
             dao.deleteOneWord(url)
+        }
+    }
+
+    fun deleteAllWords(){
+        thread {
+            dao.deleteAllWords()
         }
     }
 

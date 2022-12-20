@@ -38,7 +38,7 @@
     <!-- ExercisesActivity  -->
     <string name="listMotdTW">Les mots disponibles pour exercises :</string>
     <string name="nettoyerListBN">Nettoyer list</string>
-    <string name="enleverMotBT">Enlever mot</string>
+    <string name="enleverMotBT">Enlever sélectionné</string>
 
     <!-- InfoActivity  -->
     <string name="readmeTW">Application Applang

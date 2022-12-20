@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.StringUtils
 import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
@@ -174,7 +173,7 @@ class DictActivity  : OptionsMenuActivity() {
 
     // pass to correction of selected dictionary
     fun corrigerDict(view: View){
-        val dictToEdit = adapterDict.getSelected()
+        val dictToEdit = adapterDict.getOneDictSelected()
         if (dictToEdit == null) {
             AlertDialog.Builder(this)
                 .setMessage("Un seul dictionnaire peut être corrigé à la fois")
