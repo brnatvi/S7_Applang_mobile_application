@@ -33,7 +33,7 @@ class ExercisesActivity: OptionsMenuActivity() {
         binding.recyclerViewWords.layoutManager = LinearLayoutManager(this)
 
         model.words.observe(this){
-            adapterExers.listWords = it
+            adapterExers.allItems = it
             adapterExers.notifyDataSetChanged()
         }
     }

@@ -47,7 +47,7 @@ class DictActivity  : OptionsMenuActivity() {
         bindingDict.recyclerView.layoutManager = LinearLayoutManager(this)
 
         model.dictionaries.observe(this){
-            adapterDict.listDictionaries = it
+            adapterDict.allItems = it
             adapterDict.notifyDataSetChanged()
         }
 
