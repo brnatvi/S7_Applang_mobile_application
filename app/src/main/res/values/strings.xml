@@ -17,7 +17,7 @@
 
 
     <!-- DictActivity  -->
-    <string name="nomDictTW">Chercher le dictionnaire :</string>
+    <string name="nomDictTW">Chercher dictionnaire</string>
     <string name="nomDictET">nom du dictionnaire et quelque mot à traduire</string>
     <string name="lienDictTW">Le lien :</string>
     <string name="lienDictET">après la recherche lien apparaîtra ici</string>
@@ -36,9 +36,26 @@
     <string name="sauvegarderBT">Sauvegarder les modifications</string>
 
     <!-- ExercisesActivity  -->
-    <string name="listMotdTW">Les mots disponibles pour exercises :</string>
+    <string name="listMotdTW">Les mots disponibles pour exercises</string>
     <string name="nettoyerListBN">Nettoyer list</string>
     <string name="enleverMotBT">Enlever sélectionné</string>
+    <string name="parametrageTW">Paramétrage d\'entraînement</string>
+    <string name="appliquerBN">Appliquer</string>
+
+    <string name="nbMotsTW">Quantité (nb de mots proposé par jour) :</string>
+    <string name="frequenseTW">Fréquence (nb de fois par jour) :</string>
+    <string name="lundiTW">Lundi :</string>
+    <string name="mardiTW">Mardi :</string>
+    <string name="mercrediTW">Mercredi :</string>
+    <string name="jeudiTW">Jeudi :</string>
+    <string name="vendrediTW">Vendredi :</string>
+    <string name="samediTW">Samedi :</string>
+    <string name="dimancheTW">Dimanche :</string>
+    <string name="choiseJourLangTV">Choisissez pour chaque jour quelles langues voulez-vous entraîner :</string>
+
+
+
+
 
     <!-- InfoActivity  -->
     <string name="readmeTW">Application Applang

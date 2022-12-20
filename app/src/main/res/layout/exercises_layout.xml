@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+<LinearLayout
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,6 +22,283 @@
         layout="@layout/menu_layout"/>
 
     <LinearLayout
+        android:id="@+id/settings_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingRight="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/parametrageTW"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="@string/parametrageTW" />
+
+        <TableLayout
+            android:id="@+id/commonSettingsTB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/nbMotsTW"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_weight="2"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/commentsSize"
+                android:text="@string/nbMotsTW"/>
+
+                <EditText
+                    android:id="@+id/nbMotsET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minWidth="50dp"
+                    android:layout_column="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:hint="1"
+                    android:padding="5dp"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/frequenseTW"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/frequenseTW"/>
+
+                <EditText
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minWidth="50dp"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:background="#fff"
+                    android:hint="1"
+                    android:padding="5dp"
+                    android:textColor="#000" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/choiseJourLangTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:text="@string/choiseJourLangTV" />
+
+        <TableLayout
+            android:id="@+id/semaineSettingsTB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/lundiTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:background="@color/lil"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/lundiTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lundiRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/mardiTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/mardiTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mardiRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/mercrediTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:background="@color/lil"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/mercrediTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mercrediRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/jeudiTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/jeudiTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/jeudiRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/vendrediTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:background="@color/lil"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/vendrediTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vendrediRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/samediTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/samediTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/samediRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/dimancheTW"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="0"
+                    android:background="@color/lil"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/commentsSize"
+                    android:text="@string/dimancheTW"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dimancheRW"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </TableRow>
+        </TableLayout>
+
+
+        <Button
+            android:id="@+id/appliquerBN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="2dp"
+            android:onClick="appliquerParametrage"
+            android:text="@string/appliquerBN" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/buttons">
+    </View>
+
+    <LinearLayout
         android:id="@+id/delete_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,11 +312,13 @@
 
         <TextView
             android:id="@+id/listMotdTW"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="@dimen/textSize"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:text="@string/listMotdTW" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -79,3 +362,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</ScrollView>

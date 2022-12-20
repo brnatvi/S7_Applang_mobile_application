@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import fr.uparis.applang.databinding.Item1FieldLayoutBinding
-import fr.uparis.applang.model.Dictionary
+import fr.uparis.applang.model.Language
 
 
-class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
+class LangAdapter : RecyclerView.Adapter<LangAdapter.LangViewHolder>() {
 
-    var listDictionaries : List<Dictionary> = listOf()
-    var selectedItems = mutableListOf<Dictionary>()
+    var listLangues : List<Language> = listOf()
+    var selectedItems = mutableListOf<Language>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val colorSelected = Color.argb(50, 254, 28, 85)
@@ -23,22 +23,21 @@ class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
     @RequiresApi(Build.VERSION_CODES.O)
     private val colorEven = Color.argb(20, 0, 255, 255)
 
-
-    inner class DictViewHolder (val binding: Item1FieldLayoutBinding) : RecyclerView.ViewHolder(binding.root){
-        lateinit var dictionary: Dictionary
-}
+    inner class LangViewHolder (val binding: Item1FieldLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+        lateinit var language: Language
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictViewHolder {
-        val bindDict = Item1FieldLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = DictViewHolder(bindDict)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LangViewHolder {
+        val bindLang = Item1FieldLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = LangViewHolder(bindLang)
         return holder
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: DictViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LangViewHolder, position: Int) {
         // save reference for dict in holder
-        holder.dictionary = listDictionaries[position]
+        holder.language = listLangues[position]
 
         if (position%2 == 0) {
             holder.itemView.setBackgroundColor(colorEven)
@@ -47,20 +46,20 @@ class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
         }
 
         holder.itemView.setOnClickListener {
-            if (selectedItems.contains(listDictionaries[position])){
-                selectedItems.remove(listDictionaries[position])
+            if (selectedItems.contains(listLangues[position])){
+                selectedItems.remove(listLangues[position])
                 painting(it, position)
             }
             else {
                 holder.itemView.setBackgroundColor(colorSelected)
-                selectedItems.add(listDictionaries[position])
+                selectedItems.add(listLangues[position])
             }
         }
-        holder.binding.nom.text = holder.dictionary.name
+        holder.binding.nom.text = holder.language.fullName
     }
 
     override fun getItemCount(): Int {
-        return listDictionaries.size
+        return listLangues.size
     }
 
     // ====================== Auxiliary functions ======================================================
@@ -72,10 +71,5 @@ class DictAdapter : RecyclerView.Adapter<DictAdapter.DictViewHolder>() {
         } else {
             it.setBackgroundColor(colorOdd)
         }
-    }
-
-    fun getOneDictSelected(): Dictionary? {
-        if (selectedItems.size == 1) return selectedItems.get(0)
-        return null
     }
 }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import fr.uparis.applang.databinding.ItemLayoutBinding
+import fr.uparis.applang.databinding.Item3FieldsLayoutBinding
 import fr.uparis.applang.model.Word
 
 class WordAdapter : RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
@@ -22,14 +22,13 @@ class WordAdapter : RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
         @RequiresApi(Build.VERSION_CODES.O)
         private val colorEven = Color.argb(20, 0, 255, 255)
 
-
-        inner class WordViewHolder (val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+        inner class WordViewHolder (val binding: Item3FieldsLayoutBinding) : RecyclerView.ViewHolder(binding.root){
             lateinit var word: Word
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-            val bindWord = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val bindWord = Item3FieldsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             val holder = WordViewHolder(bindWord)
             return holder
         }
@@ -55,7 +54,10 @@ class WordAdapter : RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
                     selectedItems.add(listWords[position])
                 }
             }
-            holder.binding.nom.text = holder.word.text
+
+            holder.binding.text.text = holder.word.text
+            holder.binding.langSRC.text = holder.word.langSrc
+            holder.binding.langDest.text = holder.word.langDest
         }
 
         override fun getItemCount(): Int {

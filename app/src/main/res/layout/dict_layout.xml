@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,6 +36,8 @@
             android:id="@+id/nomDictTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
             android:textSize="@dimen/textSize"
             android:textColor="@color/black"
             android:layout_marginTop="10dp"
@@ -105,6 +111,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_gravity="bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -132,6 +139,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/buttons">
+    </View>
+
     <LinearLayout
         android:id="@+id/delete_dict_layout"
         android:layout_width="match_parent"
@@ -148,6 +161,8 @@
             android:id="@+id/listDictET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:textSize="@dimen/textSize"
             android:textColor="@color/black"
@@ -194,3 +209,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>
