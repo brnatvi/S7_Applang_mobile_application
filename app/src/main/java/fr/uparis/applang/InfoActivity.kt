@@ -3,6 +3,7 @@ package fr.uparis.applang
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import fr.uparis.applang.databinding.InfoLayoutBinding
+import fr.uparis.applang.navigation.OptionsMenuActivity
 
 class InfoActivity : OptionsMenuActivity() {
     private lateinit var binding: InfoLayoutBinding
@@ -10,6 +11,7 @@ class InfoActivity : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCurrentActivity(this)
 
         // create binding
         binding = InfoLayoutBinding.inflate(layoutInflater)

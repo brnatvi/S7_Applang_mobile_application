@@ -1,4 +1,4 @@
-package fr.uparis.applang
+package fr.uparis.applang.navigation
 
 import android.content.Context
 import android.content.Intent
@@ -7,20 +7,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import fr.uparis.applang.*
 
 open class OptionsMenuActivity : AppCompatActivity() {
     protected lateinit var sharedPref : SharedPreferences
     protected lateinit var sharedPrefEditor: SharedPreferences.Editor
     protected val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
 
-    protected val keyName: String = "nameDict"
-    protected val keyWord: String = "word"
-    protected val keyShare: String = "linkShare"
-    protected val keySrc: String = "langSrc"
-    protected val keyDest: String = "langDest"
-    protected val keyActivity: String = "activity"
-    protected val optionDict: String = "dictActivity"
+    protected val keyName: String      = "nameDict"
+    protected val keyWord: String      = "word"
+    protected val keyShare: String     = "linkShare"
+    protected val keySrc: String       = "langSrc"
+    protected val keyDest: String      = "langDest"
+    protected val keyActivity: String  = "activity"
+    protected val optionDict: String   = "dictActivity"
     protected val optionTransl: String = "translActivity"
+
+    protected val keyLundi: String     = "Lundi"
+    protected val keyMardi: String     = "Mardi"
+    protected val keyMercredi: String  = "Mercredi"
+    protected val keyJeudi: String     = "Jeudi"
+    protected val keyVendredi: String  = "Vendredi"
+    protected val keySamedi: String    = "Samedi"
+    protected val keyDimanche: String  = "Dimanche"
+    protected val keyQuantity: String  = "Quantity"
+    protected val keyFrequency: String = "Frequency"
+
+
+    protected lateinit var currentActivity: AppCompatActivity
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -33,24 +47,28 @@ open class OptionsMenuActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.goTranslateActivity -> {
+                //currentActivity.finish()
                 cleanPreferences()
                 val  intentTransl = Intent(this, TranslateActivity::class.java)
                 startActivity(intentTransl)
                 return true
             }
             R.id.goDictActivity -> {
+                //currentActivity.finish()
                 cleanPreferences()
                 val  intentDict = Intent(this, DictActivity::class.java)
                 startActivity(intentDict)
                 return true
             }
             R.id.goExersActivity -> {
+                //currentActivity.finish()
                 cleanPreferences()
                 val  intentExers = Intent(this, ExercisesActivity::class.java)
                 startActivity(intentExers)
                 return true
             }
             R.id.goInfoActivity -> {
+                //currentActivity.finish()
                 cleanPreferences()
                 val  intentInfo = Intent(this, InfoActivity::class.java)
                 startActivity(intentInfo)
@@ -75,5 +93,16 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected fun makeToast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
+
+
+    @JvmName("getCurrentActivity1")
+    protected fun getCurrentActivity() : AppCompatActivity {
+        return currentActivity
+    }
+    @JvmName("setCurrentActivity1")
+    protected fun setCurrentActivity(activity: AppCompatActivity ) {
+        currentActivity = activity
+    }
+
 
 }

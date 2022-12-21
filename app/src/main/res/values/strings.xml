@@ -19,10 +19,9 @@
     <!-- DictActivity  -->
     <string name="nomDictTW">Chercher dictionnaire</string>
     <string name="nomDictET">nom du dictionnaire et quelque mot à traduire</string>
-    <string name="lienDictTW">Le lien :</string>
-    <string name="lienDictET">après la recherche lien apparaîtra ici</string>
+    <string name="lienDictTW">L\'url:</string>
+    <string name="lienDictET">après la recherche l\'url apparaîtra ici</string>
     <string name="choiseTV">Choisissez lang source - lang dest</string>
-    <string name="requestCompDict">"fin de l'url avec des $langTo(Long), $langFrom(Long), $word"</string>
     <string name="listDictET">Dictionnaires disponibles :</string>
     <string name="trouverBT">Trouver le lien</string>
     <string name="ajouterBT">Ajouter</string>
@@ -30,17 +29,23 @@
     <string name="corrigerBT">Corriger</string>
 
     <!-- DictEditActivity  -->
-    <string name="linkET">lien du dictionnaire</string>
+    <string name="nameTW">Nom du dictionnaire</string>
     <string name="nameET">nom du dictionnaire</string>
+    <string name="linkTW">l\'url du dictionnaire </string>
+    <string name="linkET">l\'url</string>
+    <string name="requestCompositionTW">"fin de l'url avec des \nlangue source $langFrom, \nlangue dest $langTo, \nmot $word"</string>
     <string name="requestCompositionET">request composition</string>
     <string name="sauvegarderBT">Sauvegarder les modifications</string>
 
+
+
     <!-- ExercisesActivity  -->
     <string name="listMotdTW">Les mots disponibles pour exercises</string>
-    <string name="nettoyerListBN">Nettoyer list</string>
+    <string name="nettoyerListBN">Nettoyer liste</string>
     <string name="enleverMotBT">Enlever sélectionné</string>
     <string name="parametrageTW">Paramétrage d\'entraînement</string>
     <string name="appliquerBN">Appliquer</string>
+    <string name="reinitBN">Réinitialiser</string>
 
     <string name="nbMotsTW">Quantité (nb de mots proposé par jour) :</string>
     <string name="frequenseTW">Fréquence (nb de fois par jour) :</string>

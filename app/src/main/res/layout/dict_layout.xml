@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,12 +36,12 @@
             android:id="@+id/nomDictTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:text="@string/nomDictTW" />
+            android:gravity="center_horizontal"
+            android:text="@string/nomDictTW"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/nomDictET"
@@ -51,47 +51,46 @@
             android:layout_marginTop="5dp"
             android:background="@color/white"
             android:hint="@string/nomDictET"
+            android:minHeight="48dp"
             android:textSize="@dimen/commentsSize" />
 
         <TextView
             android:id="@+id/choiseTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:text="@string/choiseTV" />
+            android:text="@string/choiseTV"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_gravity="top"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/langSrcSP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_weight="1"
                 android:layout_alignParentTop="false"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/textSize"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
                 android:background="@color/white"
-                />
+                android:textSize="@dimen/textSize" />
 
             <Spinner
                 android:id="@+id/langDestSP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_weight="1"
                 android:layout_alignParentTop="false"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
                 android:background="@color/white"
-                />
+                android:textSize="@dimen/textSize" />
 
         </LinearLayout>
 
@@ -103,16 +102,17 @@
             android:layout_marginTop="25dp"
             android:background="@color/white"
             android:hint="@string/lienDictET"
+            android:minHeight="48dp"
             android:textSize="@dimen/commentsSize" />
 
         <LinearLayout
             android:id="@+id/add_dict_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -120,11 +120,12 @@
                 android:id="@+id/ajout_dictBT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="2dp"
+                android:layout_weight="1"
                 android:onClick="ajouterDict"
                 android:text="@string/ajouterBT" />
+
             <Button
                 android:id="@+id/chercher_dictBT"
                 android:layout_width="wrap_content"

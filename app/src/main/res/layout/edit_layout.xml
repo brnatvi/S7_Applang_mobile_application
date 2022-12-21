@@ -30,38 +30,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/nameTW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/nameTW"/>
+
         <EditText
             android:id="@+id/nameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="100dp"
-            android:hint="@string/nameET"
-            android:textSize="@dimen/textSize"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
-            />
+            android:hint="@string/nameET"
+            android:minHeight="48dp"
+            android:textSize="@dimen/textSize" />
+        <TextView
+            android:id="@+id/linkTW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/linkTW"/>
 
         <EditText
             android:id="@+id/linkET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:hint="@string/linkET"
-            android:textSize="@dimen/textSize"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
-            />
+            android:hint="@string/linkET"
+            android:minHeight="48dp"
+            android:textSize="@dimen/textSize" />
+
+        <TextView
+            android:id="@+id/requestCompositionTW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/requestCompositionTW"/>
 
         <EditText
             android:id="@+id/requestCompositionET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:hint="@string/requestCompositionET"
-            android:textSize="@dimen/textSize"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
-            />
+            android:hint="@string/requestCompositionET"
+            android:minHeight="48dp"
+            android:textSize="@dimen/textSize" />
         <!--
                <LinearLayout
                    android:layout_width="match_parent"

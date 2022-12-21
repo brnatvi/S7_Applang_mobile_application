@@ -67,14 +67,15 @@
                     android:id="@+id/nbMotsET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:minWidth="50dp"
                     android:layout_column="1"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:hint="1"
+                    android:hint="10"
+                    android:minWidth="70dp"
                     android:padding="5dp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
 
 
@@ -95,17 +96,18 @@
                     android:text="@string/frequenseTW"/>
 
                 <EditText
-                    android:id="@+id/userName"
+                    android:id="@+id/frequenseET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:minWidth="50dp"
                     android:layout_column="1"
-                    android:layout_weight="1"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:background="#fff"
                     android:hint="1"
+                    android:minWidth="70dp"
                     android:padding="5dp"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
         </TableLayout>
 
@@ -127,24 +129,27 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/lil"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/lundiTW"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_column="0"
-                    android:background="@color/lil"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/lundiTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/lundiRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/lundiSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+
+                    android:layout_weight="4"/>
+
+
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
@@ -160,34 +165,34 @@
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/mardiTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mardiRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/mardiSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/lil"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/mercrediTW"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_column="0"
-                    android:background="@color/lil"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/mercrediTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mercrediRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/mercrediSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
@@ -203,34 +208,35 @@
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/jeudiTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/jeudiRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/jeudiSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
+
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/lil"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/vendrediTW"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_column="0"
-                    android:background="@color/lil"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/vendrediTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/vendrediRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/vendrediSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
@@ -246,48 +252,67 @@
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/samediTW"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/samediRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/samediSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/lil"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/dimancheTW"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_column="0"
-                    android:background="@color/lil"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/commentsSize"
                     android:text="@string/dimancheTW"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/dimancheRW"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                <Spinner
+                    android:id="@+id/dimancheSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"/>
             </TableRow>
         </TableLayout>
 
-
-        <Button
-            android:id="@+id/appliquerBN"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="2dp"
-            android:onClick="appliquerParametrage"
-            android:text="@string/appliquerBN" />
+            android:layout_marginTop="20dp"
+            android:layout_gravity="top"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reinitBN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:onClick="reinitParametrage"
+                android:text="@string/reinitBN" />
+
+            <Button
+                android:id="@+id/appliquerBN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="2dp"
+                android:onClick="appliquerParametrage"
+                android:text="@string/appliquerBN" />
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
@@ -322,11 +347,11 @@
             android:text="@string/listMotdTW" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewWords"
+            android:id="@+id/wordsRW"
             android:layout_width="match_parent"
+            android:layout_height="108dp"
             android:layout_marginTop="5dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"

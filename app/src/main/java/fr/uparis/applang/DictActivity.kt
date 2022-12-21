@@ -7,14 +7,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.adapters.DictAdapter
+import fr.uparis.applang.adapters.SpinnerAdapter
 import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
+import fr.uparis.applang.navigation.OptionsMenuActivity
 import java.text.Normalizer
 
 
@@ -32,6 +33,7 @@ class DictActivity  : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCurrentActivity(this)
 
         // create binding
         bindingDict = DictLayoutBinding.inflate(layoutInflater)
@@ -229,20 +231,11 @@ class DictActivity  : OptionsMenuActivity() {
         model.loadAllLanguage()
         model.languages.removeObservers(this)
         model.languages.observe(this){
-            Log.d("DB","list language: $it")
-            val arrayAdapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, it
-            )
-            bindingDict.langSrcSP.adapter = arrayAdapter
-            val arrayAdapter2 = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, it
-            )
-            bindingDict.langDestSP.adapter = arrayAdapter2
-            if(model.currentTranslationUrl.isNotEmpty()){
-                var indexFrom: Int = 0
-                var indexTo: Int = 0
+            SpinnerAdapter(bindingDict.langSrcSP, this, it)
+            SpinnerAdapter(bindingDict.langDestSP, this, it)
+         /*   if(model.currentTranslationUrl.isNotEmpty()){
+                var indexFrom = 0
+                var indexTo = 0
                 var k = 0
                 for (lang in it){
                     if(lang.id == model.currentLangFrom){
@@ -255,7 +248,7 @@ class DictActivity  : OptionsMenuActivity() {
                 }
                 bindingDict.langSrcSP.setSelection(indexFrom)
                 bindingDict.langDestSP.setSelection(indexTo)
-            }
+            }*/
         }
     }
 

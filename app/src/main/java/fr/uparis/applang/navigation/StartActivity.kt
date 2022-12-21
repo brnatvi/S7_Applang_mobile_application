@@ -1,8 +1,11 @@
-package fr.uparis.applang
+package fr.uparis.applang.navigation
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import fr.uparis.applang.DictActivity
+import fr.uparis.applang.R
+import fr.uparis.applang.TranslateActivity
 import fr.uparis.applang.databinding.StartLayoutBinding
 
 

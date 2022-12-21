@@ -1,13 +1,13 @@
 package fr.uparis.applang
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.EditLayoutBinding
 import fr.uparis.applang.model.Dictionary
+import fr.uparis.applang.navigation.OptionsMenuActivity
 
 class DictEditActivity : OptionsMenuActivity()  {
     private lateinit var binding: EditLayoutBinding
@@ -21,6 +21,8 @@ class DictEditActivity : OptionsMenuActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCurrentActivity(this)
+
         // create binding
         binding = EditLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)

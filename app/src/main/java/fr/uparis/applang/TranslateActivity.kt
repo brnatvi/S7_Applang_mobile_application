@@ -14,6 +14,7 @@ import fr.uparis.applang.databinding.TranslateLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
+import fr.uparis.applang.navigation.OptionsMenuActivity
 import java.text.Normalizer
 
 
@@ -34,6 +35,7 @@ class TranslateActivity : OptionsMenuActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCurrentActivity(this)
 
         // create binding
         binding = TranslateLayoutBinding.inflate(layoutInflater)
