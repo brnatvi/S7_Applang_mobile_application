@@ -308,7 +308,7 @@ class TranslateActivity : OptionsMenuActivity() {
         return REGEX_UNACCENT.replace(temp, "")
     }
 
-    // post values to spinners
+    // post values into spinners
     private fun postValuesToSpinners (src: Int, dest: Int, dict: Int) {
         binding.langSrcSP .post( { binding.langSrcSP .setSelection(src) })
         binding.langDestSP.post( { binding.langDestSP.setSelection(dest) })

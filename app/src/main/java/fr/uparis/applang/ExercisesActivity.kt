@@ -165,7 +165,7 @@ class ExercisesActivity: OptionsMenuActivity() {
         binding.frequenseET.setText(frec.toString())
     }
 
-    // post values to spinners
+    // post values into spinners
     private fun postValuesToSpinners (lun: Int, mar: Int, mer: Int, jeu: Int, ven: Int, sam: Int, dim: Int) {
         binding.lundiSP    .post( { binding.lundiSP   .setSelection(lun) })
         binding.mardiSP    .post( { binding.mardiSP   .setSelection(mar) })

@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -122,7 +121,6 @@ class DictActivity  : OptionsMenuActivity() {
         }
 
         val word = sharedPref.getString(keyWord, "").toString()
-       // val word = "word"
 
         val splitLocation = ordinalIndexOf(url, "/", 3)+1
 
@@ -131,13 +129,6 @@ class DictActivity  : OptionsMenuActivity() {
 
         val requestComposition = url.substring(splitLocation, url.length)
             .replace(word, "\$word", true)
-// Next replace have issues with weard translate url as language code like 'fra' for french or even 'us' for russian.
-//            .replace(langFrom.fullName, "\$langFromLong", true)
-//            .replace(langDest.fullName, "\$langToLong", true)
-//            .replace(langFrom.fullName.unaccent(), "\$langFromLong", true)
-//            .replace(langDest.fullName.unaccent(), "\$langToLong", true)
-//            .replace(langFrom.id, "\$langFrom", false)
-//            .replace(langDest.id, "\$langTo", false)
         val urlDict = url.substring(0, splitLocation)
 
         if("langFrom" !in requestComposition){
@@ -155,7 +146,6 @@ class DictActivity  : OptionsMenuActivity() {
         with(bindingDict) {
             nomDictET.text.clear()
             lienDictET.text.clear()
-           // requestCompDictET.text.clear()
         }
 
         cleanPreferences()
@@ -219,10 +209,6 @@ class DictActivity  : OptionsMenuActivity() {
 
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
-
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d(TAG + 2, jj!!)
-
         // restore states of fields
         nameDict = sharedPref.getString(keyDict, "").toString().capitalize()
         bindingDict.nomDictET.setText(nameDict)
@@ -243,7 +229,6 @@ class DictActivity  : OptionsMenuActivity() {
         return
 
         cleanPreferences()
-      //  makeToast(this,"Veuiller verifier les languages sourse et destination pour le dictionnaire $nameDict")
        }
 
     // ================================= DataBase's functions =============================================
@@ -254,22 +239,6 @@ class DictActivity  : OptionsMenuActivity() {
         model.languages.observe(this){
             SpinnerAdapter(bindingDict.langSrcSP, this, it)
             SpinnerAdapter(bindingDict.langDestSP, this, it)
-         /*   if(model.currentTranslationUrl.isNotEmpty()){
-                var indexFrom = 0
-                var indexTo = 0
-                var k = 0
-                for (lang in it){
-                    if(lang.id == model.currentLangFrom){
-                        indexFrom = k
-                    }
-                    if(lang.id == model.currentLangTo){
-                        indexTo = k
-                    }
-                    k++;
-                }
-                bindingDict.langSrcSP.setSelection(indexFrom)
-                bindingDict.langDestSP.setSelection(indexTo)
-            }*/
         }
     }
 
@@ -291,7 +260,7 @@ class DictActivity  : OptionsMenuActivity() {
 
     // ====================== Auxiliary functions ======================================================
 
-    // post values to spinners
+    // post values into spinners
     private fun postValuesToSpinners (src: Int, dest: Int) {
         bindingDict.langSrcSP .post( { bindingDict.langSrcSP .setSelection(src) })
         bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(dest) })

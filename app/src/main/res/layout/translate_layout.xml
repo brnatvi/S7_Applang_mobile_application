@@ -43,26 +43,6 @@
             android:textSize="@dimen/textSize" />
 
         <TextView
-            android:id="@+id/dictTW"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/black"
-            android:text="@string/dictTW"/>
-
-        <Spinner
-            android:id="@+id/dictSP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/textSize"
-            android:background="@color/white"
-            />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -99,6 +79,27 @@
             android:textSize="@dimen/textSize"
             android:background="@color/white"
             />
+
+        <TextView
+            android:id="@+id/dictTW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/textSize"
+            android:textColor="@color/black"
+            android:text="@string/dictTW"/>
+
+        <Spinner
+            android:id="@+id/dictSP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/textSize"
+            android:background="@color/white"
+            />
+
 
         <Button
             android:id="@+id/traduireBT"
