@@ -29,7 +29,6 @@ class TranslateActivity : OptionsMenuActivity() {
     private var langSRC = ""
     private var langDST = ""
     private var word = ""
-    private var dictURL = ""
 
     val TAG: String = "TRANS ======"
 
@@ -50,17 +49,36 @@ class TranslateActivity : OptionsMenuActivity() {
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
 
+        // fil current settings on activity's fields
+        //if configuration changes or activity goes into background
+        if (savedInstanceState != null){
+            val mot = savedInstanceState.getString(keyWord)
+            binding.motET.setText(mot)
+
+            val langSrc   = savedInstanceState.getInt(keySrc)
+            val langDest  = savedInstanceState.getInt(keyDest)
+            val dict      = savedInstanceState.getInt(keyDict)
+            postValuesToSpinners (langSrc, langDest, dict)
+        }
+
         // SCENARIO: activity loaded after share -> handle url of translation arrived
         if (sharedPref.getString(keyShare, "").toString() != "") {
             wholeURL = sharedPref.getString(keyShare, "").toString()
             handleReceivedLink(wholeURL)
         }
 
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d(TAG + 1, jj!!)
-
         updateLanguagesList()
         updateDictionaryList()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (!binding.motET.text.isEmpty()) {
+            outState.putString(keyWord, binding.motET.toString())
+        }
+        outState.putInt   (keySrc , binding.langSrcSP .getSelectedItemPosition())
+        outState.putInt   (keyDest, binding.langDestSP.getSelectedItemPosition())
+        outState.putInt   (keyDict, binding.dictSP    .getSelectedItemPosition())
     }
 
     // ================================= Buttons' functions =============================================
@@ -70,8 +88,7 @@ class TranslateActivity : OptionsMenuActivity() {
         saveWordInDB()
 
         cleanPreferences()
-        binding.langSrcSP.post( { binding.langSrcSP.setSelection(0) })
-        binding.langDestSP.post( { binding.langDestSP.setSelection(1) })
+        postValuesToSpinners (0, 0, 0)
 }
 
     // transmit the word to Google search motor
@@ -113,18 +130,15 @@ class TranslateActivity : OptionsMenuActivity() {
 
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d(TAG + 2, jj!!)
-
         wholeURL = shareLink
 
         // restore states of fields
         word = sharedPref.getString(keyWord, "").toString()
         binding.motET.setText(word)
-        val idLangSrc = sharedPref.getInt(keySrc, 0)
+        val idLangSrc  = sharedPref.getInt(keySrc, 0)
         val idLangDest = sharedPref.getInt(keyDest, 0)
-        binding.langSrcSP.post( { binding.langSrcSP.setSelection(idLangSrc) })
-        binding.langDestSP.post( { binding.langDestSP.setSelection(idLangDest) })
+        val idDict     = sharedPref.getInt(keyDict, 0)
+        postValuesToSpinners (idLangSrc, idLangDest, idDict)
 
         //tryToGuessLanguagesFromURL will be call later
         addCurrentURLAsDictionary(wholeURL)
@@ -293,4 +307,12 @@ class TranslateActivity : OptionsMenuActivity() {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
     }
+
+    // post values to spinners
+    private fun postValuesToSpinners (src: Int, dest: Int, dict: Int) {
+        binding.langSrcSP .post( { binding.langSrcSP .setSelection(src) })
+        binding.langDestSP.post( { binding.langDestSP.setSelection(dest) })
+        binding.dictSP    .post( { binding.dictSP    .setSelection(dict) })
+    }
+
 }

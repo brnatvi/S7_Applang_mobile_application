@@ -61,7 +61,7 @@ class StartActivity : OptionsMenuActivity() {
 
     private fun chooseActivity() {
         intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
-            sharedPrefEditor.putString(keyName, "").putString(keyShare, "").commit()
+            sharedPrefEditor.putString(keyDict, "").putString(keyShare, "").commit()
             Intent(this, DictActivity::class.java)
         } else {
             sharedPrefEditor.putString(keyShare, "").putString(keyWord, "").commit()

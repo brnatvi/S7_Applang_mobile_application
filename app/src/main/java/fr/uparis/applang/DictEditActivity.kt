@@ -33,7 +33,7 @@ class DictEditActivity : OptionsMenuActivity()  {
         menu.setTitle(R.string.app_name)
 
         // restore the fields' content
-        initDictName = intent.getExtras()?.getString( keyName ) ?: ""
+        initDictName = intent.getExtras()?.getString( keyDict ) ?: ""
 
         with(binding) {
             nameET.setText(initDictName)

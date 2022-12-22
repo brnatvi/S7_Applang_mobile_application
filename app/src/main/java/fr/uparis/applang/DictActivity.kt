@@ -57,21 +57,42 @@ class DictActivity  : OptionsMenuActivity() {
         sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
 
-        val jj = sharedPref.getString(keyActivity, "")
-        Log.d(TAG + 1, jj!!)
+        // fil current settings on activity's fields
+        //if configuration changes or activity goes into background
+        if (savedInstanceState != null){
+            val name = savedInstanceState.getString(keyDict)
+            bindingDict.nomDictET.setText(name)
+            val link = savedInstanceState.getString(keyShare)
+            bindingDict.lienDictET.setText(link)
+
+            val langSrc   = savedInstanceState.getInt(keySrc)
+            val langDest  = savedInstanceState.getInt(keyDest)
+            postValuesToSpinners (langSrc, langDest)
+        }
 
         // SCENARIO: activity loaded by StartActivity after share -> handle url of dictionary arrived
         if (sharedPref.getString(keyShare, "").toString() != "") {
             urlDict = sharedPref.getString(keyShare, "").toString()
             handleReceivedLink(urlDict)
         }
-
         updateLanguagesList()
     }
 
     override fun onDestroy() {
         cleanPreferences()
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (!bindingDict.nomDictET.text.isEmpty()) {
+            outState.putString(keyDict, bindingDict.nomDictET.toString())
+        }
+        if (!bindingDict.lienDictET.text.isEmpty()) {
+            outState.putString(keyShare, bindingDict.lienDictET.toString())
+        }
+        outState.putInt   (keySrc   , bindingDict.langSrcSP .getSelectedItemPosition())
+        outState.putInt   (keyDest  , bindingDict.langDestSP.getSelectedItemPosition())
     }
 
     // ================================= Buttons' functions =============================================
@@ -163,7 +184,7 @@ class DictActivity  : OptionsMenuActivity() {
 
         // save SharedPreferences
         sharedPrefEditor.putString(keyActivity, optionDict)
-                        .putString(keyName, nameDict)
+                        .putString(keyDict, nameDict)
                         .putInt(keySrc, idLangSrc)
                         .putInt(keyDest, idLangDest)
                         .putString(keyWord, word)
@@ -187,7 +208,7 @@ class DictActivity  : OptionsMenuActivity() {
         }
         val  intentEdit = Intent(this, DictEditActivity::class.java)
         val bundleEdit = Bundle()
-        bundleEdit.putString(keyName, dictToEdit.name)
+        bundleEdit.putString(keyDict, dictToEdit.name)
         bundleEdit.putString("url", dictToEdit.url)
         bundleEdit.putString("requestComposition", dictToEdit.requestComposition)
         intentEdit.putExtras(bundleEdit)
@@ -203,7 +224,7 @@ class DictActivity  : OptionsMenuActivity() {
         Log.d(TAG + 2, jj!!)
 
         // restore states of fields
-        nameDict = sharedPref.getString(keyName, "").toString().capitalize()
+        nameDict = sharedPref.getString(keyDict, "").toString().capitalize()
         bindingDict.nomDictET.setText(nameDict)
 
         bindingDict.lienDictET.setText(shareLink)
@@ -266,6 +287,14 @@ class DictActivity  : OptionsMenuActivity() {
     fun CharSequence.unaccent(): String {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         return REGEX_UNACCENT.replace(temp, "")
+    }
+
+    // ====================== Auxiliary functions ======================================================
+
+    // post values to spinners
+    private fun postValuesToSpinners (src: Int, dest: Int) {
+        bindingDict.langSrcSP .post( { bindingDict.langSrcSP .setSelection(src) })
+        bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(dest) })
     }
 
 }

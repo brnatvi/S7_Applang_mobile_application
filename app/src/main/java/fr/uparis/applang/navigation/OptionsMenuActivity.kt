@@ -14,27 +14,28 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected lateinit var sharedPrefEditor: SharedPreferences.Editor
     protected val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
 
-    protected val keyName: String      = "nameDict"
-    protected val keyWord: String      = "word"
-    protected val keyShare: String     = "linkShare"
-    protected val keySrc: String       = "langSrc"
-    protected val keyDest: String      = "langDest"
-    protected val keyActivity: String  = "activity"
-    protected val optionDict: String   = "dictActivity"
-    protected val optionTransl: String = "translActivity"
+    protected val keyDict: String      = "nameDict"          // int stored
+    protected val keyWord: String      = "word"              // string stored
+    protected val keyShare: String     = "linkShare"         // string stored
+    protected val keySrc: String       = "langSrc"           // int stored
+    protected val keyDest: String      = "langDest"          // int stored
+    protected val keyActivity: String  = "activity"          // string stored
+    protected val optionDict: String   = "dictActivity"      // string stored
+    protected val optionTransl: String = "translActivity"    // string stored
 
-    protected val keyLundi: String     = "Lundi"
-    protected val keyMardi: String     = "Mardi"
-    protected val keyMercredi: String  = "Mercredi"
-    protected val keyJeudi: String     = "Jeudi"
-    protected val keyVendredi: String  = "Vendredi"
-    protected val keySamedi: String    = "Samedi"
-    protected val keyDimanche: String  = "Dimanche"
-    protected val keyQuantity: String  = "Quantity"
-    protected val keyFrequency: String = "Frequency"
-
+    protected val keyLundi: String     = "Lundi"           // int stored
+    protected val keyMardi: String     = "Mardi"           // int stored
+    protected val keyMercredi: String  = "Mercredi"        // int stored
+    protected val keyJeudi: String     = "Jeudi"           // int stored
+    protected val keyVendredi: String  = "Vendredi"        // int stored
+    protected val keySamedi: String    = "Samedi"          // int stored
+    protected val keyDimanche: String  = "Dimanche"        // int stored
+    protected val keyQuantity: String  = "Quantity"        // int stored
+    protected val keyFrequency: String = "Frequency"       // int stored
 
     protected lateinit var currentActivity: AppCompatActivity
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -47,28 +48,36 @@ open class OptionsMenuActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.goTranslateActivity -> {
-                //currentActivity.finish()
+                if (currentActivity is TranslateActivity) {
+                    currentActivity.finish()
+                }
                 cleanPreferences()
                 val  intentTransl = Intent(this, TranslateActivity::class.java)
                 startActivity(intentTransl)
                 return true
             }
             R.id.goDictActivity -> {
-                //currentActivity.finish()
+                if (currentActivity is DictActivity) {
+                    currentActivity.finish()
+                }
                 cleanPreferences()
                 val  intentDict = Intent(this, DictActivity::class.java)
                 startActivity(intentDict)
                 return true
             }
             R.id.goExersActivity -> {
-                //currentActivity.finish()
+                if (currentActivity is ExercisesActivity) {
+                    currentActivity.finish()
+                }
                 cleanPreferences()
                 val  intentExers = Intent(this, ExercisesActivity::class.java)
                 startActivity(intentExers)
                 return true
             }
             R.id.goInfoActivity -> {
-                //currentActivity.finish()
+                if (currentActivity is InfoActivity) {
+                    currentActivity.finish()
+                }
                 cleanPreferences()
                 val  intentInfo = Intent(this, InfoActivity::class.java)
                 startActivity(intentInfo)
@@ -83,11 +92,13 @@ open class OptionsMenuActivity : AppCompatActivity() {
     // ===================== Auxiliary functions for all child Activities ===============================
 
     protected fun cleanPreferences() {
-        sharedPrefEditor.putString(keyName, "")
+        sharedPrefEditor.putString(keyDict, "")
                         .putString(keyShare, "")
                         .putString(keyWord, "")
                         .putInt(keySrc, 0)
                         .putInt(keyDest, 0)
+                        .putString(optionDict, "")
+                        .putString(optionTransl, "")
                         .commit()
     }
     protected fun makeToast(context: Context, message: String) {
@@ -103,6 +114,4 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected fun setCurrentActivity(activity: AppCompatActivity ) {
         currentActivity = activity
     }
-
-
 }

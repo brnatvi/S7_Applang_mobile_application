@@ -17,7 +17,6 @@ class ExercisesActivity: OptionsMenuActivity() {
     private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
     private val adapterWords by lazy { WordAdapter() }
 
-
     val TAG: String = "EXERS ===="
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +55,45 @@ class ExercisesActivity: OptionsMenuActivity() {
             SpinnerAdapter(binding.dimancheSP, this, it)
         }
 
-        // show current settings on activity's fields
-        restoreFields()
+        // fil current settings on activity's fields
+        if (savedInstanceState != null){       //if configuration changes or activity goes into background
+            val lun   = savedInstanceState.getInt(keyLundi   )
+            val mar   = savedInstanceState.getInt(keyMardi   )
+            val mer   = savedInstanceState.getInt(keyMercredi)
+            val jeu   = savedInstanceState.getInt(keyJeudi   )
+            val ven   = savedInstanceState.getInt(keyVendredi)
+            val sam   = savedInstanceState.getInt(keySamedi  )
+            val dim   = savedInstanceState.getInt(keyDimanche)
+            postValuesToSpinners (lun, mar, mer, jeu, ven, sam, dim)
 
+            val frec  = savedInstanceState.getInt(keyFrequency)
+            if (frec == 0) { binding.frequenseET.setText("1") }
+            else           { binding.frequenseET.setText(frec.toString()) }
+
+            val quant = savedInstanceState.getInt(keyQuantity )
+            if (quant == 0) { binding.nbMotsET.setText("10") }
+            else            { binding.nbMotsET   .setText(quant.toString()) }
+        } else {
+            // initialize fields of Activity by values from Shared Preferences
+            restoreFields()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(keyLundi    , binding.lundiSP    . getSelectedItemPosition())
+        outState.putInt(keyMardi    , binding.mardiSP    . getSelectedItemPosition())
+        outState.putInt(keyMercredi , binding.mercrediSP . getSelectedItemPosition())
+        outState.putInt(keyJeudi    , binding.jeudiSP    . getSelectedItemPosition())
+        outState.putInt(keyVendredi , binding.vendrediSP . getSelectedItemPosition())
+        outState.putInt(keySamedi   , binding.samediSP   . getSelectedItemPosition())
+        outState.putInt(keyDimanche , binding.dimancheSP . getSelectedItemPosition())
+        if (!binding.frequenseET.text.isEmpty()) {
+            outState.putInt(keyFrequency, binding.nbMotsET.text.toString().toInt())
+        }
+        if (!binding.nbMotsET.text.isEmpty()) {
+            outState.putInt(keyQuantity, binding.frequenseET.text.toString().toInt())
+        }
     }
 
     // ================================= Buttons' functions =============================================
@@ -76,12 +111,12 @@ class ExercisesActivity: OptionsMenuActivity() {
     }
 
     fun appliquerParametrage(view: View) {
-        sharedPrefEditor.putInt(keyLundi,    binding.lundiSP.getSelectedItemPosition())
-                        .putInt(keyMardi,    binding.mardiSP.getSelectedItemPosition())
+        sharedPrefEditor.putInt(keyLundi,    binding.lundiSP   .getSelectedItemPosition())
+                        .putInt(keyMardi,    binding.mardiSP   .getSelectedItemPosition())
                         .putInt(keyMercredi, binding.mercrediSP.getSelectedItemPosition())
-                        .putInt(keyJeudi,    binding.jeudiSP.getSelectedItemPosition())
+                        .putInt(keyJeudi,    binding.jeudiSP   .getSelectedItemPosition())
                         .putInt(keyVendredi, binding.vendrediSP.getSelectedItemPosition())
-                        .putInt(keySamedi,   binding.samediSP.getSelectedItemPosition())
+                        .putInt(keySamedi,   binding.samediSP  .getSelectedItemPosition())
                         .putInt(keyDimanche, binding.dimancheSP.getSelectedItemPosition())
         if (!binding.frequenseET.text.isEmpty()) {
             sharedPrefEditor.putInt(keyFrequency, binding.frequenseET.text.toString().toInt())
@@ -93,51 +128,53 @@ class ExercisesActivity: OptionsMenuActivity() {
     }
 
     fun reinitParametrage(view: View) {
-        sharedPrefEditor.putInt(keyLundi,    0)
-                        .putInt(keyMardi,    0)
-                        .putInt(keyMercredi, 0)
-                        .putInt(keyJeudi,    0)
-                        .putInt(keyVendredi, 0)
-                        .putInt(keySamedi,   0)
-                        .putInt(keyDimanche, 0)
+        // save parameters
+        sharedPrefEditor.putInt(keyLundi,     0)
+                        .putInt(keyMardi,     0)
+                        .putInt(keyMercredi,  0)
+                        .putInt(keyJeudi,     0)
+                        .putInt(keyVendredi,  0)
+                        .putInt(keySamedi,    0)
+                        .putInt(keyDimanche,  0)
                         .putInt(keyFrequency, 1)
                         .putInt(keyQuantity,  10)
                         .commit()
-        binding.lundiSP    .post( { binding.lundiSP.setSelection(0) })
-        binding.mardiSP    .post( { binding.mardiSP.setSelection(0) })
-        binding.mercrediSP .post( { binding.mercrediSP.setSelection(0) })
-        binding.jeudiSP    .post( { binding.jeudiSP.setSelection(0) })
-        binding.vendrediSP .post( { binding.vendrediSP.setSelection(0) })
-        binding.samediSP   .post( { binding.samediSP.setSelection(0) })
-        binding.dimancheSP .post( { binding.dimancheSP.setSelection(0) })
+        // update fields
+        postValuesToSpinners (0, 0, 0, 0, 0, 0, 0)
         binding.frequenseET.setText("")
         binding.nbMotsET   .setText("")
     }
 
     // ====================== Auxiliary functions ======================================================
+
+    // initialize fields of Activity by values from Shared Preferences
     private fun restoreFields () {
         // restore Settings of exercises in activity's fields
-        val frec  = sharedPref.getInt(keyFrequency, 1)
-        val quant = sharedPref.getInt(keyQuantity, 10)
-        val lun   = sharedPref.getInt(keyLundi, 0)
-        val mar   = sharedPref.getInt(keyMardi, 0)
+        val lun   = sharedPref.getInt(keyLundi   , 0)
+        val mar   = sharedPref.getInt(keyMardi   , 0)
         val mer   = sharedPref.getInt(keyMercredi, 0)
-        val jeu   = sharedPref.getInt(keyJeudi, 0)
+        val jeu   = sharedPref.getInt(keyJeudi   , 0)
         val ven   = sharedPref.getInt(keyVendredi, 0)
-        val sam   = sharedPref.getInt(keySamedi, 0)
+        val sam   = sharedPref.getInt(keySamedi  , 0)
         val dim   = sharedPref.getInt(keyDimanche, 0)
+        postValuesToSpinners (lun, mar, mer, jeu, ven, sam, dim)
 
-        binding.lundiSP.post( { binding.lundiSP.setSelection(lun) })
-        binding.mardiSP.post( { binding.mardiSP.setSelection(mar) })
-        binding.mercrediSP.post( { binding.mercrediSP.setSelection(mer) })
-        binding.jeudiSP.post( { binding.jeudiSP.setSelection(jeu) })
-        binding.vendrediSP.post( { binding.vendrediSP.setSelection(ven) })
-        binding.samediSP.post( { binding.samediSP.setSelection(sam) })
-        binding.dimancheSP.post( { binding.dimancheSP.setSelection(dim) })
-
-        binding.nbMotsET.setText(frec.toString())
-        binding.frequenseET.setText(quant.toString())
-
+        val frec  = sharedPref.getInt(keyFrequency, 1)
+        val quant = sharedPref.getInt(keyQuantity , 10)
+        binding.nbMotsET   .setText(quant.toString())
+        binding.frequenseET.setText(frec.toString())
     }
+
+    // post values to spinners
+    private fun postValuesToSpinners (lun: Int, mar: Int, mer: Int, jeu: Int, ven: Int, sam: Int, dim: Int) {
+        binding.lundiSP    .post( { binding.lundiSP   .setSelection(lun) })
+        binding.mardiSP    .post( { binding.mardiSP   .setSelection(mar) })
+        binding.mercrediSP .post( { binding.mercrediSP.setSelection(mer) })
+        binding.jeudiSP    .post( { binding.jeudiSP   .setSelection(jeu) })
+        binding.vendrediSP .post( { binding.vendrediSP.setSelection(ven) })
+        binding.samediSP   .post( { binding.samediSP  .setSelection(sam) })
+        binding.dimancheSP .post( { binding.dimancheSP.setSelection(dim) })
+    }
+
 
 }
