@@ -92,7 +92,7 @@ open class OptionsMenuActivity : AppCompatActivity() {
     // ===================== Auxiliary functions for all child Activities ===============================
 
     protected fun cleanPreferences() {
-        sharedPrefEditor.putString(keyDict, "")
+        sharedPrefEditor.putInt(keyDict, 0)
                         .putString(keyShare, "")
                         .putString(keyWord, "")
                         .putInt(keySrc, 0)
