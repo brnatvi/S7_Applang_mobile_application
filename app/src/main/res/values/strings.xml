@@ -15,10 +15,9 @@
     <string name="langSrcTW">Traduire de</string>
     <string name="langDestTW">à </string>
 
-
     <!-- DictActivity  -->
     <string name="nomDictTW">Chercher dictionnaire</string>
-    <string name="nomDictET">nom du dictionnaire et quelque mot à traduire</string>
+    <string name="nomDictET">nom du dictionnaire et un mot à traduire</string>
     <string name="lienDictTW">L\'url:</string>
     <string name="lienDictET">après la recherche l\'url apparaîtra ici</string>
     <string name="choiseTV">Choisissez lang source - lang dest</string>
@@ -36,8 +35,6 @@
     <string name="requestCompositionTW">"fin de l'url avec des \nlangue source $langFrom, \nlangue dest $langTo, \nmot $word"</string>
     <string name="requestCompositionET">request composition</string>
     <string name="sauvegarderBT">Sauvegarder les modifications</string>
-
-
 
     <!-- ExercisesActivity  -->
     <string name="listMotdTW">Les mots disponibles pour exercises</string>
@@ -58,14 +55,32 @@
     <string name="dimancheTW">Dimanche :</string>
     <string name="choiseJourLangTV">Choisissez pour chaque jour quelles langues voulez-vous entraîner :</string>
 
-
-
-
-
     <!-- InfoActivity  -->
-    <string name="readmeTW">Application Applang
+    <string name="readmeTW">    <b>AppLang</b> est destinée à ceux qui apprennent des langues étrangères et qui souhaitent s\'entraîner quotidiennement en mémorisant de nouveaux mots. \n    Ici vous pouvez : </string>
+    <string name="translInfoTW"> - créer votre propre liste de mots à retenir</string>
+    <string name="exersInfoTW"> - définir la fréquence des notifications, le nombre de mots par jour pour l\'entraînement, ainsi que créer un agenda détaillé</string>
+    <string name="dictInfoTW"> - gérer les dictionnaires on-line que vous allez utiliser, ainsi que la liste de mots à retenir</string>
+    <string name="restInfo1TW">Une fois que vous créez la liste des mots, l\'application vous enverra ces mots sous forme de push notifications, pour que vous puissiez soit les récapituler, soit regarder sa page de traduction afin de les réapprendre.</string>
+
+
+    <string name="message1">"Vous pouvez utiliser les dictionnaires déjà disponibles. Pour le faire :
+        - entrez le mot dans champ de recherche,
+        - sélectionnez un dictionnaire et des langues,
+        - cliquez sur «Enregistrer la traduction».
+        \nOu bien vous pouvez trouver un nouveau lien. Pour le faire :
+        - entrez le mot dans champ de recherche,
+        - sélectionnez les langues,
+        - cliquez sur «Chercher sur Google»,
+        - puis faites «Partager» et sélectionnez AppLang"</string>
+
+    <string name="message2">"
+        Pour trouver un nouveau dictionnaire, assurez-vous d'écrire non seulement son nom, mais aussi un mot que vous souhaiteriez traduire à l'aide de ce dictionnaire.
+        Il est important que après le «Partager» l'application reçoive un lien vers la traduction d'un mot. Ainsi, le lien sera créé correctement.
+        Si nécessaire, il est toujours possible de modifier les champs du dictionnaire : son nom, son lien, etc en suivant les consignes."</string>
+
+    <string name="message3">"
         TODO
-        </string>
+        "</string>
 
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français

@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:focusableInTouchMode="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/beige"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    tools:context="InfoActivity"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/beige">
+
+    <LinearLayout
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        tools:context="ExercisesActivity"
+        android:orientation="vertical">
 
     <include
         layout="@layout/menu_layout"/>
 
-    <LinearLayout
+ <!--   <LinearLayout
         android:id="@+id/delete_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,16 +32,92 @@
         android:paddingRight="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+-->
         <TextView
             android:id="@+id/readmeTW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="10dp"
             android:textSize="@dimen/textSize"
             android:textColor="@color/black"
             android:text="@string/readmeTW" />
 
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp">
+            <ImageView
+                android:id="@+id/translInfoIW"
+                android:layout_column="0"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/buttons"
+                android:src="@drawable/ic_translate_foreground" />
+            <TextView
+                android:id="@+id/translInfoTW"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:text="@string/translInfoTW"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp">
+            <ImageView
+                android:id="@+id/exersInfoIW"
+                android:layout_column="0"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/buttons"
+                android:src="@drawable/ic_exercices_foreground" />
+            <TextView
+                android:id="@+id/exersInfoTW"
+                android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:text="@string/exersInfoTW" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp">
+            <ImageView
+                android:id="@+id/dictInfoIW"
+                android:layout_column="0"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/buttons"
+                android:src="@drawable/ic_dictionary_foreground" />
+            <TextView
+                android:id="@+id/dictInfoTW"
+                android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize"
+                android:text="@string/dictInfoTW" />
+        </TableRow>
+
+        <TextView
+            android:id="@+id/restInfoTW"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:layout_column="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:text="@string/restInfo1TW"/>
+
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
