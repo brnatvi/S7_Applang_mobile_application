@@ -53,5 +53,9 @@
         <activity
             android:name=".InfoActivity"  />
 
+        <service android:name=".NotificationService"
+            android:exported="false"
+            />
+
     </application>
 </manifest>

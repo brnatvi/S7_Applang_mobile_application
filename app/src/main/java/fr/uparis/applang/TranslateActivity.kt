@@ -69,6 +69,8 @@ class TranslateActivity : OptionsMenuActivity() {
 
         updateLanguagesList()
         updateDictionaryList()
+
+        startNotificationService()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -313,6 +315,13 @@ class TranslateActivity : OptionsMenuActivity() {
         binding.langSrcSP .post( { binding.langSrcSP .setSelection(src) })
         binding.langDestSP.post( { binding.langDestSP.setSelection(dest) })
         binding.dictSP    .post( { binding.dictSP    .setSelection(dict) })
+    }
+
+
+    //TODO place somewere where it can be start at any time.
+    public fun startNotificationService(){
+        val intent = Intent(this, NotificationService::class.java )
+        applicationContext.startService(intent)
     }
 
 }
