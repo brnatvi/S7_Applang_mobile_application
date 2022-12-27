@@ -34,7 +34,7 @@
             android:id="@+id/nameTW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="70dp"
             android:textSize="@dimen/textSize"
             android:textColor="@color/black"
             android:text="@string/nameTW"/>
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/commentsSize"
             android:textColor="@color/black"
             android:text="@string/requestCompositionTW"/>
 
@@ -85,43 +85,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:background="@color/white"
-            android:hint="@string/requestCompositionET"
+            android:hint=""
             android:minHeight="48dp"
             android:textSize="@dimen/textSize" />
-        <!--
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="40dp"
-                   android:layout_gravity="top"
-                   android:orientation="horizontal">
 
-                  <Spinner
-                       android:id="@+id/langSrcSP"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginRight="3dp"
-                       android:layout_weight="1"
-                       android:layout_alignParentTop="false"
-                       android:layout_gravity="center_horizontal"
-                       android:textSize="@dimen/textSize"
-                       android:background="@color/white"
-                       />
-
-                   <Spinner
-                       android:id="@+id/langDestSP"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginLeft="3dp"
-                       android:layout_weight="1"
-                       android:layout_alignParentTop="false"
-                       android:layout_gravity="center_horizontal"
-                       android:textSize="@dimen/textSize"
-                       android:background="@color/white"
-                       />
-
-        </LinearLayout>
--->
         <Button
             android:id="@+id/sauvegarderBT"
             android:layout_width="wrap_content"

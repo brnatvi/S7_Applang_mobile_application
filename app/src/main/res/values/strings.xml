@@ -30,9 +30,10 @@
     <!-- DictEditActivity  -->
     <string name="nameTW">Nom du dictionnaire</string>
     <string name="nameET">nom du dictionnaire</string>
-    <string name="linkTW">l\'url du dictionnaire </string>
-    <string name="linkET">l\'url</string>
-    <string name="requestCompositionTW">"fin de l'url avec des \nlangue source $langFrom, \nlangue dest $langTo, \nmot $word"</string>
+    <string name="linkTW">l\'URL du dictionnaire </string>
+    <string name="linkET">l\'URL</string>
+    <string name="requestCompositionTW">Pour créer l\'URL universel, convenant à n\'importe quelles langues, completez la fin de l\'url en remplaçant :\nlangue source par <b> $langFrom </b>,\nlangue dest par <b> $langTo </b>,\nphrase / mot par <b> $word </b></string>
+
     <string name="requestCompositionET">request composition</string>
     <string name="sauvegarderBT">Sauvegarder les modifications</string>
 
