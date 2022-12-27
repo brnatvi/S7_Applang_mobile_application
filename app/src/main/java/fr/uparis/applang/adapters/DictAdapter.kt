@@ -26,6 +26,7 @@ class DictAdapter: RecyclerView.Adapter<DictAdapter.DictViewHolder>(), AdapterIn
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DictViewHolder, position: Int) {
+        val clickCount = 0
         // save reference for dict in holder
         holder.dictionary = allItems[position]
 
@@ -50,12 +51,5 @@ class DictAdapter: RecyclerView.Adapter<DictAdapter.DictViewHolder>(), AdapterIn
 
     override fun getItemCount(): Int {
         return allItems.size
-    }
-
-    // ====================== Auxiliary functions ======================================================
-
-    fun getOneDictSelected(): Dictionary? {
-        if (selectedItems.size == 1) return selectedItems.get(0)
-        return null
     }
 }

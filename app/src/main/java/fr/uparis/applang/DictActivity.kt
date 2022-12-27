@@ -99,9 +99,19 @@ class DictActivity  : OptionsMenuActivity() {
     // delete selected dictionary from DataBase
     fun enleverDict(view: View) {
         val len = adapterDict.selectedItems.size
-         for (index in 0..len-1) {
-             model.deleteDictionary(adapterDict.selectedItems[index].name)
-             adapterDict.notifyItemRemoved(index)
+        if (len == 0) {
+            AlertDialog.Builder(this)
+                .setMessage("Veuillez choisir dictionnaire.s à enlever")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.dismiss()
+                }).setCancelable(false)
+                .show()
+        } else {
+            for (index in 0..len-1) {
+                model.deleteDictionary(adapterDict.selectedItems[index].name)
+                adapterDict.notifyItemRemoved(index)
+                adapterDict.selectedItems.clear()
+            }
         }
     }
 
@@ -117,7 +127,6 @@ class DictActivity  : OptionsMenuActivity() {
                         dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
-            return
         }
 
         val word = sharedPref.getString(keyWord, "").toString()
@@ -186,23 +195,25 @@ class DictActivity  : OptionsMenuActivity() {
 
     // pass to correction of selected dictionary
     fun corrigerDict(view: View){
-        val dictToEdit = adapterDict.getOneDictSelected()
-        if (dictToEdit == null) {
+
+        if (adapterDict.selectedItems.size != 1) {
             AlertDialog.Builder(this)
                 .setMessage("Un seul dictionnaire peut être corrigé à la fois")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
                         dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
-            return
+        } else {
+            val dictToEdit = adapterDict.selectedItems[0]
+            adapterDict.selectedItems.clear()
+            val intentEdit = Intent(this, DictEditActivity::class.java)
+            val bundleEdit = Bundle()
+            bundleEdit.putString(keyDict, dictToEdit.name)
+            bundleEdit.putString("url", dictToEdit.url)
+            bundleEdit.putString("requestComposition", dictToEdit.requestComposition)
+            intentEdit.putExtras(bundleEdit)
+            startActivity(intentEdit)
         }
-        val  intentEdit = Intent(this, DictEditActivity::class.java)
-        val bundleEdit = Bundle()
-        bundleEdit.putString(keyDict, dictToEdit.name)
-        bundleEdit.putString("url", dictToEdit.url)
-        bundleEdit.putString("requestComposition", dictToEdit.requestComposition)
-        intentEdit.putExtras(bundleEdit)
-        startActivity(intentEdit)
     }
 
     // =================================== Share processing ======================================================

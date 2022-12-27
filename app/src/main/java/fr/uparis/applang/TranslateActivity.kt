@@ -88,24 +88,23 @@ class TranslateActivity : OptionsMenuActivity() {
     // save Word and URL in BD
     fun traduire(view: View){
         saveWordInDB()
-
         cleanPreferences()
         postValuesToSpinners (0, 0, 0)
 }
 
     // transmit the word to Google search motor
     fun chercher(view: View){
-        val phrase = binding.motET.text.toString().lowercase()
-        if (phrase == "") {
+        word = binding.motET.text.toString().lowercase()
+        if (word == "") {
             AlertDialog.Builder(this)
-                .setMessage("Merci d'insérer un mot ou une phase pour recherche.\nPar exemple 'maison en englais' ")
+                .setMessage("Merci d'insérer un mot ou une phase pour recherche.\nPar exemple 'cherher la femme' ")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
                         dialog, id -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
             return
         }
-        word = phrase.substringBefore(' ')
+       // word = phrase.substringBefore(' ')
         langSRC = binding.langSrcSP.selectedItem.toString()
         langDST = binding.langDestSP.selectedItem.toString()
         val idLangSrc = binding.langSrcSP.getSelectedItemPosition()
@@ -119,7 +118,7 @@ class TranslateActivity : OptionsMenuActivity() {
                         .commit()
 
         // launch Google search
-        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + phrase))
+        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + word + " traduction de " + langSRC + " vers " + langDST))
         startActivity(browserInt)
     }
 
@@ -143,7 +142,7 @@ class TranslateActivity : OptionsMenuActivity() {
         postValuesToSpinners (idLangSrc, idLangDest, idDict)
 
         //tryToGuessLanguagesFromURL will be call later
-        addCurrentURLAsDictionary(wholeURL)
+     //   addCurrentURLAsDictionary(wholeURL)
 
         //TODO use somewhere useful (currently used for print only)
         updateWordsList()
@@ -208,7 +207,7 @@ class TranslateActivity : OptionsMenuActivity() {
         val ret = model.insertWord(w)
 
         if (ret < 0) makeToast(this, "Erreur d'insertion du mot '${wordText}'")
-        else makeToast(this, "Le mot '${wordText}' vient d'être ajouté")
+        else makeToast(this, "Le mot/la phrase '${wordText}' vient d'être ajouté")
 
         binding.motET.text.clear()
         updateDictionaryList()

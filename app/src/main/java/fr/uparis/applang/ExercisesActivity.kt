@@ -1,5 +1,7 @@
 package fr.uparis.applang
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -104,9 +106,20 @@ class ExercisesActivity: OptionsMenuActivity() {
 
     fun enleverMot(view: View) {
         val len = adapterWords.selectedItems.size
-        for (index in 0..len-1) {
-            model.deleteOneWord(adapterWords.selectedItems[index].text)
-            adapterWords.notifyItemRemoved(index)
+
+        if (len == 0) {
+            AlertDialog.Builder(this)
+                .setMessage("Veuillez choisir le.s mot à enlever")
+                .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.dismiss()
+                }).setCancelable(false)
+                .show()
+        } else {
+            for (index in 0..len - 1) {
+                model.deleteOneWord(adapterWords.selectedItems[index].text)
+                adapterWords.notifyItemRemoved(index)
+                adapterWords.selectedItems.clear()
+            }
         }
     }
 
