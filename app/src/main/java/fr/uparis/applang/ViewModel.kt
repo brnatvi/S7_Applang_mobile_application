@@ -11,7 +11,7 @@ import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
 class ViewModel(application: Application): AndroidViewModel(application) {
-    val dao = (application as LanguageApplication).database.langDAO()
+    private val dao = (application as LanguageApplication).database.langDAO()
 
     var words: LiveData<List<Word>> = dao.loadAllWord()
     var languages: LiveData<List<Language>> = dao.loadAllLanguage()
