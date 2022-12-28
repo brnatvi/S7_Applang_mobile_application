@@ -43,7 +43,7 @@ class ExercisesActivity: OptionsMenuActivity() {
         }
 
         // SharedPreferences
-        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE)                  // common preferences for all activities
+        sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
         sharedPrefEditor = sharedPref.edit()
 
         // init spinners

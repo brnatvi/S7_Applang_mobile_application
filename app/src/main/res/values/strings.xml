@@ -45,7 +45,7 @@
     <string name="appliquerBN">Appliquer</string>
     <string name="reinitBN">Réinitialiser</string>
 
-    <string name="nbMotsTW">Quantité (nb de mots proposé par jour) :</string>
+    <string name="nbMotsTW">"Quantité (nb de mots proposé) :"</string>
     <string name="frequenseTW">Fréquence (nb de fois par jour) :</string>
     <string name="lundiTW">Lundi :</string>
     <string name="mardiTW">Mardi :</string>

@@ -51,11 +51,14 @@
         </activity>
 
         <activity
-            android:name=".DictEditActivity"  />
+            android:name=".DictEditActivity"
+            android:screenOrientation="fullSensor"/>
         <activity
-            android:name=".ExercisesActivity"  />
+            android:name=".ExercisesActivity"
+            android:screenOrientation="fullSensor"/>
         <activity
-            android:name=".InfoActivity"  />
+            android:name=".InfoActivity"
+            android:screenOrientation="fullSensor"/>
 
         <service android:name=".NotificationService"
             android:exported="false"

@@ -23,15 +23,15 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected val optionDict: String   = "dictActivity"      // string stored
     protected val optionTransl: String = "translActivity"    // string stored
 
-    protected val keyLundi: String     = "Lundi"           // int stored
-    protected val keyMardi: String     = "Mardi"           // int stored
-    protected val keyMercredi: String  = "Mercredi"        // int stored
-    protected val keyJeudi: String     = "Jeudi"           // int stored
-    protected val keyVendredi: String  = "Vendredi"        // int stored
-    protected val keySamedi: String    = "Samedi"          // int stored
-    protected val keyDimanche: String  = "Dimanche"        // int stored
-    protected val keyQuantity: String  = "Quantity"        // int stored
-    protected val keyFrequency: String = "Frequency"       // int stored
+    public val keyLundi: String     = "Lundi"           // int stored
+    public val keyMardi: String     = "Mardi"           // int stored
+    public val keyMercredi: String  = "Mercredi"        // int stored
+    public val keyJeudi: String     = "Jeudi"           // int stored
+    public val keyVendredi: String  = "Vendredi"        // int stored
+    public val keySamedi: String    = "Samedi"          // int stored
+    public val keyDimanche: String  = "Dimanche"        // int stored
+    public val keyQuantity: String  = "Quantity"        // int stored
+    public val keyFrequency: String = "Frequency"       // int stored
 
     protected lateinit var currentActivity: AppCompatActivity
 

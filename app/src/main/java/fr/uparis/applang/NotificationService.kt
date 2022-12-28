@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleService
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
+import fr.uparis.applang.navigation.OptionsMenuActivity
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.math.min
@@ -27,10 +28,13 @@ class NotificationService : LifecycleService() {
     else
         PendingIntent.FLAG_UPDATE_CURRENT
     private val stackBuilder by lazy { TaskStackBuilder.create(this) }
-
     //TODO variables a paramétrer depuis ExecisesActivity
-    private var wordsPerTrain = 4;
-    private var trainPerDay: Long = 1L // Need to be >0
+//    private val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
+//
+//    private var wordsPerTrain = sharedPref.getInt(OptionsMenuActivity().keyFrequency, 1)
+//    private var trainPerDay: Long = sharedPref.getLong(OptionsMenuActivity().keyQuantity , 10) // Need to be >0
+    private var wordsPerTrain = 1
+    private var trainPerDay: Long = 1L
         set(value) {
             if(value>0){
                 field = value
