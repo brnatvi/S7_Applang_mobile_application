@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.uparis.applang.*
+import fr.uparis.applang.model.Language
 
 open class OptionsMenuActivity : AppCompatActivity() {
     protected lateinit var sharedPref : SharedPreferences
@@ -23,13 +24,13 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected val optionDict: String   = "dictActivity"      // string stored
     protected val optionTransl: String = "translActivity"    // string stored
 
-    public val keyLundi: String     = "Lundi"           // int stored
-    public val keyMardi: String     = "Mardi"           // int stored
-    public val keyMercredi: String  = "Mercredi"        // int stored
-    public val keyJeudi: String     = "Jeudi"           // int stored
-    public val keyVendredi: String  = "Vendredi"        // int stored
-    public val keySamedi: String    = "Samedi"          // int stored
-    public val keyDimanche: String  = "Dimanche"        // int stored
+    protected val keyLundi: String     = "Lundi"           // int stored
+    protected val keyMardi: String     = "Mardi"           // int stored
+    protected val keyMercredi: String  = "Mercredi"        // int stored
+    protected val keyJeudi: String     = "Jeudi"           // int stored
+    protected val keyVendredi: String  = "Vendredi"        // int stored
+    protected val keySamedi: String    = "Samedi"          // int stored
+    protected val keyDimanche: String  = "Dimanche"        // int stored
     public val keyQuantity: String  = "Quantity"        // int stored
     public val keyFrequency: String = "Frequency"       // int stored
 
@@ -113,5 +114,12 @@ open class OptionsMenuActivity : AppCompatActivity() {
     @JvmName("setCurrentActivity1")
     protected fun setCurrentActivity(activity: AppCompatActivity ) {
         currentActivity = activity
+    }
+
+    // Used by NotificationService
+    fun getLanguageOfTheDay(): Language {
+        // TODO Load current day language.
+        // c'est pas très pratique d'avoir des id par jours, on pourrait avoir un tableau, ou bien d'avoir une fonction pour récupérer la langue du jour directement.
+        return Language("en", "english");
     }
 }

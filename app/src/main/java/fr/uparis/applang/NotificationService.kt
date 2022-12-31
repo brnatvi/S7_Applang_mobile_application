@@ -52,13 +52,10 @@ class NotificationService : LifecycleService() {
         val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
         val wordsPerTrain = sharedPref.getInt(oma.keyQuantity, 1)// Need to be >0
         val trainPerDay = sharedPref.getInt(oma.keyFrequency , 10)// Need to be >0
-        // TODO Load current day language.
-        // c'est pas très pratique d'avoir des id par jours, le mieux serait d'avoir un tableau, ou bien d'avoir une fonction pour récupérer la langue du jour directement.
-        val languageNumber = sharedPref.getInt(oma.keyLundi, 0)
-        val trainingLanguage: Language = Language("fr","français")
+        val trainingLanguage: Language = oma.getLanguageOfTheDay();
 
 
-        Log.d("NOTIFICATIONS","Preferences loaded $wordsPerTrain, $trainPerDay, $trainingLanguage")
+        Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguage")
 
         val words = dao.loadAllWordLangDest(trainingLanguage.id)
         words.observe(this){
