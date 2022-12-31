@@ -140,7 +140,7 @@ class TranslateActivity : OptionsMenuActivity() {
         postValuesToSpinners (idLangSrc, idLangDest, idDict)
 
         //tryToGuessLanguagesFromURL will be call later
-     //   addCurrentURLAsDictionary(wholeURL)
+        addCurrentURLAsDictionary(wholeURL)
 
         cleanPreferences()
     }
@@ -259,7 +259,7 @@ class TranslateActivity : OptionsMenuActivity() {
         model.dictionaries.observe(this){
             var list = mutableListOf<Dictionary>()
             if(model.currentTranslationUrl.isNotEmpty()){
-                tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
+//                tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
                 list.add(Dictionary("Lien depuis le partage", model.currentTranslationUrl, ""))
             }
             //dictList = list
