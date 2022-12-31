@@ -2,6 +2,7 @@ package fr.uparis.applang
 
 import android.app.*
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
@@ -28,22 +29,6 @@ class NotificationService : LifecycleService() {
     else
         PendingIntent.FLAG_UPDATE_CURRENT
     private val stackBuilder by lazy { TaskStackBuilder.create(this) }
-    //TODO variables a paramétrer depuis ExecisesActivity
-//    private val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
-//
-//    private var wordsPerTrain = sharedPref.getInt(OptionsMenuActivity().keyFrequency, 1)
-//    private var trainPerDay: Long = sharedPref.getLong(OptionsMenuActivity().keyQuantity , 10) // Need to be >0
-    private var wordsPerTrain = 1
-    private var trainPerDay: Long = 1L
-        set(value) {
-            if(value>0){
-                field = value
-            }else{
-                field=1
-            }
-        }
-    private var trainingLanguage: Language = Language("fr","français");
-
 
 
 
@@ -62,13 +47,26 @@ class NotificationService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.d("NOTIFICATIONS", "onStartCommand")
+        val oma = OptionsMenuActivity();
+
+        val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
+        val wordsPerTrain = sharedPref.getInt(oma.keyQuantity, 1)// Need to be >0
+        val trainPerDay = sharedPref.getInt(oma.keyFrequency , 10)// Need to be >0
+        // TODO Load current day language.
+        // c'est pas très pratique d'avoir des id par jours, le mieux serait d'avoir un tableau, ou bien d'avoir une fonction pour récupérer la langue du jour directement.
+        val languageNumber = sharedPref.getInt(oma.keyLundi, 0)
+        val trainingLanguage: Language = Language("fr","français")
+
+
+        Log.d("NOTIFICATIONS","Preferences loaded $wordsPerTrain, $trainPerDay, $trainingLanguage")
+
         val words = dao.loadAllWordLangDest(trainingLanguage.id)
         words.observe(this){
             wordsList = it
             timer!!.scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
                     wordsList = wordsList.shuffled()
-                    sendNotifications(wordsList)
+                    sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
                 }
             }, 0L, (60000L*1440L)/trainPerDay)
         }
@@ -82,13 +80,13 @@ class NotificationService : LifecycleService() {
     /**
      * Send all notification for a training session.
      */
-    private fun sendNotifications(wordsList: List<Word>){
+    private fun sendNotifications(wordsList: List<Word>, wordsPerTrain: Int, trainingLanguage: Language){
         thread {
             val len = min(wordsList.size, wordsPerTrain)
             Log.d("NOTIFICATIONS", "$len new notification will be start.")
             for (i in 0..len-1){
                 Log.d("NOTIFICATIONS", "New notification: ${wordsList[i].toNotificationString()}")
-                sendNotification(wordsList[i].toNotificationString(), i, );
+                sendNotification(wordsList[i].toNotificationString(), i, trainingLanguage);
             }
         }
     }
@@ -97,7 +95,7 @@ class NotificationService : LifecycleService() {
      * Send a notification.
      * Notification id are always in [0, max notification-1] to avoid to have more than max notification at the same time.
      */
-    private fun sendNotification(message: String, notId: Int) {
+    private fun sendNotification(message: String, notId: Int, trainingLanguage: Language) {
         /* When user clic on notif, it send user to ExercisesActivity.*/
         val intent = Intent(this, ExercisesActivity::class.java)
         stackBuilder.addNextIntent(intent)
