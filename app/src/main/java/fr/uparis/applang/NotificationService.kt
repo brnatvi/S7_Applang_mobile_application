@@ -59,6 +59,7 @@ class NotificationService : LifecycleService() {
 
         val words = dao.loadAllWordLangDest(trainingLanguage.id)
         words.observe(this){
+            Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
             wordsList = it
             timer!!.scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {

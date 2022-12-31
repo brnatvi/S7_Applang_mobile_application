@@ -3,10 +3,12 @@ package fr.uparis.applang.navigation
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.*
 import fr.uparis.applang.model.Language
 

@@ -2,10 +2,10 @@ package fr.uparis.applang.navigation
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.widget.Toolbar
-import fr.uparis.applang.DictActivity
-import fr.uparis.applang.R
-import fr.uparis.applang.TranslateActivity
+import androidx.lifecycle.ViewModelProvider
+import fr.uparis.applang.*
 import fr.uparis.applang.databinding.StartLayoutBinding
 
 
@@ -43,6 +43,13 @@ class StartActivity : OptionsMenuActivity() {
         } else {
             chooseActivity()
         }
+        startNotificationService()
+    }
+
+    private fun startNotificationService(){
+        Log.d("NOTIFICATIONS","startNotificationService started")
+        val intent = Intent(this, NotificationService::class.java )
+        applicationContext.startService(intent)
     }
 
     private fun chooseActivityShare(incomingIntent: Intent) {

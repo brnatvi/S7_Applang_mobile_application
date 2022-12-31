@@ -69,8 +69,6 @@ class TranslateActivity : OptionsMenuActivity() {
 
         updateLanguagesList()
         updateDictionaryList()
-
-        startNotificationService()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -144,8 +142,6 @@ class TranslateActivity : OptionsMenuActivity() {
         //tryToGuessLanguagesFromURL will be call later
      //   addCurrentURLAsDictionary(wholeURL)
 
-        //TODO use somewhere useful (currently used for print only)
-        updateWordsList()
         cleanPreferences()
     }
 
@@ -211,8 +207,6 @@ class TranslateActivity : OptionsMenuActivity() {
 
         binding.motET.text.clear()
         updateDictionaryList()
-
-        //TODO use somewhere useful (currently used for print only)
         updateWordsList()
     }
 
@@ -222,7 +216,6 @@ class TranslateActivity : OptionsMenuActivity() {
         model.words.removeObservers(this)
         model.words.observe(this){
             Log.d("DB","list: $it")
-//          TODO Also update a graphic list if needed
         }
     }
 
@@ -315,12 +308,4 @@ class TranslateActivity : OptionsMenuActivity() {
         binding.langDestSP.post( { binding.langDestSP.setSelection(dest) })
         binding.dictSP    .post( { binding.dictSP    .setSelection(dict) })
     }
-
-
-    //TODO place somewere where it can be start at any time.
-    public fun startNotificationService(){
-        val intent = Intent(this, NotificationService::class.java )
-        applicationContext.startService(intent)
-    }
-
 }
