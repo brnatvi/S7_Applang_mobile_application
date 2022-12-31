@@ -57,7 +57,12 @@ class NotificationService : LifecycleService() {
 
         Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguage")
 
+        //TODO load language & use getLanguageOfTheDayId to get the rigth language
+        val languages = dao.loadAllLanguage();
+//        languages
+
         val words = dao.loadAllWordLangDest(trainingLanguage.id)
+        words.removeObservers(this);
         // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
         words.observe(this){
             timer!!.scheduleAtFixedRate(object : TimerTask() {
