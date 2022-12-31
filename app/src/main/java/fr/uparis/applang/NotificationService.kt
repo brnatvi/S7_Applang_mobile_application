@@ -31,11 +31,11 @@ class NotificationService : LifecycleService() {
     private val stackBuilder by lazy { TaskStackBuilder.create(this) }
 
 
-
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
         return null
     }
+    /** Initialise thing that need to be initialise */
     override fun onCreate() {
         Log.d("NOTIFICATIONS", "onCreate")
         super.onCreate()
@@ -44,6 +44,7 @@ class NotificationService : LifecycleService() {
         stackBuilder.addParentStack(ExercisesActivity::class.java)
     }
 
+    /** Load preferencies for learning notifications & send notifications x time a day. */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.d("NOTIFICATIONS", "onStartCommand")
@@ -52,24 +53,24 @@ class NotificationService : LifecycleService() {
         val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
         val wordsPerTrain = sharedPref.getInt(oma.keyQuantity, 1)// Need to be >0
         val trainPerDay = sharedPref.getInt(oma.keyFrequency , 10)// Need to be >0
-        val trainingLanguage: Language = oma.getLanguageOfTheDay();
-
+        val trainingLanguage: Language = oma.getLanguageOfTheDay(sharedPref);
 
         Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguage")
 
         val words = dao.loadAllWordLangDest(trainingLanguage.id)
+        // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
         words.observe(this){
-            Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
-            wordsList = it
             timer!!.scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
-                    wordsList = wordsList.shuffled()
+                    Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
+                    wordsList = it.shuffled() //shuffled allow to get different word each time notification are send.
                     sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
                 }
             }, 0L, (60000L*1440L)/trainPerDay)
         }
         return Service.START_NOT_STICKY
     }
+    /** Dispose the timer */
     override fun onDestroy() {
         super.onDestroy()
         Log.d("NOTIFICATIONS", "onDestroy")
@@ -121,7 +122,7 @@ class NotificationService : LifecycleService() {
         notificationManager.cancel(id)
     }
 
-    // Create the NotificationChannel, but only on API 26+ because
+    /** Create the NotificationChannel if needed*/
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(

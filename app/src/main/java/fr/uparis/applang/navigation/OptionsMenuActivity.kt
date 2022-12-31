@@ -3,14 +3,14 @@ package fr.uparis.applang.navigation
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.*
 import fr.uparis.applang.model.Language
+import fr.uparis.applang.model.LanguageApplication
+import java.util.*
 
 open class OptionsMenuActivity : AppCompatActivity() {
     protected lateinit var sharedPref : SharedPreferences
@@ -33,8 +33,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected val keyVendredi: String  = "Vendredi"        // int stored
     protected val keySamedi: String    = "Samedi"          // int stored
     protected val keyDimanche: String  = "Dimanche"        // int stored
-    public val keyQuantity: String  = "Quantity"        // int stored
-    public val keyFrequency: String = "Frequency"       // int stored
+    val keyQuantity: String  = "Quantity"        // int stored
+    val keyFrequency: String = "Frequency"       // int stored
 
     protected lateinit var currentActivity: AppCompatActivity
 
@@ -119,9 +119,45 @@ open class OptionsMenuActivity : AppCompatActivity() {
     }
 
     // Used by NotificationService
-    fun getLanguageOfTheDay(): Language {
-        // TODO Load current day language.
-        // c'est pas très pratique d'avoir des id par jours, on pourrait avoir un tableau, ou bien d'avoir une fonction pour récupérer la langue du jour directement.
+    /**
+     * Return the current language to train
+     * At this time this.sharedPref might be null. So we used a not null given in args.
+     */
+    fun getLanguageOfTheDay(sharedPref: SharedPreferences): Language {
+        val calendar: Calendar = Calendar.getInstance()
+        val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
+
+        // TODO c'est pas une bonne idée de sauvegarder un int, parce que la base de donnée peut renvoyé les langages dans un ordre différent.
+        val languageNumber: Int
+        when (day) {
+            Calendar.MONDAY -> {
+                languageNumber = sharedPref.getInt(keyLundi, 0);
+            }
+            Calendar.TUESDAY -> {
+                languageNumber = sharedPref.getInt(keyMardi, 0);
+            }
+            Calendar.WEDNESDAY -> {
+                languageNumber = sharedPref.getInt(keyMercredi, 0);
+            }
+            Calendar.THURSDAY -> {
+                languageNumber = sharedPref.getInt(keyJeudi, 0);
+            }
+            Calendar.FRIDAY -> {
+                languageNumber = sharedPref.getInt(keyVendredi, 0);
+            }
+            Calendar.SATURDAY -> {
+                languageNumber = sharedPref.getInt(keySamedi, 0);
+            }
+            Calendar.SUNDAY -> {
+                languageNumber = sharedPref.getInt(keyDimanche, 0);
+            }
+        }
+        // TODO Load current day language from int value.
+//        val dao = (application as LanguageApplication).database.langDAO()
+//        val languages = dao.loadAllLanguage()
+//        languages.observe(this){
+//
+//        }
         return Language("en", "english");
     }
 }
