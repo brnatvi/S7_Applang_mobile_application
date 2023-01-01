@@ -123,12 +123,11 @@ open class OptionsMenuActivity : AppCompatActivity() {
      * Return the current language to train
      * At this time this.sharedPref might be null. So we used a not null given in args.
      */
-    fun getLanguageOfTheDay(sharedPref: SharedPreferences): Language {
+    fun getLanguageOfTheDayId(sharedPref: SharedPreferences): Int {
         val calendar: Calendar = Calendar.getInstance()
         val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
 
-        // TODO c'est pas une bonne idée de sauvegarder un int, parce que la base de donnée peut renvoyé les langages dans un ordre différent.
-        val languageNumber: Int
+        var languageNumber: Int = 0;
         when (day) {
             Calendar.MONDAY -> {
                 languageNumber = sharedPref.getInt(keyLundi, 0);
@@ -152,12 +151,6 @@ open class OptionsMenuActivity : AppCompatActivity() {
                 languageNumber = sharedPref.getInt(keyDimanche, 0);
             }
         }
-        // TODO Load current day language from int value.
-//        val dao = (application as LanguageApplication).database.langDAO()
-//        val languages = dao.loadAllLanguage()
-//        languages.observe(this){
-//
-//        }
-        return Language("en", "english");
+        return languageNumber;
     }
 }

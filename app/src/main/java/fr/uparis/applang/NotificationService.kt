@@ -53,25 +53,29 @@ class NotificationService : LifecycleService() {
         val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
         val wordsPerTrain = sharedPref.getInt(oma.keyQuantity, 1)// Need to be >0
         val trainPerDay = sharedPref.getInt(oma.keyFrequency , 10)// Need to be >0
-        val trainingLanguage: Language = oma.getLanguageOfTheDay(sharedPref);
+        val trainingLanguageId: Int = oma.getLanguageOfTheDayId(sharedPref)
 
-        Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguage")
+        Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguageId")
 
-        //TODO load language & use getLanguageOfTheDayId to get the rigth language
+        //load all languages & use getLanguageOfTheDayId to get the rigth language
         val languages = dao.loadAllLanguage();
-//        languages
-
-        val words = dao.loadAllWordLangDest(trainingLanguage.id)
-        words.removeObservers(this);
-        // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
-        words.observe(this){
-            timer!!.scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
-                    wordsList = it.shuffled() //shuffled allow to get different word each time notification are send.
-                    sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
-                }
-            }, 0L, (60000L*1440L)/trainPerDay)
+        languages.removeObservers(this);
+        languages.observe(this){
+            val trainingLanguage: Language = it[trainingLanguageId]
+            // get all words with destination language = training language.
+            val words = dao.loadAllWordLangDest(trainingLanguage.id)
+            words.removeObservers(this);
+            // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
+            words.observe(this){
+                //send notification x time a day.
+                timer!!.scheduleAtFixedRate(object : TimerTask() {
+                    override fun run() {
+                        Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
+                        wordsList = it.shuffled() //shuffled allow to get different word each time notification are send.
+                        sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
+                    }
+                }, 0L, (60000L*1440L)/trainPerDay)
+            }
         }
         return Service.START_NOT_STICKY
     }
