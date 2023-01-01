@@ -103,12 +103,16 @@ class NotificationService : LifecycleService() {
      */
     private fun sendNotifications(wordsList: List<Word>, wordsPerTrain: Int, trainingLanguage: Language){
         thread {
+            val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
+            var notId = sharedPref.getInt("notId", 1)// Need to be >0
             val len = min(wordsList.size, wordsPerTrain)
             Log.d("NOTIFICATIONS", "$len new notification will be start.")
             for (i in 0..len-1){
-                Log.d("NOTIFICATIONS", "New notification: ${wordsList[i].toNotificationString()}")
-                sendNotification(wordsList[i].toNotificationString(), i, trainingLanguage, wordsList[i]);
+                Log.d("NOTIFICATIONS", "New notification: ${notId + i} ${wordsList[i].toNotificationString()}")
+                deleteNotification(notId+i-len)
+                sendNotification(wordsList[i].toNotificationString(), notId+i, trainingLanguage, wordsList[i])
             }
+            sharedPref.edit().putInt("notId", notId+len).commit()
         }
     }
 
@@ -118,14 +122,15 @@ class NotificationService : LifecycleService() {
      */
     private fun sendNotification(message: String, notId: Int, trainingLanguage: Language, word: Word) {
         /* When user click on notif, it send user to FromNotificationActivity.*/
-        val intent = Intent(this, FromNotificationActivity::class.java)
+        val intent = Intent(this,FromNotificationActivity::class.java)
         // TODO URL is not unique for every notification (it should be)
         intent.putExtra("URL", word.tradURL)
+//        intent.setIdentifier(word)
 //        stackBuilder.addNextIntent(intent)
 
         Log.d("NOTIFICATIONS", "Save extra.URL: ${word.tradURL}")
 
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, pendingFlag)
+        val pendingIntent = PendingIntent.getActivity(this, notId, intent, pendingFlag)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Entrainement en $trainingLanguage")
