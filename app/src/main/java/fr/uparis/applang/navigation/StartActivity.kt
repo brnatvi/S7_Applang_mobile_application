@@ -7,12 +7,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.*
 import fr.uparis.applang.databinding.StartLayoutBinding
+import fr.uparis.applang.model.Dictionary
+import fr.uparis.applang.model.Language
 
 
 class StartActivity : OptionsMenuActivity() {
     private lateinit var binding: StartLayoutBinding
     private lateinit var menu: Toolbar
     val TAG: String = "START == "
+    protected val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,8 @@ class StartActivity : OptionsMenuActivity() {
         } else {
             chooseActivity()
         }
+        iniAppData()
+
         startNotificationService()
     }
 
@@ -76,5 +81,24 @@ class StartActivity : OptionsMenuActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    private fun insertAllLanguages(){
+        val languageListContent: String = getString(R.string.languageList)
+        var languageList: MutableList<Language> = mutableListOf()
+        for (line: String in languageListContent.split("\n")){
+            var t = line.split(",")
+            languageList.add(Language(t[0], t[1]))
+        }
+        model.insertLanguages(*languageList.toTypedArray())
+    }
+
+    /** Create all languages & fiew dictionary. */
+    private fun iniAppData(){
+        Log.d("TEMP","Ini app data for the 1st time.")
+        insertAllLanguages()
+        model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
+        model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
+        model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
     }
 }

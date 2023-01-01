@@ -224,7 +224,7 @@ class TranslateActivity : OptionsMenuActivity() {
         model.languages.removeObservers(this)
         model.languages.observe(this){
             if(it.isEmpty()){ //if there is any language, we need to initialise all app data.
-                iniAppData();
+//                iniAppData();
                 updateLanguagesList();
             }else {
                 val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
@@ -275,24 +275,6 @@ class TranslateActivity : OptionsMenuActivity() {
 
     private fun addCurrentURLAsDictionary(url: String){
         model.currentTranslationUrl=url;
-    }
-
-    private fun insertAllLanguages(){
-        val languageListContent: String = getString(R.string.languageList)
-        var languageList: MutableList<Language> = mutableListOf()
-        for (line: String in languageListContent.split("\n")){
-            var t = line.split(",")
-            languageList.add(Language(t[0], t[1]))
-        }
-        model.insertLanguages(*languageList.toTypedArray())
-    }
-
-    /** Create all languages & fiew dictionary. */
-    private fun iniAppData(){
-        insertAllLanguages()
-        model.insertDictionary(Dictionary("Word Reference", "https://www.wordreference.com/", "\$langFrom\$langTo/\$word"))
-        model.insertDictionary(Dictionary("Larousse", "https://www.larousse.fr/dictionnaires/", "\$langFromLong-\$langToLong/\$word/"))
-        model.insertDictionary(Dictionary("Google translate", "https://translate.google.fr/", "?sl=\$langFrom&tl=\$langTo&text=\$word"))
     }
 
     // ====================== Auxiliary functions ======================================================

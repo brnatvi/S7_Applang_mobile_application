@@ -8,6 +8,7 @@ import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
+import fr.uparis.applang.navigation.OptionsMenuActivity
 import kotlin.concurrent.thread
 
 class ViewModel(application: Application): AndroidViewModel(application) {

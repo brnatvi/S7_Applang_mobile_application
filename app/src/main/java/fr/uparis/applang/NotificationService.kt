@@ -30,7 +30,6 @@ class NotificationService : LifecycleService() {
         PendingIntent.FLAG_UPDATE_CURRENT
     private val stackBuilder by lazy { TaskStackBuilder.create(this) }
 
-
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
         return null
@@ -57,28 +56,42 @@ class NotificationService : LifecycleService() {
 
         Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguageId")
 
-        //load all languages & use getLanguageOfTheDayId to get the rigth language
+        scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId)
+
+        return Service.START_NOT_STICKY
+    }
+
+    private fun scheduleNotifications(wordsPerTrain: Int, trainPerDay: Int, trainingLanguageId: Int){
+        //load all languages & use getLanguageOfTheDayId to get the right language
         val languages = dao.loadAllLanguage();
         languages.removeObservers(this);
         languages.observe(this){
-            val trainingLanguage: Language = it[trainingLanguageId]
-            // get all words with destination language = training language.
-            val words = dao.loadAllWordLangDest(trainingLanguage.id)
-            words.removeObservers(this);
-            // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
-            words.observe(this){
-                //send notification x time a day.
-                timer!!.scheduleAtFixedRate(object : TimerTask() {
-                    override fun run() {
-                        Log.d("NOTIFICATIONS","Collect ${wordsList.size} word for language ${trainingLanguage.id}")
-                        wordsList = it.shuffled() //shuffled allow to get different word each time notification are send.
-                        sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
-                    }
-                }, 0L, (60000L*1440L)/trainPerDay)
+            if(it.size>trainingLanguageId) {
+                val trainingLanguage: Language = it[trainingLanguageId]
+                // get all words with destination language = training language.
+                val words = dao.loadAllWordLangDest(trainingLanguage.id)
+                words.removeObservers(this);
+                // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
+                words.observe(this) {
+                    //send notification x time a day.
+                    timer!!.scheduleAtFixedRate(object : TimerTask() {
+                        override fun run() {
+                            Log.d(
+                                "NOTIFICATIONS",
+                                "Collect ${it.size} word for language ${trainingLanguage.id}"
+                            )
+                            wordsList =
+                                it.shuffled() //shuffled allow to get different word each time notification are send.
+                            sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
+                        }
+                    }, 0L, (60000L * 1440L) / trainPerDay)
+                }
+            }else {
+                scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId)
             }
         }
-        return Service.START_NOT_STICKY
     }
+
     /** Dispose the timer */
     override fun onDestroy() {
         super.onDestroy()
@@ -86,7 +99,7 @@ class NotificationService : LifecycleService() {
         timer!!.cancel()
     }
     /**
-     * Send all notification for a training session.
+     * Send all notifications for a training session.
      */
     private fun sendNotifications(wordsList: List<Word>, wordsPerTrain: Int, trainingLanguage: Language){
         thread {
@@ -104,11 +117,11 @@ class NotificationService : LifecycleService() {
      * Notification id are always in [0, max notification-1] to avoid to have more than max notification at the same time.
      */
     private fun sendNotification(message: String, notId: Int, trainingLanguage: Language, word: Word) {
-        /* When user clic on notif, it send user to FromNotificationActivity.*/
+        /* When user click on notif, it send user to FromNotificationActivity.*/
         val intent = Intent(this, FromNotificationActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        // TODO URL is not unique for every notification (it should be)
         intent.putExtra("URL", word.tradURL)
-        stackBuilder.addNextIntent(intent)
+//        stackBuilder.addNextIntent(intent)
 
         Log.d("NOTIFICATIONS", "Save extra.URL: ${word.tradURL}")
 
