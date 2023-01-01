@@ -41,7 +41,7 @@ class NotificationService : LifecycleService() {
         super.onCreate()
         timer = Timer()
         createNotificationChannel()
-        stackBuilder.addParentStack(ExercisesActivity::class.java)
+        stackBuilder.addParentStack(FromNotificationActivity::class.java)
     }
 
     /** Load preferencies for learning notifications & send notifications x time a day. */
@@ -94,7 +94,7 @@ class NotificationService : LifecycleService() {
             Log.d("NOTIFICATIONS", "$len new notification will be start.")
             for (i in 0..len-1){
                 Log.d("NOTIFICATIONS", "New notification: ${wordsList[i].toNotificationString()}")
-                sendNotification(wordsList[i].toNotificationString(), i, trainingLanguage);
+                sendNotification(wordsList[i].toNotificationString(), i, trainingLanguage, wordsList[i]);
             }
         }
     }
@@ -103,12 +103,16 @@ class NotificationService : LifecycleService() {
      * Send a notification.
      * Notification id are always in [0, max notification-1] to avoid to have more than max notification at the same time.
      */
-    private fun sendNotification(message: String, notId: Int, trainingLanguage: Language) {
-        /* When user clic on notif, it send user to ExercisesActivity.*/
-        val intent = Intent(this, ExercisesActivity::class.java)
+    private fun sendNotification(message: String, notId: Int, trainingLanguage: Language, word: Word) {
+        /* When user clic on notif, it send user to FromNotificationActivity.*/
+        val intent = Intent(this, FromNotificationActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.putExtra("URL", word.tradURL)
         stackBuilder.addNextIntent(intent)
 
-        val pendingIntent = PendingIntent.getActivity(this, 1, intent, pendingFlag)
+        Log.d("NOTIFICATIONS", "Save extra.URL: ${word.tradURL}")
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, pendingFlag)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Entrainement en $trainingLanguage")
