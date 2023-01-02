@@ -57,11 +57,11 @@
     <string name="choiseJourLangTV">Choisissez pour chaque jour quelles langues voulez-vous entraîner :</string>
 
     <!-- InfoActivity  -->
-    <string name="readmeTW">    <b>AppLang</b> est destinée à ceux qui apprennent des langues étrangères et qui souhaitent s\'entraîner quotidiennement en mémorisant de nouveaux mots. \n    Ici vous pouvez : </string>
+    <string name="readmeTW">    <b>AppLang</b> est destinée à ceux qui apprennent des langues étrangères et qui souhaitent s\'entraîner quotidiennement en mémorisant de nouveaux mots. \n    AppLang vous permettra : </string>
     <string name="translInfoTW"> - créer votre propre liste de mots à retenir</string>
-    <string name="exersInfoTW"> - définir la fréquence des notifications, le nombre de mots par jour pour l\'entraînement, ainsi que créer un agenda détaillé</string>
-    <string name="dictInfoTW"> - gérer les dictionnaires on-line que vous allez utiliser, ainsi que la liste de mots à retenir</string>
-    <string name="restInfo1TW">Une fois que vous créez la liste des mots, l\'application vous enverra ces mots sous forme de push notifications, pour que vous puissiez soit les récapituler, soit regarder sa page de traduction afin de les réapprendre.</string>
+    <string name="exersInfoTW"> - créer un planning d\'entrainement, ainsi que gérer la liste des mots à retenir</string>
+    <string name="dictInfoTW"> - gérer les dictionnaires que vous utilisez et chercher les nouveaux</string>
+    <string name="restInfo1TW">Une fois que vous créez la liste des mots, l\'application vous enverra ces mots sous forme de push notifications, pour que vous puissiez soit récapituler les mots, soit regarder ses pages de traduction afin de les réapprendre.</string>
 
 
     <string name="message1">"Vous pouvez utiliser les dictionnaires déjà disponibles. Pour le faire :
@@ -80,7 +80,11 @@
         Si nécessaire, il est toujours possible de modifier les champs du dictionnaire : son nom, son lien, etc en suivant les consignes."</string>
 
     <string name="message3">"
-        TODO
+        Ici vous pouvez définir la fréquence des notifications, le nombre de mots par jour pour l\'entraînement, ainsi que créer l\'agenda détaillé
+        Une fois que vous aurez créé une liste des mots et un planning d'entraînement, vous commencerez à recevoir les notifications.
+        Si vous connaissez la traduction du mot, rejetez la notification. Ce mot sera remplacé par un autre ultérieurement.
+        Si vous ne vous souvenez pas de la traduction de ce mot, cliquez sur la notification et vous serez redirigé vers la page de sa traduction.
+
         "</string>
 
     <!-- List of languages  -->
