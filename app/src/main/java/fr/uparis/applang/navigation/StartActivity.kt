@@ -9,6 +9,7 @@ import fr.uparis.applang.*
 import fr.uparis.applang.databinding.StartLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
+import fr.uparis.applang.notification.NotificationService
 
 
 class StartActivity : OptionsMenuActivity() {

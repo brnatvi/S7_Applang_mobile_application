@@ -1,11 +1,11 @@
-package fr.uparis.applang
+package fr.uparis.applang.notification
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import fr.uparis.applang.navigation.OptionsMenuActivity
+import fr.uparis.applang.ExercisesActivity
 
 class FromNotificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,5 +17,6 @@ class FromNotificationActivity : AppCompatActivity() {
         startActivity(Intent(this, ExercisesActivity::class.java))
         //Open the url
         startActivity(openURL)
+        finish()
     }
 }

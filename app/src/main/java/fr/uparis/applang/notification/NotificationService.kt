@@ -1,14 +1,14 @@
-package fr.uparis.applang
+package fr.uparis.applang.notification
 
 import android.app.*
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import fr.uparis.applang.R
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
@@ -122,7 +122,7 @@ class NotificationService : LifecycleService() {
      */
     private fun sendNotification(message: String, notId: Int, trainingLanguage: Language, word: Word) {
         /* When user click on notif, it send user to FromNotificationActivity.*/
-        val intent = Intent(this,FromNotificationActivity::class.java)
+        val intent = Intent(this, FromNotificationActivity::class.java)
         // TODO URL is not unique for every notification (it should be)
         intent.putExtra("URL", word.tradURL)
 //        intent.setIdentifier(word)

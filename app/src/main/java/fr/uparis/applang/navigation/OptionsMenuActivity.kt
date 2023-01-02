@@ -33,8 +33,9 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected val keyVendredi: String  = "Vendredi"        // int stored
     protected val keySamedi: String    = "Samedi"          // int stored
     protected val keyDimanche: String  = "Dimanche"        // int stored
-    val keyQuantity: String  = "Quantity"        // int stored
-    val keyFrequency: String = "Frequency"       // int stored
+    val keyQuantity: String  = "Quantity"                  // int stored
+    val keyFrequency: String = "Frequency"                 // int stored
+    val isNotifLaunched: String = "isNotifLaunched"        // int stored
 
     protected lateinit var currentActivity: AppCompatActivity
 
