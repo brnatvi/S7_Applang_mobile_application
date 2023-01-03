@@ -66,7 +66,7 @@ class NotificationService : LifecycleService() {
         )
 
         scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId, lastStartTime)
-        return Service.START_NOT_STICKY
+        return Service.START_STICKY
     }
 
     private fun scheduleNotifications(wordsPerTrain: Int, trainPerDay: Int, trainingLanguageId: Int, lastStartTime: Long){
@@ -98,10 +98,12 @@ class NotificationService : LifecycleService() {
                             sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
                         }
                     }, delay, period)
+                    words.removeObservers(this)
                 }
             }else {
                 scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId, lastStartTime)
             }
+            languages.removeObservers(this)
         }
     }
 
