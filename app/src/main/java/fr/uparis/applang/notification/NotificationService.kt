@@ -132,11 +132,16 @@ class NotificationService : LifecycleService() {
 
         val pendingIntent = PendingIntent.getActivity(this, notId, intent, pendingFlag)
 
+        val deleteIntent = Intent(this, NotificationCloseListener::class.java)
+        deleteIntent.putExtra("URL", word.tradURL)
+        val deletePendingIntent = PendingIntent.getBroadcast(this, notId, deleteIntent, pendingFlag)
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Entrainement en $trainingLanguage")
             .setContentText(message)
             .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
+            .setDeleteIntent(deletePendingIntent)
+//            .setAutoCancel(true)
             .setSmallIcon(R.drawable.small)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.large))
             .build()
