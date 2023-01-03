@@ -8,11 +8,13 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.LiveData
 import fr.uparis.applang.R
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 import fr.uparis.applang.navigation.OptionsMenuActivity
+import java.lang.Long.max
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.math.min
@@ -49,23 +51,33 @@ class NotificationService : LifecycleService() {
         Log.d("NOTIFICATIONS", "onStartCommand")
         val oma = OptionsMenuActivity();
 
-        val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
+        val sharedPref = getSharedPreferences(
+            "fr.uparis.applang",
+            MODE_PRIVATE
+        ) // common preferences for all activities
         val wordsPerTrain = sharedPref.getInt(oma.keyQuantity, 1)// Need to be >0
-        val trainPerDay = sharedPref.getInt(oma.keyFrequency , 10)// Need to be >0
+        val trainPerDay = sharedPref.getInt(oma.keyFrequency, 10)// Need to be >0
         val trainingLanguageId: Int = oma.getLanguageOfTheDayId(sharedPref)
+        val lastStartTime: Long = sharedPref.getLong("lastStartTime", System.currentTimeMillis())
 
-        Log.d("NOTIFICATIONS","Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguageId")
+        Log.d(
+            "NOTIFICATIONS",
+            "Preferences loaded: $wordsPerTrain, $trainPerDay, $trainingLanguageId"
+        )
 
-        scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId)
-
+        scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId, lastStartTime)
         return Service.START_NOT_STICKY
     }
 
-    private fun scheduleNotifications(wordsPerTrain: Int, trainPerDay: Int, trainingLanguageId: Int){
+    private fun scheduleNotifications(wordsPerTrain: Int, trainPerDay: Int, trainingLanguageId: Int, lastStartTime: Long){
         //load all languages & use getLanguageOfTheDayId to get the right language
+        val period = (60000L * 1440L) / trainPerDay
+        val delay = max(0, period - (System.currentTimeMillis()-lastStartTime))
+        Log.d("NOTIFICATIONS", "Start scheduleNotifications with delay=$delay")
+
         val languages = dao.loadAllLanguage();
         languages.removeObservers(this);
-        languages.observe(this){
+        languages.observe(this){ it ->
             if(it.size>trainingLanguageId) {
                 val trainingLanguage: Language = it[trainingLanguageId]
                 // get all words with destination language = training language.
@@ -81,13 +93,14 @@ class NotificationService : LifecycleService() {
                                 "Collect ${it.size} word for language ${trainingLanguage.id}"
                             )
                             wordsList =
-                                it.shuffled() //shuffled allow to get different word each time notification are send.
+                                it.sortedBy { word -> word.correctGuess } // sortedBy allow to work on less know word.
+                                    //.shuffled() //shuffled allow to get different word each time notification are send.
                             sendNotifications(wordsList, wordsPerTrain, trainingLanguage)
                         }
-                    }, 0L, (60000L * 1440L) / trainPerDay)
+                    }, delay, period)
                 }
             }else {
-                scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId)
+                scheduleNotifications(wordsPerTrain, trainPerDay, trainingLanguageId, lastStartTime)
             }
         }
     }
@@ -112,7 +125,9 @@ class NotificationService : LifecycleService() {
                 deleteNotification(notId+i-len)
                 sendNotification(wordsList[i].toNotificationString(), notId+i, trainingLanguage, wordsList[i])
             }
-            sharedPref.edit().putInt("notId", notId+len).commit()
+            sharedPref.edit().putInt("notId", notId+len)
+                .putLong("lastStartTime", System.currentTimeMillis())
+                .commit()
         }
     }
 
@@ -126,7 +141,7 @@ class NotificationService : LifecycleService() {
         // TODO URL is not unique for every notification (it should be)
         intent.putExtra("URL", word.tradURL)
 //        intent.setIdentifier(word)
-//        stackBuilder.addNextIntent(intent)
+        stackBuilder.addNextIntent(intent)
 
         Log.d("NOTIFICATIONS", "Save extra.URL: ${word.tradURL}")
 
@@ -141,7 +156,7 @@ class NotificationService : LifecycleService() {
             .setContentText(message)
             .setContentIntent(pendingIntent)
             .setDeleteIntent(deletePendingIntent)
-//            .setAutoCancel(true)
+            .setAutoCancel(true)
             .setSmallIcon(R.drawable.small)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.large))
             .build()

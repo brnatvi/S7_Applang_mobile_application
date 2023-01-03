@@ -27,6 +27,9 @@ interface LangDAO {
     @Query("SELECT * FROM word WHERE langDest=:langDest")
     fun loadAllWordLangDest(langDest: String): LiveData<List<Word>>
 
+    @Query("SELECT * FROM word WHERE tradURL=:url")
+    fun loadWordFromUrl(url: String): LiveData<List<Word>>
+
     @Query("SELECT * FROM language")
     fun loadAllLanguage(): LiveData<List<Language>>
 
@@ -45,6 +48,9 @@ interface LangDAO {
 
     @Query("DELETE FROM word WHERE text=:textName")
     fun deleteOneWord(textName: String)
+    @Query("DELETE FROM word WHERE tradURL=:url")
+    fun deleteOneWordFromUrl(url: String)
     @Query("DELETE FROM word")
     fun deleteAllWords()
+
 }

@@ -69,6 +69,9 @@
         <service
             android:name=".notification.NotificationService"
             android:exported="false" />
+        <service
+            android:name=".notification.UpdateWordService"
+            android:exported="false" />
 
         <receiver android:name=".notification.NotificationCloseListener"
             android:exported="false">

@@ -54,7 +54,9 @@ class StartActivity : OptionsMenuActivity() {
 
     private fun startNotificationService(){
         Log.d("NOTIFICATIONS","startNotificationService started")
-        val intent = Intent(this, NotificationService::class.java )
+        val intent = Intent(this, NotificationService::class.java ).apply {
+            action = "sendNotifications"
+        }
         applicationContext.startService(intent)
     }
 
