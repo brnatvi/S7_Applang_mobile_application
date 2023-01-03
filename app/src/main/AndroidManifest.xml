@@ -69,9 +69,11 @@
 
         <service
             android:name=".notification.NotificationService"
+            android:description="Send notification to learn new languages"
             android:exported="false" />
         <service
             android:name=".notification.UpdateWordService"
+            android:description="Remeber word that are well known by the user."
             android:exported="false" />
 
         <receiver android:name=".notification.NotificationCloseListener"
