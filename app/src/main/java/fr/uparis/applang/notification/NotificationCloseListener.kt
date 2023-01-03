@@ -13,6 +13,10 @@ class NotificationCloseListener: BroadcastReceiver() {
             val url: String = intent!!.getStringExtra("URL")!!
             Log.d("NOTIFICATIONS","Update word with $url")
 //            TODO("mettre a jour le mot.")
+            val action = intent!!.action
+            if (action == "notification_cancelled") {
+                // your code
+            }
         }
     }
 

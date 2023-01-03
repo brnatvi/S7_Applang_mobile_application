@@ -69,6 +69,13 @@
         <service
             android:name=".notification.NotificationService"
             android:exported="false" />
+
+        <receiver android:name=".notification.NotificationCloseListener"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="notification_cancelled"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
