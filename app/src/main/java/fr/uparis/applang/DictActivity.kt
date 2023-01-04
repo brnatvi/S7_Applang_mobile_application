@@ -262,13 +262,6 @@ class DictActivity  : OptionsMenuActivity() {
         return pos
     }
 
-    //TODO avoid duplicate if possible
-    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
-    fun CharSequence.unaccent(): String {
-        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
-        return REGEX_UNACCENT.replace(temp, "")
-    }
-
     // ====================== Auxiliary functions ======================================================
 
     // post values into spinners

@@ -140,9 +140,7 @@ class NotificationService : LifecycleService() {
     private fun sendNotification(message: String, notId: Int, trainingLanguage: Language, word: Word) {
         /* When user click on notif, it send user to FromNotificationActivity.*/
         val intent = Intent(this, FromNotificationActivity::class.java)
-        // TODO URL is not unique for every notification (it should be)
         intent.putExtra("URL", word.tradURL)
-//        intent.setIdentifier(word)
         stackBuilder.addNextIntent(intent)
 
         Log.d("NOTIFICATIONS", "Save extra.URL: ${word.tradURL}")

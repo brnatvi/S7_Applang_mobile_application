@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import fr.uparis.applang.*
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
+import java.text.Normalizer
 import java.util.*
 
 open class OptionsMenuActivity : AppCompatActivity() {
@@ -153,5 +154,12 @@ open class OptionsMenuActivity : AppCompatActivity() {
             }
         }
         return languageNumber;
+    }
+
+    // ====================== Auxiliary functions ======================================================
+    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+    fun CharSequence.unaccent(): String {
+        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
+        return REGEX_UNACCENT.replace(temp, "")
     }
 }

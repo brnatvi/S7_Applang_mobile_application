@@ -23,8 +23,6 @@ class TranslateActivity : OptionsMenuActivity() {
     private lateinit var menu: Toolbar
     private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 
-    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
-
     private var wholeURL = ""
     private var langSRC = ""
     private var langDST = ""
@@ -278,12 +276,6 @@ class TranslateActivity : OptionsMenuActivity() {
     }
 
     // ====================== Auxiliary functions ======================================================
-    //TODO avoid duplicate if possible
-    fun CharSequence.unaccent(): String {
-        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
-        return REGEX_UNACCENT.replace(temp, "")
-    }
-
     // post values into spinners
     private fun postValuesToSpinners (src: Int, dest: Int, dict: Int) {
         binding.langSrcSP .post( { binding.langSrcSP .setSelection(src) })
