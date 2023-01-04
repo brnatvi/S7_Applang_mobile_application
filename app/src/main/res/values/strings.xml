@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">AppLang</string>
+    <string name="NotificationServiceDesc">Send notification to learn new languages</string>
+    <string name="UpdateWordServiceDesc">Remeber word that are well known by the user.</string>
 
     <!-- Menu  -->
     <string name="home">Traduire</string>
@@ -16,7 +18,7 @@
     <string name="langDestTW">à </string>
 
     <!-- DictActivity  -->
-    <string name="nomDictTW">Chercher dictionnaire</string>
+    <string name="nomDictTW">Chercher le dictionnaire</string>
     <string name="nomDictET">nom du dictionnaire et un mot à traduire</string>
     <string name="lienDictTW">L\'url:</string>
     <string name="lienDictET">après la recherche l\'url apparaîtra ici</string>
@@ -39,8 +41,8 @@
 
     <!-- ExercisesActivity  -->
     <string name="listMotdTW">Les mots disponibles pour exercises</string>
-    <string name="nettoyerListBN">Nettoyer liste</string>
-    <string name="enleverMotBT">Enlever sélectionné</string>
+    <string name="nettoyerListBN">Nettoyer la liste</string>
+    <string name="enleverMotBT">Enlever le mot sélectionné</string>
     <string name="parametrageTW">Paramétrage d\'entraînement</string>
     <string name="appliquerBN">Appliquer</string>
     <string name="reinitBN">Réinitialiser</string>
@@ -54,13 +56,13 @@
     <string name="vendrediTW">Vendredi :</string>
     <string name="samediTW">Samedi :</string>
     <string name="dimancheTW">Dimanche :</string>
-    <string name="choiseJourLangTV">Choisissez pour chaque jour quelles langues voulez-vous entraîner :</string>
+    <string name="choiseJourLangTV">Choisissez pour chaques jours quelle langue voulez-vous apprendre :</string>
 
     <!-- InfoActivity  -->
-    <string name="readmeTW">    <b>AppLang</b> est destinée à ceux qui apprennent des langues étrangères et qui souhaitent s\'entraîner quotidiennement en mémorisant de nouveaux mots. \n    AppLang vous permettra : </string>
+    <string name="readmeTW">    <b>AppLang</b> est destinée à ceux qui apprennent des langues étrangères et qui souhaitent s\'entraîner quotidiennement en mémorisant de nouveaux mots. \n    AppLang vous permettra de : </string>
     <string name="translInfoTW"> - créer votre propre liste de mots à retenir</string>
-    <string name="exersInfoTW"> - créer un planning d\'entrainement, ainsi que gérer la liste des mots à retenir</string>
-    <string name="dictInfoTW"> - gérer les dictionnaires que vous utilisez et chercher les nouveaux</string>
+    <string name="exersInfoTW"> - créer un planning d\'entrainement, ainsi que de gérer la liste des mots à retenir</string>
+    <string name="dictInfoTW"> - gérer les dictionnaires que vous utilisez et en chercher de nouveaux</string>
     <string name="restInfo1TW">Une fois que vous créez la liste des mots, l\'application vous enverra ces mots sous forme de push notifications, pour que vous puissiez soit récapituler les mots, soit regarder ses pages de traduction afin de les réapprendre.</string>
 
 
