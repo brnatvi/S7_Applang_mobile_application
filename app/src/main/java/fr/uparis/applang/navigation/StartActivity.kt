@@ -52,14 +52,6 @@ class StartActivity : OptionsMenuActivity() {
         startNotificationService()
     }
 
-    private fun startNotificationService(){
-        Log.d("NOTIFICATIONS","startNotificationService started")
-        val intent = Intent(this, NotificationService::class.java ).apply {
-            action = "sendNotifications"
-        }
-        applicationContext.startService(intent)
-    }
-
     private fun chooseActivityShare(incomingIntent: Intent) {
         incomingIntent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             intent = if (sharedPref.getString(keyActivity, "") == optionDict) {

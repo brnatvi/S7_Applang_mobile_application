@@ -138,7 +138,7 @@ class ExercisesActivity: OptionsMenuActivity() {
             sharedPrefEditor.putInt(keyQuantity, binding.nbMotsET.text.toString().toInt())
         }
         sharedPrefEditor.commit()
-        //TODO restart NotificationService
+        startNotificationService()
     }
 
     fun reinitParametrage(view: View) {

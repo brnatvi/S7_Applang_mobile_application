@@ -3,13 +3,13 @@ package fr.uparis.applang.navigation
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.uparis.applang.*
-import fr.uparis.applang.model.Language
-import fr.uparis.applang.model.LanguageApplication
+import fr.uparis.applang.notification.NotificationService
 import java.text.Normalizer
 import java.util.*
 
@@ -154,6 +154,15 @@ open class OptionsMenuActivity : AppCompatActivity() {
             }
         }
         return languageNumber;
+    }
+
+    protected fun startNotificationService(){
+        Log.d("NOTIFICATIONS","startNotificationService started")
+        val intent = Intent(this, NotificationService::class.java ).apply {
+            action = "sendNotifications"
+        }
+        applicationContext.stopService(intent)
+        applicationContext.startService(intent)
     }
 
     // ====================== Auxiliary functions ======================================================
