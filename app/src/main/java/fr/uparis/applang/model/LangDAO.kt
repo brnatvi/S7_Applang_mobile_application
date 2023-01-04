@@ -3,6 +3,10 @@ package fr.uparis.applang.model
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * DataBase request class.
+ * View classes use ViewModel that will access this class for them.
+ */
 @Dao
 interface LangDAO {
 

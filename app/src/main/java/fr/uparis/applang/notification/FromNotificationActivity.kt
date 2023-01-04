@@ -7,6 +7,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import fr.uparis.applang.ExercisesActivity
 
+/**
+ * Minor activity witch goal is to react to notifications clicks by opening word link & open exercises Activity.
+ */
 class FromNotificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,6 +10,9 @@ import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 
 
+/**
+ * First Activity started when app is launch. It's main goal is to initialize few thing needed at app start & redirect to an activity.
+ */
 class StartActivity : OptionsMenuActivity() {
     private lateinit var binding: StartLayoutBinding
     private lateinit var menu: Toolbar

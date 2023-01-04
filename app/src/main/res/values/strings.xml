@@ -93,6 +93,9 @@
 
         "</string>
 
+    <!-- Notification -->
+    <string name="translate">Traduisez</string>
+
     <!-- List of languages  -->
     <string name="languageList">"""fr,Français
 en,English

@@ -11,6 +11,10 @@ import fr.uparis.applang.databinding.ExercisesLayoutBinding
 import fr.uparis.applang.navigation.OptionsMenuActivity
 
 
+/**
+ * Training activity.
+ * It include training parameters & the list of words
+ */
 class ExercisesActivity: OptionsMenuActivity() {
     private lateinit var binding: ExercisesLayoutBinding
     private lateinit var menu: Toolbar

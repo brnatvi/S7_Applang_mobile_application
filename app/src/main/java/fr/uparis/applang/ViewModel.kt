@@ -10,6 +10,9 @@ import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
+/**
+ * Main view model used by Activity to interact with dataBase
+ */
 class ViewModel(application: Application): AndroidViewModel(application) {
     private val dao = (application as LanguageApplication).database.langDAO()
 

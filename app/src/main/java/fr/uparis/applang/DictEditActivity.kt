@@ -8,6 +8,10 @@ import fr.uparis.applang.databinding.EditLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.navigation.OptionsMenuActivity
 
+/**
+ * Activity used to manage existing dictionaries
+ * It is include in DictActivity.
+ */
 class DictEditActivity : OptionsMenuActivity()  {
     private lateinit var binding: EditLayoutBinding
     private lateinit var menu: Toolbar
@@ -42,7 +46,7 @@ class DictEditActivity : OptionsMenuActivity()  {
     // ================================= Buttons' functions =============================================
     fun sauvegarder(view: View) {
         model.deleteDictionary(initDictName)
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
 
         val nameDict = binding.nameET.text.toString()
         val urlDict = binding.linkET.text.toString()

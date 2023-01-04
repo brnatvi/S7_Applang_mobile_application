@@ -19,6 +19,9 @@ import kotlin.concurrent.thread
 import kotlin.math.min
 
 
+/**
+ * Main service that send notifications
+ */
 class NotificationService : LifecycleService() {
     private var timer: Timer? = null
     private val dao by lazy { (application as LanguageApplication).database.langDAO() }
@@ -68,6 +71,9 @@ class NotificationService : LifecycleService() {
         return Service.START_STICKY
     }
 
+    /**
+     * Send wordsPerTrain notifications trainPerDay time a day.
+     */
     private fun scheduleNotifications(wordsPerTrain: Int, trainPerDay: Int, trainingLanguageId: Int, lastStartTime: Long){
         //load all languages & use getLanguageOfTheDayId to get the right language
         val period = (60000L * 1440L) / trainPerDay

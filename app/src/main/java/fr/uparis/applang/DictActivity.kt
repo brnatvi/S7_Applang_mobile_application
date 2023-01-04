@@ -14,8 +14,10 @@ import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.navigation.OptionsMenuActivity
 
-
-class DictActivity  : OptionsMenuActivity() {
+/**
+ * Activity used to manage dictionaries
+ */
+class DictActivity: OptionsMenuActivity() {
     private lateinit var bindingDict: DictLayoutBinding
     private lateinit var menu: Toolbar
 

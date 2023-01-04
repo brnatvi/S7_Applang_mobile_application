@@ -14,7 +14,9 @@ import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
 import fr.uparis.applang.navigation.OptionsMenuActivity
 
-
+/**
+ * Main Activity were user can add new translation.
+ */
 class TranslateActivity : OptionsMenuActivity() {
     private lateinit var binding: TranslateLayoutBinding
     private lateinit var menu: Toolbar

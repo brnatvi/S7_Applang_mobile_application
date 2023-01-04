@@ -5,6 +5,11 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 
+/**
+ * Common adapter class with fiew common function for View & 2 list off T :
+ * - A list of all item
+ * - A list of selected item
+ */
 interface AdapterInterface<T>{
     var allItems : List<T>
     var selectedItems : MutableList<T>

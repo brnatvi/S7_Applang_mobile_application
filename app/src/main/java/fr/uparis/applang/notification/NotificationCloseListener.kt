@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 
+/**
+ * React to close notification by starting a Service that will be able to update correct guess counter for notification word.
+ */
 class NotificationCloseListener: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {

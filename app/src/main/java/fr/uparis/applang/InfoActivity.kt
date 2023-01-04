@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar
 import fr.uparis.applang.databinding.InfoLayoutBinding
 import fr.uparis.applang.navigation.OptionsMenuActivity
 
+/**
+ * Text activity that describe the app for new users.
+ */
 class InfoActivity : OptionsMenuActivity() {
     private lateinit var binding: InfoLayoutBinding
     private lateinit var menu: Toolbar

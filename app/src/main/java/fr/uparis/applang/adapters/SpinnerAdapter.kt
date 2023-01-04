@@ -7,9 +7,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import fr.uparis.applang.model.Language
 
-class SpinnerAdapter (spinner: Spinner,
-                      context: Context,
-                      langList: List<Language>) {
+/**
+ * Spinner Adapter for language
+ */
+class SpinnerAdapter (spinner: Spinner, context: Context, langList: List<Language>) {
 
     init{
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, langList)

@@ -14,6 +14,10 @@ import fr.uparis.applang.notification.NotificationService
 import java.text.Normalizer
 import java.util.*
 
+/**
+ * Activity with menu.
+ * Since it's an activity override by other Activity. It is also used to share common key & common function used by several activities.
+ */
 open class OptionsMenuActivity : AppCompatActivity() {
     protected val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 

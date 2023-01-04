@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.uparis.applang.databinding.Item3FieldsLayoutBinding
 import fr.uparis.applang.model.Word
 
+/**
+ * RecyclerView Adapter for word
+ */
 class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>(), AdapterInterface<Word>  {
 
     override var allItems: List<Word> = listOf()

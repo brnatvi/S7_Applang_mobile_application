@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.uparis.applang.databinding.Item1FieldLayoutBinding
 import fr.uparis.applang.model.Dictionary
 
+/**
+ * RecyclerView Adapter for dictionary
+ */
 class DictAdapter: RecyclerView.Adapter<DictAdapter.DictViewHolder>(), AdapterInterface<Dictionary>  {
 
     override var allItems: List<Dictionary> = listOf()

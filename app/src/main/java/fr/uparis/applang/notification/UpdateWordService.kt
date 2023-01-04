@@ -10,6 +10,9 @@ import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
 import kotlin.concurrent.thread
 
+/**
+ * Simple service that will be able to update correct guess counter for a word.
+ */
 class UpdateWordService : LifecycleService() {
     private val dao by lazy { (application as LanguageApplication).database.langDAO() }
 
@@ -20,11 +23,9 @@ class UpdateWordService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null && intent.action == "updateWord") {
-            Log.d("NOTIFICATIONS", "onStartCommand updateWord")
             val url = intent.getStringExtra("URL")!!
-            Log.d("NOTIFICATIONS", "Update word with $url")
+            Log.d("NOTIFICATIONS", "Update word correct guess from it's url: $url")
             val notifWord: LiveData<List<Word>> = dao.loadWordFromUrl(url)
-            Log.d("NOTIFICATIONS", "Before observe")
             notifWord.removeObservers(this)
             notifWord.observe(this) {
                 if (it.isNotEmpty()) {
@@ -38,7 +39,9 @@ class UpdateWordService : LifecycleService() {
                 } else {
                     Log.d("NOTIFICATIONS", "Empty answer")
                 }
+                //stop service after update.
                 notifWord.removeObservers(this)
+                onDestroy()
             }
         }
         super.onStartCommand(intent, flags, startId)
