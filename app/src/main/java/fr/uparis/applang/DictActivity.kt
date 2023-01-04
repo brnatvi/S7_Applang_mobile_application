@@ -101,12 +101,12 @@ class DictActivity  : OptionsMenuActivity() {
         if (len == 0) {
             AlertDialog.Builder(this)
                 .setMessage("Veuillez choisir dictionnaire.s à enlever")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, _ -> dialog.dismiss()
-                }).setCancelable(false)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.setCancelable(false)
                 .show()
         } else {
-            for (index in 0..len-1) {
+            for (index in 0 until len) {
                 model.deleteDictionary(adapterDict.selectedItems[index].name)
                 adapterDict.notifyItemRemoved(index)
                 adapterDict.selectedItems.clear()
@@ -122,9 +122,9 @@ class DictActivity  : OptionsMenuActivity() {
         if ( (nameDict == "") || (url == "") ) {
             AlertDialog.Builder(this)
                 .setMessage("Merci de trouver le lien du dictionnaire et de choisir les languages")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, _ -> dialog.dismiss()
-                }).setCancelable(false)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.setCancelable(false)
                 .show()
         }
 
@@ -132,18 +132,18 @@ class DictActivity  : OptionsMenuActivity() {
 
         val splitLocation = ordinalIndexOf(url, "/", 3)+1
 
-        var langFrom = (bindingDict.langSrcSP.selectedItem as Language)
-        var langDest = (bindingDict.langDestSP.selectedItem as Language)
+        val langFrom = (bindingDict.langSrcSP.selectedItem as Language)
+        val langDest = (bindingDict.langDestSP.selectedItem as Language)
 
         val requestComposition = url.substring(splitLocation, url.length)
             .replace(word, "\$word", true)
         val urlDict = url.substring(0, splitLocation)
 
         if("langFrom" !in requestComposition){
-            nameDict += " $langFrom";
+            nameDict += " $langFrom"
         }
         if("langTo" !in requestComposition){
-            nameDict += "->$langDest";
+            nameDict += "->$langDest"
         }
 
         val ret = model.insertDictionary(Dictionary(nameDict, urlDict, requestComposition))
@@ -164,9 +164,9 @@ class DictActivity  : OptionsMenuActivity() {
         if (phrase == "") {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire et de choisir les languages de traduction")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, _ -> dialog.dismiss()
-                }).setCancelable(false)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.setCancelable(false)
                 .show()
             return
         }
@@ -178,7 +178,7 @@ class DictActivity  : OptionsMenuActivity() {
         val idLangSrc = bindingDict.langSrcSP.getSelectedItemPosition()
         val idLangDest = bindingDict.langDestSP.getSelectedItemPosition()
 
-        val request = GOOGLE_SEARCH_PATH + " ${nameDict} translate ${word}  ${srLangSrc} ${stLangDest}"
+        val request = GOOGLE_SEARCH_PATH + " $nameDict translate $word  $srLangSrc $stLangDest"
 
         // save SharedPreferences
         sharedPrefEditor.putString(keyActivity, optionDict)
@@ -198,9 +198,9 @@ class DictActivity  : OptionsMenuActivity() {
         if (adapterDict.selectedItems.size != 1) {
             AlertDialog.Builder(this)
                 .setMessage("Un seul dictionnaire peut être corrigé à la fois")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, _ -> dialog.dismiss()
-                }).setCancelable(false)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.setCancelable(false)
                 .show()
         } else {
             val dictToEdit = adapterDict.selectedItems[0]
@@ -232,9 +232,9 @@ class DictActivity  : OptionsMenuActivity() {
 
         AlertDialog.Builder(this)
             .setMessage("Assurez-vous que le contenu du lien correspond au nom du dictionnaire, à la langue source et à la langue destination choisis")
-            .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                    dialog, _ -> dialog.dismiss()
-            }).setCancelable(false)
+            .setPositiveButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+            }.setCancelable(false)
             .show()
         return
 
