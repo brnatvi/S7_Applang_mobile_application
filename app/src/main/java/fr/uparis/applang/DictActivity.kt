@@ -15,7 +15,6 @@ import fr.uparis.applang.databinding.DictLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.navigation.OptionsMenuActivity
-import java.text.Normalizer
 
 
 class DictActivity  : OptionsMenuActivity() {
@@ -103,7 +102,7 @@ class DictActivity  : OptionsMenuActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Veuillez choisir dictionnaire.s à enlever")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
+                        dialog, _ -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
         } else {
@@ -117,14 +116,14 @@ class DictActivity  : OptionsMenuActivity() {
 
     // create add dictionary with elements from fields and add it to database
     fun ajouterDict(view: View) {
-        var nameDict = bindingDict.nomDictET.text.toString().trim().capitalize()
+        var nameDict = bindingDict.nomDictET.text.toString().trim().replaceFirstChar(Char::titlecase)
         val url = bindingDict.lienDictET.text.toString().trim()
 
         if ( (nameDict == "") || (url == "") ) {
             AlertDialog.Builder(this)
                 .setMessage("Merci de trouver le lien du dictionnaire et de choisir les languages")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
+                        dialog, _ -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
         }
@@ -166,7 +165,7 @@ class DictActivity  : OptionsMenuActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer le nom du dictionnaire et de choisir les languages de traduction")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
+                        dialog, _ -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
             return
@@ -200,7 +199,7 @@ class DictActivity  : OptionsMenuActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Un seul dictionnaire peut être corrigé à la fois")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
+                        dialog, _ -> dialog.dismiss()
                 }).setCancelable(false)
                 .show()
         } else {
@@ -221,7 +220,7 @@ class DictActivity  : OptionsMenuActivity() {
     // handling the received data from the "share" process
     private fun handleReceivedLink(shareLink: String) {
         // restore states of fields
-        nameDict = sharedPref.getString(keyDict, "").toString().capitalize()
+        nameDict = sharedPref.getString(keyDict, "").toString().replaceFirstChar(Char::titlecase)
         bindingDict.nomDictET.setText(nameDict)
 
         bindingDict.lienDictET.setText(shareLink)
@@ -234,12 +233,12 @@ class DictActivity  : OptionsMenuActivity() {
         AlertDialog.Builder(this)
             .setMessage("Assurez-vous que le contenu du lien correspond au nom du dictionnaire, à la langue source et à la langue destination choisis")
             .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                    dialog, id -> dialog.dismiss()
+                    dialog, _ -> dialog.dismiss()
             }).setCancelable(false)
             .show()
         return
 
-        cleanPreferences()
+//        cleanPreferences()
        }
 
     // ================================= DataBase's functions =============================================
@@ -253,8 +252,8 @@ class DictActivity  : OptionsMenuActivity() {
         }
     }
 
-    private fun ordinalIndexOf(str: String, subs: String?, n: Int): Int {
-        var n = n
+    private fun ordinalIndexOf(str: String, subs: String?, nIn: Int): Int {
+        var n = nIn
         var pos = str.indexOf(subs!!)
         while (--n > 0 && pos != -1) {
             pos = str.indexOf(subs, pos + 1)
