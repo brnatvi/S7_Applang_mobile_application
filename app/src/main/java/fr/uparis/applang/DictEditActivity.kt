@@ -12,7 +12,6 @@ import fr.uparis.applang.navigation.OptionsMenuActivity
 class DictEditActivity : OptionsMenuActivity()  {
     private lateinit var binding: EditLayoutBinding
     private lateinit var menu: Toolbar
-    private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
     private val adapter by lazy { DictAdapter() }
 
     private var initDictName = ""

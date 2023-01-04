@@ -21,7 +21,6 @@ import java.text.Normalizer
 class TranslateActivity : OptionsMenuActivity() {
     private lateinit var binding: TranslateLayoutBinding
     private lateinit var menu: Toolbar
-    private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
 
     private var wholeURL = ""
     private var langSRC = ""

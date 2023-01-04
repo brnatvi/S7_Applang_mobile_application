@@ -8,7 +8,6 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.LiveData
 import fr.uparis.applang.R
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
@@ -23,7 +22,7 @@ import kotlin.math.min
 class NotificationService : LifecycleService() {
     private var timer: Timer? = null
     private val dao by lazy { (application as LanguageApplication).database.langDAO() }
-    private var wordsList: List<Word> = listOf<Word>()
+    private var wordsList: List<Word> = listOf()
     private val CHANNEL_ID = "entrainement traduction"
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
     private val pendingFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -49,7 +48,7 @@ class NotificationService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.d("NOTIFICATIONS", "onStartCommand")
-        val oma = OptionsMenuActivity();
+        val oma = OptionsMenuActivity()
 
         val sharedPref = getSharedPreferences(
             "fr.uparis.applang",
@@ -75,14 +74,14 @@ class NotificationService : LifecycleService() {
         val delay = max(0, period - (System.currentTimeMillis()-lastStartTime))
         Log.d("NOTIFICATIONS", "Start scheduleNotifications with delay=$delay")
 
-        val languages = dao.loadAllLanguage();
-        languages.removeObservers(this);
+        val languages = dao.loadAllLanguage()
+        languages.removeObservers(this)
         languages.observe(this){ it ->
             if(it.size>trainingLanguageId) {
                 val trainingLanguage: Language = it[trainingLanguageId]
                 // get all words with destination language = training language.
                 val words = dao.loadAllWordLangDest(trainingLanguage.id)
-                words.removeObservers(this);
+                words.removeObservers(this)
                 // observe can't be done inside timer. So app need to be restart so that words list or preferences can be update.
                 words.observe(this) {
                     //send notification x time a day.
@@ -119,10 +118,10 @@ class NotificationService : LifecycleService() {
     private fun sendNotifications(wordsList: List<Word>, wordsPerTrain: Int, trainingLanguage: Language){
         thread {
             val sharedPref = getSharedPreferences("fr.uparis.applang", MODE_PRIVATE) // common preferences for all activities
-            var notId = sharedPref.getInt("notId", 1)// Need to be >0
+            val notId = sharedPref.getInt("notId", 1)// Need to be >0
             val len = min(wordsList.size, wordsPerTrain)
             Log.d("NOTIFICATIONS", "$len new notification will be start.")
-            for (i in 0..len-1){
+            for (i in 0 until len){
                 Log.d("NOTIFICATIONS", "New notification: ${notId + i} ${wordsList[i].toNotificationString()}")
                 deleteNotification(notId+i-len)
                 sendNotification(wordsList[i].toNotificationString(), notId+i, trainingLanguage, wordsList[i])

@@ -1,7 +1,6 @@
 package fr.uparis.applang
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -16,7 +15,6 @@ import fr.uparis.applang.navigation.OptionsMenuActivity
 class ExercisesActivity: OptionsMenuActivity() {
     private lateinit var binding: ExercisesLayoutBinding
     private lateinit var menu: Toolbar
-    private val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
     private val adapterWords by lazy { WordAdapter() }
 
     val TAG: String = "EXERS ===="
@@ -30,7 +28,7 @@ class ExercisesActivity: OptionsMenuActivity() {
         setContentView(binding.root)
 
         // menu toolbar
-        menu =  findViewById(fr.uparis.applang.R.id.acc_toolbar)
+        menu =  findViewById(R.id.acc_toolbar)
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
@@ -83,13 +81,13 @@ class ExercisesActivity: OptionsMenuActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(keyLundi    , binding.lundiSP    . getSelectedItemPosition())
-        outState.putInt(keyMardi    , binding.mardiSP    . getSelectedItemPosition())
-        outState.putInt(keyMercredi , binding.mercrediSP . getSelectedItemPosition())
-        outState.putInt(keyJeudi    , binding.jeudiSP    . getSelectedItemPosition())
-        outState.putInt(keyVendredi , binding.vendrediSP . getSelectedItemPosition())
-        outState.putInt(keySamedi   , binding.samediSP   . getSelectedItemPosition())
-        outState.putInt(keyDimanche , binding.dimancheSP . getSelectedItemPosition())
+        outState.putInt(keyLundi    , binding.lundiSP    .selectedItemPosition)
+        outState.putInt(keyMardi    , binding.mardiSP    .selectedItemPosition)
+        outState.putInt(keyMercredi , binding.mercrediSP .selectedItemPosition)
+        outState.putInt(keyJeudi    , binding.jeudiSP    .selectedItemPosition)
+        outState.putInt(keyVendredi , binding.vendrediSP .selectedItemPosition)
+        outState.putInt(keySamedi   , binding.samediSP   .selectedItemPosition)
+        outState.putInt(keyDimanche , binding.dimancheSP .selectedItemPosition)
         if (!binding.frequenseET.text.isEmpty()) {
             outState.putInt(keyFrequency, binding.nbMotsET.text.toString().toInt())
         }
@@ -110,9 +108,9 @@ class ExercisesActivity: OptionsMenuActivity() {
         if (len == 0) {
             AlertDialog.Builder(this)
                 .setMessage("Veuillez choisir le.s mot à enlever")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton("Ok") { dialog, _ ->
                     dialog.dismiss()
-                }).setCancelable(false)
+                }.setCancelable(false)
                 .show()
         } else {
             for (index in 0..len - 1) {
@@ -124,13 +122,13 @@ class ExercisesActivity: OptionsMenuActivity() {
     }
 
     fun appliquerParametrage(view: View) {
-        sharedPrefEditor.putInt(keyLundi,    binding.lundiSP   .getSelectedItemPosition())
-                        .putInt(keyMardi,    binding.mardiSP   .getSelectedItemPosition())
-                        .putInt(keyMercredi, binding.mercrediSP.getSelectedItemPosition())
-                        .putInt(keyJeudi,    binding.jeudiSP   .getSelectedItemPosition())
-                        .putInt(keyVendredi, binding.vendrediSP.getSelectedItemPosition())
-                        .putInt(keySamedi,   binding.samediSP  .getSelectedItemPosition())
-                        .putInt(keyDimanche, binding.dimancheSP.getSelectedItemPosition())
+        sharedPrefEditor.putInt(keyLundi,    binding.lundiSP   .selectedItemPosition)
+                        .putInt(keyMardi,    binding.mardiSP   .selectedItemPosition)
+                        .putInt(keyMercredi, binding.mercrediSP.selectedItemPosition)
+                        .putInt(keyJeudi,    binding.jeudiSP   .selectedItemPosition)
+                        .putInt(keyVendredi, binding.vendrediSP.selectedItemPosition)
+                        .putInt(keySamedi,   binding.samediSP  .selectedItemPosition)
+                        .putInt(keyDimanche, binding.dimancheSP.selectedItemPosition)
         if (!binding.frequenseET.text.isEmpty()) {
             sharedPrefEditor.putInt(keyFrequency, binding.frequenseET.text.toString().toInt())
         }
@@ -181,13 +179,13 @@ class ExercisesActivity: OptionsMenuActivity() {
 
     // post values into spinners
     private fun postValuesToSpinners (lun: Int, mar: Int, mer: Int, jeu: Int, ven: Int, sam: Int, dim: Int) {
-        binding.lundiSP    .post( { binding.lundiSP   .setSelection(lun) })
-        binding.mardiSP    .post( { binding.mardiSP   .setSelection(mar) })
-        binding.mercrediSP .post( { binding.mercrediSP.setSelection(mer) })
-        binding.jeudiSP    .post( { binding.jeudiSP   .setSelection(jeu) })
-        binding.vendrediSP .post( { binding.vendrediSP.setSelection(ven) })
-        binding.samediSP   .post( { binding.samediSP  .setSelection(sam) })
-        binding.dimancheSP .post( { binding.dimancheSP.setSelection(dim) })
+        binding.lundiSP    .post { binding.lundiSP.setSelection(lun) }
+        binding.mardiSP    .post { binding.mardiSP.setSelection(mar) }
+        binding.mercrediSP .post { binding.mercrediSP.setSelection(mer) }
+        binding.jeudiSP    .post { binding.jeudiSP.setSelection(jeu) }
+        binding.vendrediSP .post { binding.vendrediSP.setSelection(ven) }
+        binding.samediSP   .post { binding.samediSP.setSelection(sam) }
+        binding.dimancheSP .post { binding.dimancheSP.setSelection(dim) }
     }
 
 

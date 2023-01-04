@@ -20,13 +20,11 @@ class DictAdapter: RecyclerView.Adapter<DictAdapter.DictViewHolder>(), AdapterIn
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictViewHolder {
         val bindDict = Item1FieldLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = DictViewHolder(bindDict)
-        return holder
+        return DictViewHolder(bindDict)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DictViewHolder, position: Int) {
-        val clickCount = 0
         // save reference for dict in holder
         holder.dictionary = allItems[position]
 

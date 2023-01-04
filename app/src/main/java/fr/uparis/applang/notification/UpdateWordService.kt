@@ -8,7 +8,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
-import java.util.*
 import kotlin.concurrent.thread
 
 class UpdateWordService : LifecycleService() {
@@ -29,7 +28,7 @@ class UpdateWordService : LifecycleService() {
             notifWord.removeObservers(this)
             notifWord.observe(this) {
                 if (it.isNotEmpty()) {
-                    var word: Word = it[0]
+                    val word: Word = it[0]
                     word.correctGuess += 1
                     thread {
                         dao.deleteOneWordFromUrl(url)

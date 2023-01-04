@@ -21,7 +21,6 @@ class DictActivity  : OptionsMenuActivity() {
     private lateinit var bindingDict: DictLayoutBinding
     private lateinit var menu: Toolbar
 
-    private val model by lazy {  ViewModelProvider(this).get(ViewModel::class.java) }
     private val adapterDict by lazy { DictAdapter() }
 
     private var nameDict = ""

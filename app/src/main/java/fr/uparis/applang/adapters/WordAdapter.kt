@@ -20,8 +20,7 @@ class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>(), AdapterIn
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         val bindWord = Item3FieldsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = WordViewHolder(bindWord)
-        return holder
+        return WordViewHolder(bindWord)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -8,12 +8,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.*
 import fr.uparis.applang.notification.NotificationService
 import java.text.Normalizer
 import java.util.*
 
 open class OptionsMenuActivity : AppCompatActivity() {
+    protected val model by lazy { ViewModelProvider(this)[ViewModel::class.java] }
+
     protected lateinit var sharedPref : SharedPreferences
     protected lateinit var sharedPrefEditor: SharedPreferences.Editor
     protected val GOOGLE_SEARCH_PATH : String = "https://www.google.com/search?q="
@@ -36,10 +39,8 @@ open class OptionsMenuActivity : AppCompatActivity() {
     protected val keyDimanche: String  = "Dimanche"        // int stored
     val keyQuantity: String  = "Quantity"                  // int stored
     val keyFrequency: String = "Frequency"                 // int stored
-    val isNotifLaunched: String = "isNotifLaunched"        // int stored
 
-    protected lateinit var currentActivity: AppCompatActivity
-
+    private lateinit var currentActivity: AppCompatActivity
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -129,31 +130,31 @@ open class OptionsMenuActivity : AppCompatActivity() {
         val calendar: Calendar = Calendar.getInstance()
         val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
 
-        var languageNumber: Int = 0;
+        var languageNumber = 0
         when (day) {
             Calendar.MONDAY -> {
-                languageNumber = sharedPref.getInt(keyLundi, 0);
+                languageNumber = sharedPref.getInt(keyLundi, 0)
             }
             Calendar.TUESDAY -> {
-                languageNumber = sharedPref.getInt(keyMardi, 0);
+                languageNumber = sharedPref.getInt(keyMardi, 0)
             }
             Calendar.WEDNESDAY -> {
-                languageNumber = sharedPref.getInt(keyMercredi, 0);
+                languageNumber = sharedPref.getInt(keyMercredi, 0)
             }
             Calendar.THURSDAY -> {
-                languageNumber = sharedPref.getInt(keyJeudi, 0);
+                languageNumber = sharedPref.getInt(keyJeudi, 0)
             }
             Calendar.FRIDAY -> {
-                languageNumber = sharedPref.getInt(keyVendredi, 0);
+                languageNumber = sharedPref.getInt(keyVendredi, 0)
             }
             Calendar.SATURDAY -> {
-                languageNumber = sharedPref.getInt(keySamedi, 0);
+                languageNumber = sharedPref.getInt(keySamedi, 0)
             }
             Calendar.SUNDAY -> {
-                languageNumber = sharedPref.getInt(keyDimanche, 0);
+                languageNumber = sharedPref.getInt(keyDimanche, 0)
             }
         }
-        return languageNumber;
+        return languageNumber
     }
 
     protected fun startNotificationService(){

@@ -10,11 +10,11 @@ class NotificationCloseListener: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("NOTIFICATIONS","Update word")
         if(intent!=null && intent.extras != null && context!=null){
-            var intentUW = Intent(context, UpdateWordService::class.java ).apply {
+            val intentUW = Intent(context, UpdateWordService::class.java ).apply {
                 action = "updateWord"
             }
             intentUW.putExtras(intent.extras!!)
-            context!!.startService(intentUW)
+            context.startService(intentUW)
         }
     }
 
