@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.adapters.WordAdapter
 import fr.uparis.applang.adapters.SpinnerAdapter
@@ -16,8 +15,6 @@ class ExercisesActivity: OptionsMenuActivity() {
     private lateinit var binding: ExercisesLayoutBinding
     private lateinit var menu: Toolbar
     private val adapterWords by lazy { WordAdapter() }
-
-    val TAG: String = "EXERS ===="
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

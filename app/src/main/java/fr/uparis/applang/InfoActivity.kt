@@ -1,7 +1,6 @@
 package fr.uparis.applang
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -25,38 +24,38 @@ class InfoActivity : OptionsMenuActivity() {
         setSupportActionBar(menu)
         menu.setTitle(R.string.app_name)
 
-        binding.translInfoIW.setOnClickListener() {
+        binding.translInfoIW.setOnClickListener {
             AlertDialog.Builder(this)
                 .setMessage(R.string.message1)
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                })
-                .setNeutralButton("Y aller", DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Y aller") { _, _ ->
                     startActivity(Intent(this, TranslateActivity::class.java))
-                }).setCancelable(false)
+                }.setCancelable(false)
                 .show()
         }
 
-        binding.dictInfoIW.setOnClickListener() {
+        binding.dictInfoIW.setOnClickListener {
             AlertDialog.Builder(this)
                 .setMessage(R.string.message2)
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                })
-                .setNeutralButton("Y aller", DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Y aller") { _, _ ->
                     startActivity(Intent(this, DictActivity::class.java))
-                }).setCancelable(false)
+                }.setCancelable(false)
                 .show()
         }
-        binding.exersInfoIW.setOnClickListener() {
+        binding.exersInfoIW.setOnClickListener {
             AlertDialog.Builder(this)
                 .setMessage(R.string.message3)
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                })
-                .setNeutralButton("Y aller", DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Y aller") { _, _ ->
                     startActivity(Intent(this, ExercisesActivity::class.java))
-                }).setCancelable(false)
+                }.setCancelable(false)
                 .show()
         }
 

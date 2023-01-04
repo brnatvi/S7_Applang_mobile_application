@@ -63,7 +63,11 @@
     <string name="translInfoTW"> - créer votre propre liste de mots à retenir</string>
     <string name="exersInfoTW"> - créer un planning d\'entrainement, ainsi que de gérer la liste des mots à retenir</string>
     <string name="dictInfoTW"> - gérer les dictionnaires que vous utilisez et en chercher de nouveaux</string>
-    <string name="restInfo1TW">Une fois que vous créez la liste des mots, l\'application vous enverra ces mots sous forme de push notifications, pour que vous puissiez soit récapituler les mots, soit regarder ses pages de traduction afin de les réapprendre.</string>
+    <string name="restInfo1TW">Une fois que vous aurez ajouter des mots a retenir, l\'application vous enverra ces mots sous forme de notifications.
+        Si vous connaissez la traduction du mot validez le en fermant la notification.
+        Sinon cliquez sur la notification pour accéder a la pages de traduction afin de le réapprendre.
+        Les mots qui vous seront proposez seront toujours ceux ce vous avez le moins validé.
+    </string>
 
 
     <string name="message1">"Vous pouvez utiliser les dictionnaires déjà disponibles. Pour le faire :

@@ -3,7 +3,6 @@ package fr.uparis.applang
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.databinding.EditLayoutBinding
 import fr.uparis.applang.model.Dictionary
@@ -16,7 +15,6 @@ class DictEditActivity : OptionsMenuActivity()  {
 
     private var initDictName = ""
 
-    val TAG: String = "EDIT ======"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +30,12 @@ class DictEditActivity : OptionsMenuActivity()  {
         menu.setTitle(R.string.app_name)
 
         // restore the fields' content
-        initDictName = intent.getExtras()?.getString( keyDict ) ?: ""
+        initDictName = intent.extras?.getString( keyDict ) ?: ""
 
         with(binding) {
             nameET.setText(initDictName)
-            linkET.setText(intent.getExtras()?.getString( "url" ) ?: "")
-            requestCompositionET.setText(intent.getExtras()?.getString("requestComposition" ) ?: "")
+            linkET.setText(intent.extras?.getString( "url" ) ?: "")
+            requestCompositionET.setText(intent.extras?.getString("requestComposition" ) ?: "")
         }
     }
 

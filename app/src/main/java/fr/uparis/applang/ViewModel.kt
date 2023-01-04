@@ -4,12 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.LanguageApplication
 import fr.uparis.applang.model.Word
-import fr.uparis.applang.navigation.OptionsMenuActivity
 import kotlin.concurrent.thread
 
 class ViewModel(application: Application): AndroidViewModel(application) {
@@ -60,9 +58,6 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
     // ================================= Dictionary's functions ====================================
     fun insertDictionary(dict: Dictionary): Long{
-        if(dict==null){
-            return -1
-        }
         var returnCode: Long = 500
         thread {
             returnCode = dao.insertDictionary(dict)

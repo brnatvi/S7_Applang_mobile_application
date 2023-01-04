@@ -1,7 +1,6 @@
 package fr.uparis.applang
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,13 +8,11 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import fr.uparis.applang.databinding.TranslateLayoutBinding
 import fr.uparis.applang.model.Dictionary
 import fr.uparis.applang.model.Language
 import fr.uparis.applang.model.Word
 import fr.uparis.applang.navigation.OptionsMenuActivity
-import java.text.Normalizer
 
 
 class TranslateActivity : OptionsMenuActivity() {
@@ -26,8 +23,6 @@ class TranslateActivity : OptionsMenuActivity() {
     private var langSRC = ""
     private var langDST = ""
     private var word = ""
-
-    val TAG: String = "TRANS ======"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +65,12 @@ class TranslateActivity : OptionsMenuActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (!binding.motET.text.isEmpty()) {
+        if (binding.motET.text.isNotEmpty()) {
             outState.putString(keyWord, binding.motET.toString())
         }
-        outState.putInt   (keySrc , binding.langSrcSP .getSelectedItemPosition())
-        outState.putInt   (keyDest, binding.langDestSP.getSelectedItemPosition())
-        outState.putInt   (keyDict, binding.dictSP    .getSelectedItemPosition())
+        outState.putInt   (keySrc , binding.langSrcSP .selectedItemPosition)
+        outState.putInt   (keyDest, binding.langDestSP.selectedItemPosition)
+        outState.putInt   (keyDict, binding.dictSP    .selectedItemPosition)
     }
 
     // ================================= Buttons' functions =============================================
@@ -93,17 +88,17 @@ class TranslateActivity : OptionsMenuActivity() {
         if (word == "") {
             AlertDialog.Builder(this)
                 .setMessage("Merci d'insérer un mot ou une phase pour recherche.\nPar exemple 'cherher la femme' ")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.dismiss()
-                }).setCancelable(false)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.setCancelable(false)
                 .show()
             return
         }
        // word = phrase.substringBefore(' ')
         langSRC = binding.langSrcSP.selectedItem.toString()
         langDST = binding.langDestSP.selectedItem.toString()
-        val idLangSrc = binding.langSrcSP.getSelectedItemPosition()
-        val idLangDest = binding.langDestSP.getSelectedItemPosition()
+        val idLangSrc = binding.langSrcSP.selectedItemPosition
+        val idLangDest = binding.langDestSP.selectedItemPosition
 
         // save SharedPreferences
         sharedPrefEditor.putString(keyActivity, optionTransl)
@@ -113,7 +108,7 @@ class TranslateActivity : OptionsMenuActivity() {
                         .commit()
 
         // launch Google search
-        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_SEARCH_PATH + word + " traduction de " + langSRC + " vers " + langDST))
+        val browserInt = Intent(Intent.ACTION_VIEW, Uri.parse("$GOOGLE_SEARCH_PATH$word traduction de $langSRC vers $langDST"))
         startActivity(browserInt)
     }
 
@@ -142,6 +137,7 @@ class TranslateActivity : OptionsMenuActivity() {
         cleanPreferences()
     }
 
+    //Not used in last app version because there is to much weard web site url
     private fun tryToGuessLanguagesFromURL(wholeURL: String, dictList: List<Dictionary>){
         Log.d("GuessFromURL", "try to guess for $wholeURL in $dictList")
         for (dict in dictList){
@@ -195,7 +191,7 @@ class TranslateActivity : OptionsMenuActivity() {
             .replace("\$langFrom", langFrom.id, true)
             .replace("\$langTo", langTo.id, true)
             .replace("\$word", wordText.replace(" ", "%20"), true)
-        val w: Word = Word(wordText, langFrom.id, langTo.id, url)
+        val w = Word(wordText, langFrom.id, langTo.id, url)
         Log.d("DB","add word $w")
         val ret = model.insertWord(w)
 
@@ -222,7 +218,7 @@ class TranslateActivity : OptionsMenuActivity() {
         model.languages.observe(this){
             if(it.isEmpty()){ //if there is any language, we need to initialise all app data.
 //                iniAppData();
-                updateLanguagesList();
+                updateLanguagesList()
             }else {
                 val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it)
                 binding.langDestSP.adapter = arrayAdapter
@@ -231,17 +227,15 @@ class TranslateActivity : OptionsMenuActivity() {
                 binding.langSrcSP.adapter = arrayAdapter2
 
                 if (model.currentTranslationUrl.isNotEmpty()) {
-                    var indexFrom: Int = 0
-                    var indexTo: Int = 0
-                    var k = 0
-                    for (lang in it) {
+                    var indexFrom = 0
+                    var indexTo = 0
+                    for ((k, lang) in it.withIndex()) {
                         if (lang.id == model.currentLangFrom) {
                             indexFrom = k
                         }
                         if (lang.id == model.currentLangTo) {
                             indexTo = k
                         }
-                        k++;
                     }
                     binding.langSrcSP.setSelection(indexFrom)
                     binding.langDestSP.setSelection(indexTo)
@@ -254,12 +248,11 @@ class TranslateActivity : OptionsMenuActivity() {
         model.loadAllDictionary()
         model.dictionaries.removeObservers(this)
         model.dictionaries.observe(this){
-            var list = mutableListOf<Dictionary>()
+            val list = mutableListOf<Dictionary>()
             if(model.currentTranslationUrl.isNotEmpty()){
 //                tryToGuessLanguagesFromURL(model.currentTranslationUrl, it)
                 list.add(Dictionary("Lien depuis le partage", model.currentTranslationUrl, ""))
             }
-            //dictList = list
             list.addAll(it)
             Log.d("DB","list dictionaries:")
             for(dict: Dictionary in list ){
@@ -271,14 +264,14 @@ class TranslateActivity : OptionsMenuActivity() {
     }
 
     private fun addCurrentURLAsDictionary(url: String){
-        model.currentTranslationUrl=url;
+        model.currentTranslationUrl=url
     }
 
     // ====================== Auxiliary functions ======================================================
     // post values into spinners
     private fun postValuesToSpinners (src: Int, dest: Int, dict: Int) {
-        binding.langSrcSP .post( { binding.langSrcSP .setSelection(src) })
-        binding.langDestSP.post( { binding.langDestSP.setSelection(dest) })
-        binding.dictSP    .post( { binding.dictSP    .setSelection(dict) })
+        binding.langSrcSP .post { binding.langSrcSP.setSelection(src) }
+        binding.langDestSP.post { binding.langDestSP.setSelection(dest) }
+        binding.dictSP    .post { binding.dictSP.setSelection(dict) }
     }
 }

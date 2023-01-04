@@ -1,13 +1,11 @@
 package fr.uparis.applang
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.applang.adapters.DictAdapter
 import fr.uparis.applang.adapters.SpinnerAdapter
@@ -25,7 +23,6 @@ class DictActivity  : OptionsMenuActivity() {
 
     private var nameDict = ""
     private var urlDict = ""
-    val TAG: String = "DICT == "
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,14 +79,14 @@ class DictActivity  : OptionsMenuActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (!bindingDict.nomDictET.text.isEmpty()) {
+        if (bindingDict.nomDictET.text.isNotEmpty()) {
             outState.putString(keyDict, bindingDict.nomDictET.toString())
         }
-        if (!bindingDict.lienDictET.text.isEmpty()) {
+        if (bindingDict.lienDictET.text.isNotEmpty()) {
             outState.putString(keyShare, bindingDict.lienDictET.toString())
         }
-        outState.putInt   (keySrc   , bindingDict.langSrcSP .getSelectedItemPosition())
-        outState.putInt   (keyDest  , bindingDict.langDestSP.getSelectedItemPosition())
+        outState.putInt   (keySrc   , bindingDict.langSrcSP .selectedItemPosition)
+        outState.putInt   (keyDest  , bindingDict.langDestSP.selectedItemPosition)
     }
 
     // ================================= Buttons' functions =============================================
@@ -174,10 +171,10 @@ class DictActivity  : OptionsMenuActivity() {
         val word  = phrase.substringAfter(' ').trim()
         val srLangSrc = (bindingDict.langSrcSP.selectedItem as Language).fullName
         val stLangDest = (bindingDict.langDestSP.selectedItem as Language).fullName
-        val idLangSrc = bindingDict.langSrcSP.getSelectedItemPosition()
-        val idLangDest = bindingDict.langDestSP.getSelectedItemPosition()
+        val idLangSrc = bindingDict.langSrcSP.selectedItemPosition
+        val idLangDest = bindingDict.langDestSP.selectedItemPosition
 
-        val request = GOOGLE_SEARCH_PATH + " $nameDict translate $word  $srLangSrc $stLangDest"
+        val request = "$GOOGLE_SEARCH_PATH $nameDict translate $word  $srLangSrc $stLangDest"
 
         // save SharedPreferences
         sharedPrefEditor.putString(keyActivity, optionDict)
@@ -226,8 +223,8 @@ class DictActivity  : OptionsMenuActivity() {
 
         val idLangSrc = sharedPref.getInt(keySrc, 0)
         val idLangDest = sharedPref.getInt(keyDest, 0)
-        bindingDict.langSrcSP.post( { bindingDict.langSrcSP.setSelection(idLangSrc) })
-        bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(idLangDest) })
+        bindingDict.langSrcSP.post { bindingDict.langSrcSP.setSelection(idLangSrc) }
+        bindingDict.langDestSP.post { bindingDict.langDestSP.setSelection(idLangDest) }
 
         AlertDialog.Builder(this)
             .setMessage("Assurez-vous que le contenu du lien correspond au nom du dictionnaire, à la langue source et à la langue destination choisis")
@@ -264,8 +261,8 @@ class DictActivity  : OptionsMenuActivity() {
 
     // post values into spinners
     private fun postValuesToSpinners (src: Int, dest: Int) {
-        bindingDict.langSrcSP .post( { bindingDict.langSrcSP .setSelection(src) })
-        bindingDict.langDestSP.post( { bindingDict.langDestSP.setSelection(dest) })
+        bindingDict.langSrcSP .post { bindingDict.langSrcSP.setSelection(src) }
+        bindingDict.langDestSP.post { bindingDict.langDestSP.setSelection(dest) }
     }
 
 }
