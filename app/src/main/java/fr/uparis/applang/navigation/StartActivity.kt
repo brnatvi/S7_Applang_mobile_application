@@ -54,7 +54,9 @@ class StartActivity : OptionsMenuActivity() {
     private fun chooseActivityShare(incomingIntent: Intent) {
         incomingIntent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
-                sharedPrefEditor.putString(keyShare, it).commit()                                   // link to dictionary
+                sharedPrefEditor
+                    .putString(keyActivity, optionTransl)                               // back to default shared activity.
+                    .putString(keyShare, it).commit()                                   // link to dictionary
                 Intent(this, DictActivity::class.java)
             } else {
                 sharedPrefEditor.putString(keyShare, it).commit()                                   // link to translation of word
@@ -67,7 +69,7 @@ class StartActivity : OptionsMenuActivity() {
 
     private fun chooseActivity() {
         intent = if (sharedPref.getString(keyActivity, "") == optionDict) {
-            sharedPrefEditor.putInt(keyDict, 0).putString(keyShare, "").commit()
+            sharedPrefEditor.putString(keyActivity, optionTransl).putInt(keyDict, 0).putString(keyShare, "").commit()
             Intent(this, DictActivity::class.java)
         } else {
             sharedPrefEditor.putString(keyShare, "").putString(keyWord, "").commit()
